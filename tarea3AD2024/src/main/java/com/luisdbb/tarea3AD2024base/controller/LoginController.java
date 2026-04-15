@@ -44,7 +44,10 @@ public class LoginController implements Initializable{
     @Autowired
     private UserService userService;
     
+    //Lazy establece que el objeto se cre cuando el usuario lo necesite.
     @Lazy
+    
+   //  Con autowired Spring crea una instancai automaticamente
     @Autowired
     private StageManager stageManager;
         
