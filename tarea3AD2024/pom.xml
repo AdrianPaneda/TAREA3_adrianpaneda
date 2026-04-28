@@ -42,12 +42,12 @@
 		<dependency>
     <groupId>org.openjfx</groupId>
     <artifactId>javafx-controls</artifactId>
-    <version>23</version>
+    <version>17.0.13</version>
 </dependency>
 <dependency>
     <groupId>org.openjfx</groupId>
     <artifactId>javafx-fxml</artifactId>
-    <version>23</version>
+    <version>17.0.13</version>
 </dependency>
 	</dependencies>
 
@@ -63,6 +63,9 @@
 				<version>0.0.8</version>
 				<configuration>
 					<mainClass>com.luisdbb.tarea3AD2024base.Tarea3Ad2024baseApplication</mainClass>
+					<options>
+						<option>-Dprism.order=sw</option>
+					</options>
 				</configuration>
 			</plugin>
 		</plugins>
