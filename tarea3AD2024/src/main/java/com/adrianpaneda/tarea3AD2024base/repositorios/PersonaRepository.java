@@ -8,8 +8,8 @@ import com.adrianpaneda.tarea3AD2024base.modelo.Persona;
 /**
  * Repositorio para la gestión de personas del circo.
  * <p>
- * Proporciona operaciones CRUD y validación de unicidad de email
- * necesaria para CU3 (Gestionar personas).
+ * Proporciona operaciones CRUD y validación de unicidad de email necesaria para
+ * Gestionar personas.
  * </p>
  *
  * @author Adrián Pañeda Hamadi
@@ -20,14 +20,14 @@ import com.adrianpaneda.tarea3AD2024base.modelo.Persona;
 @Repository
 public interface PersonaRepository extends JpaRepository<Persona, Long> {
 
-    /**
-     * Verifica si existe una persona con el email especificado.
-     * <p>
-     * Necesario para validar unicidad de email en CU3 (Registrar persona).
-     * </p>
-     *
-     * @param email el correo electrónico a verificar
-     * @return {@code true} si el email ya está registrado
-     */
-    boolean existsByEmail(String email);
+	/**
+	 * Verifica si existe una persona con el email especificado.
+	 * <p>
+	 * Necesario para validar unicidad de email en CU3 (Registrar persona).
+	 * </p>
+	 *
+	 * @param email el correo electrónico a verificar
+	 * @return {@code true} si el email ya está registrado
+	 */
+	boolean existsByEmail(String email);
 }

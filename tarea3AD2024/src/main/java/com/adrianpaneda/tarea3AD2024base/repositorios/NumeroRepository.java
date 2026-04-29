@@ -8,8 +8,8 @@ import com.adrianpaneda.tarea3AD2024base.modelo.Numero;
 /**
  * Repositorio para la gestión de números artísticos de espectáculos.
  * <p>
- * Proporciona operaciones CRUD necesarias para CU5B (Gestionar números)
- * y CU5C (Asignar artistas a números).
+ * Proporciona operaciones CRUD necesarias para Gestionar números y Asignar
+ * artistas a números.
  * </p>
  *
  * @author Adrián Pañeda Hamadi
@@ -19,5 +19,5 @@ import com.adrianpaneda.tarea3AD2024base.modelo.Numero;
  */
 @Repository
 public interface NumeroRepository extends JpaRepository<Numero, Long> {
-  
+
 }
