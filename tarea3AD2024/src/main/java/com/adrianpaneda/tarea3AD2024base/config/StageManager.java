@@ -78,7 +78,7 @@ public class StageManager {
     
     
     private void logAndExit(String errorMsg, Exception exception) {
-        LOG.error(errorMsg, exception, exception.getCause());
+        LOG.error(errorMsg, exception);
         Platform.exit();
     }
 

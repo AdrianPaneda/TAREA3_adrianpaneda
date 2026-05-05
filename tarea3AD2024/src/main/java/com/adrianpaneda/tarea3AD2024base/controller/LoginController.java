@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
+import com.adrianpaneda.tarea3AD2024base.config.SessionManager;
 import com.adrianpaneda.tarea3AD2024base.config.StageManager;
 import com.adrianpaneda.tarea3AD2024base.modelo.Credenciales;
 import com.adrianpaneda.tarea3AD2024base.modelo.Perfil;
@@ -50,6 +51,9 @@ public class LoginController implements Initializable {
 	@FXML
 	private Label lblError;
 
+	@FXML
+	private Button btnInvitado;
+
 	@Autowired
 	private CredencialesRepository credencialesRepository;
 
@@ -84,8 +88,15 @@ public class LoginController implements Initializable {
 			return;
 		}
 
-		// Verificar si es el admin (hardcodeado)
+		// Verificar si es el admin
 		if (nombreUsuario.equals(adminUsuario) && password.equals(adminPassword)) {
+			// Crear Credenciales falsas para el admin y poder mantener la sesion en
+			// SessionManager
+			Credenciales adminCredenciales = new Credenciales();
+			adminCredenciales.setNombreUsuario(adminUsuario);
+			adminCredenciales.setPerfil(Perfil.admin);
+
+			SessionManager.setCurrentUser(adminCredenciales);
 			stageManager.switchScene(FxmlView.PERSONAS);
 			return;
 		}
@@ -94,7 +105,7 @@ public class LoginController implements Initializable {
 		Optional<Credenciales> credencialesOpt = credencialesRepository.findByNombreUsuario(nombreUsuario);
 
 		if (credencialesOpt.isEmpty()) {
-			lblError.setText("Usuario no encontrado");
+			lblError.setText("Usuario o contraseña incorrectos");
 			return;
 		}
 
@@ -102,11 +113,17 @@ public class LoginController implements Initializable {
 
 		// Verificar contraseña
 		if (!password.equals(credenciales.getPassword())) {
-			lblError.setText("Contraseña incorrecta");
+			lblError.setText("Usuario o contraseña incorrectos");
 			return;
 		}
 
-		// Login exitoso redirigir según perfil
+		// Limpiar password antes de guardar en sesión
+		credenciales.setPassword(null);
+
+		// Login exitoso guardar sesión
+		SessionManager.setCurrentUser(credenciales);
+
+		// Redirigir según perfil
 		Perfil perfil = credenciales.getPerfil();
 
 		if (perfil == Perfil.coordinacion) {
@@ -114,6 +131,19 @@ public class LoginController implements Initializable {
 		} else if (perfil == Perfil.artista) {
 			stageManager.switchScene(FxmlView.FICHA_ARTISTA);
 		}
+	}
+
+	/**
+	 * Maneja el evento de click en el botón "Ver espectáculos como invitado".
+	 * <p>
+	 * Permite acceder a la pantalla de espectáculos sin necesidad de autenticación.
+	 * </p>
+	 *
+	 * @param event el evento de acción del botón
+	 */
+	@FXML
+	private void handleInvitado(ActionEvent event) {
+		stageManager.switchScene(FxmlView.ESPECTACULOS);
 	}
 
 	/**

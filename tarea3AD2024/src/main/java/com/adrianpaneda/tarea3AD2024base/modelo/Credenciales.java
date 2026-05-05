@@ -86,7 +86,7 @@ public class Credenciales {
 	 *
 	 * @return el nombre de usuario en minúsculas
 	 */
-	public String getNombre() {
+	public String getNombreUsuario() {
 		return nombreUsuario;
 	}
 
@@ -96,7 +96,7 @@ public class Credenciales {
 	 *
 	 * @param nombre el nombre de usuario a asignar
 	 */
-	public void setNombre(String nombre) {
+	public void setNombreUsuario(String nombre) {
 		this.nombreUsuario = nombre;
 	}
 

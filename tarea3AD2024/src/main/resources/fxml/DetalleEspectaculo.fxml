@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="1080.0" prefWidth="1920.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.adrianpaneda.tarea3AD2024base.controller.DetalleEspectaculoController">
+
+   <children>
+      <!-- Fondo con imagen -->
+      <StackPane prefHeight="1080.0" prefWidth="1920.0"
+                 style="-fx-background-image: url('/images/circo_background.jpg'); -fx-background-size: cover; -fx-background-position: center;">
+
+         <!-- Overlay oscuro -->
+         <AnchorPane style="-fx-background-color: rgba(0, 0, 0, 0.45);">
+
+            <!-- Contenedor principal -->
+            <VBox alignment="TOP_CENTER" layoutX="160.0" layoutY="60.0" prefHeight="960.0" prefWidth="1600.0"
+                  spacing="20.0"
+                  style="-fx-background-color: rgba(255, 255, 255, 0.98); -fx-background-radius: 20; -fx-padding: 40; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 40, 0, 0, 8);">
+
+               <!-- Título -->
+               <Label text="DETALLE DEL ESPECTÁCULO" textFill="#2563eb">
+                  <font>
+                     <Font name="System Bold" size="36.0" />
+                  </font>
+                  <VBox.margin>
+                     <Insets bottom="5.0" />
+                  </VBox.margin>
+               </Label>
+
+               <!-- ═══ SECCIÓN DATOS DEL ESPECTÁCULO ═══ -->
+               <VBox spacing="12.0">
+                  <Label text="DATOS DEL ESPECTÁCULO" textFill="#1e293b">
+                     <font><Font name="System Bold" size="20.0" /></font>
+                  </Label>
+                  <Label prefHeight="2.0" prefWidth="1500.0" style="-fx-background-color: #2563eb;" />
+
+                  <HBox spacing="40.0" alignment="CENTER_LEFT">
+                     <VBox.margin><Insets top="5.0" left="10.0" /></VBox.margin>
+
+                     <!-- ID -->
+                     <HBox spacing="8.0" alignment="CENTER_LEFT">
+                        <Label text="ID:" textFill="#475569">
+                           <font><Font name="System Bold" size="15.0" /></font>
+                        </Label>
+                        <Label fx:id="lblId" textFill="#0f172a">
+                           <font><Font size="15.0" /></font>
+                        </Label>
+                     </HBox>
+
+                     <!-- Nombre -->
+                     <HBox spacing="8.0" alignment="CENTER_LEFT">
+                        <Label text="Nombre:" textFill="#475569">
+                           <font><Font name="System Bold" size="15.0" /></font>
+                        </Label>
+                        <Label fx:id="lblNombre" textFill="#0f172a">
+                           <font><Font size="15.0" /></font>
+                        </Label>
+                     </HBox>
+
+                     <!-- Fecha Inicio -->
+                     <HBox spacing="8.0" alignment="CENTER_LEFT">
+                        <Label text="Fecha Inicio:" textFill="#475569">
+                           <font><Font name="System Bold" size="15.0" /></font>
+                        </Label>
+                        <Label fx:id="lblFechaInicio" textFill="#0f172a">
+                           <font><Font size="15.0" /></font>
+                        </Label>
+                     </HBox>
+
+                     <!-- Fecha Fin -->
+                     <HBox spacing="8.0" alignment="CENTER_LEFT">
+                        <Label text="Fecha Fin:" textFill="#475569">
+                           <font><Font name="System Bold" size="15.0" /></font>
+                        </Label>
+                        <Label fx:id="lblFechaFin" textFill="#0f172a">
+                           <font><Font size="15.0" /></font>
+                        </Label>
+                     </HBox>
+                  </HBox>
+               </VBox>
+
+               <!-- ═══ SECCIÓN COORDINACIÓN ═══ -->
+               <VBox spacing="12.0">
+                  <Label text="COORDINACIÓN" textFill="#1e293b">
+                     <font><Font name="System Bold" size="20.0" /></font>
+                  </Label>
+                  <Label prefHeight="2.0" prefWidth="1500.0" style="-fx-background-color: #2563eb;" />
+
+                  <HBox spacing="40.0" alignment="CENTER_LEFT">
+                     <VBox.margin><Insets top="5.0" left="10.0" /></VBox.margin>
+
+                     <!-- Nombre coordinador -->
+                     <HBox spacing="8.0" alignment="CENTER_LEFT">
+                        <Label text="Nombre:" textFill="#475569">
+                           <font><Font name="System Bold" size="15.0" /></font>
+                        </Label>
+                        <Label fx:id="lblCoordNombre" textFill="#0f172a">
+                           <font><Font size="15.0" /></font>
+                        </Label>
+                     </HBox>
+
+                     <!-- Email coordinador -->
+                     <HBox spacing="8.0" alignment="CENTER_LEFT">
+                        <Label text="Email:" textFill="#475569">
+                           <font><Font name="System Bold" size="15.0" /></font>
+                        </Label>
+                        <Label fx:id="lblCoordEmail" textFill="#0f172a">
+                           <font><Font size="15.0" /></font>
+                        </Label>
+                     </HBox>
+
+                     <!-- Senior -->
+                     <HBox spacing="8.0" alignment="CENTER_LEFT">
+                        <Label text="Senior:" textFill="#475569">
+                           <font><Font name="System Bold" size="15.0" /></font>
+                        </Label>
+                        <Label fx:id="lblCoordSenior" textFill="#0f172a">
+                           <font><Font size="15.0" /></font>
+                        </Label>
+                     </HBox>
+                  </HBox>
+               </VBox>
+
+               <!-- ═══ TABLAS NÚMEROS Y ARTISTAS ═══ -->
+               <HBox spacing="20.0">
+                  <VBox.margin><Insets top="5.0" /></VBox.margin>
+
+                  <!-- Tabla Números -->
+                  <VBox spacing="10.0" prefWidth="700.0">
+                     <Label text="NÚMEROS" textFill="#1e293b">
+                        <font><Font name="System Bold" size="20.0" /></font>
+                     </Label>
+                     <Label prefHeight="2.0" prefWidth="700.0" style="-fx-background-color: #2563eb;" />
+                     <Label text="Selecciona un número para ver sus artistas" textFill="#64748b">
+                        <font><Font size="13.0" /></font>
+                     </Label>
+
+                     <TableView fx:id="tablaNumeros" prefHeight="380.0" prefWidth="700.0"
+                                style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10;">
+                        <columns>
+                           <TableColumn fx:id="colNumeroId" prefWidth="80.0" text="ID"
+                                        style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+                           <TableColumn fx:id="colNumeroNombre" prefWidth="380.0" text="Nombre"
+                                        style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER-LEFT;" />
+                           <TableColumn fx:id="colNumeroDuracion" prefWidth="238.0" text="Duración (min)"
+                                        style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+                        </columns>
+                     </TableView>
+                  </VBox>
+
+                  <!-- Tabla Artistas -->
+                  <VBox spacing="10.0" prefWidth="760.0">
+                     <Label text="ARTISTAS DEL NÚMERO" textFill="#1e293b">
+                        <font><Font name="System Bold" size="20.0" /></font>
+                     </Label>
+                     <Label prefHeight="2.0" prefWidth="760.0" style="-fx-background-color: #2563eb;" />
+                     <Label text="Artistas que participan en el número seleccionado" textFill="#64748b">
+                        <font><Font size="13.0" /></font>
+                     </Label>
+
+                     <TableView fx:id="tablaArtistas" prefHeight="380.0" prefWidth="760.0"
+                                style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10;">
+                        <columns>
+                           <TableColumn fx:id="colArtistaNombre" prefWidth="180.0" text="Nombre"
+                                        style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER-LEFT;" />
+                           <TableColumn fx:id="colArtistaNacionalidad" prefWidth="130.0" text="Nacionalidad"
+                                        style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+                           <TableColumn fx:id="colArtistaEspecialidades" prefWidth="280.0" text="Especialidades"
+                                        style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER-LEFT;" />
+                           <TableColumn fx:id="colArtistaApodo" prefWidth="168.0" text="Apodo"
+                                        style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER-LEFT;" />
+                        </columns>
+                     </TableView>
+                  </VBox>
+               </HBox>
+
+               <!-- ═══ BOTÓN VOLVER ═══ -->
+               <HBox alignment="CENTER">
+                  <VBox.margin><Insets top="10.0" /></VBox.margin>
+                  <Button fx:id="btnVolver" mnemonicParsing="false"
+                          onAction="#handleVolver"
+                          text="VOLVER A ESPECTÁCULOS" textFill="#475569"
+                          style="-fx-background-color: transparent; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 14 30 14 30; -fx-font-weight: bold; -fx-font-size: 15; -fx-cursor: hand;">
+                     <font><Font name="System Bold" size="15.0" /></font>
+                  </Button>
+               </HBox>
+
+            </VBox>
+         </AnchorPane>
+      </StackPane>
+   </children>
+</AnchorPane>

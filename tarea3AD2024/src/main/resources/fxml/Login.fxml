@@ -87,6 +87,15 @@
                   </VBox.margin>
                </Button>
                
+               <!-- Botón Ver Espectáculos (Invitado) -->
+               <Button fx:id="btnInvitado" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleInvitado" 
+                       text="VER ESPECTÁCULOS COMO INVITADO" textFill="#475569" 
+                       style="-fx-background-color: transparent; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 14; -fx-font-weight: bold; -fx-font-size: 14; -fx-cursor: hand;">
+                  <font>
+                     <Font name="System Bold" size="14.0" />
+                  </font>
+               </Button>
+               
                <!-- Label de error -->
                <Label fx:id="lblError" textFill="#dc2626" wrapText="true" alignment="CENTER" maxWidth="450.0">
                   <font>

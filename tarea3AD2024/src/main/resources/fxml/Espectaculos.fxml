@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
+            prefHeight="1080.0" prefWidth="1920.0" 
+            xmlns="http://javafx.com/javafx/21" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.adrianpaneda.tarea3AD2024base.controller.EspectaculosController">
+   
+   <children>
+
+      <StackPane prefHeight="1080.0" prefWidth="1920.0" 
+                 style="-fx-background-image: url('/images/circo_background.jpg'); -fx-background-size: cover; -fx-background-position: center;">
+
+         <AnchorPane style="-fx-background-color: rgba(0, 0, 0, 0.45);">
+
+            <VBox alignment="TOP_CENTER" layoutX="260.0" layoutY="120.0" prefHeight="840.0" prefWidth="1400.0" 
+                  spacing="30.0" 
+                  style="-fx-background-color: rgba(255, 255, 255, 0.98); -fx-background-radius: 20; -fx-padding: 50; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 40, 0, 0, 8);">
+
+               <Label text="ESPECTÁCULOS DEL CIRCO" textFill="#2563eb">
+                  <font>
+                     <Font name="System Bold" size="38.0" />
+                  </font>
+                  <VBox.margin>
+                     <Insets bottom="10.0" />
+                  </VBox.margin>
+               </Label>
+               <TableView fx:id="tablaEspectaculos" prefHeight="640.0" prefWidth="1300.0" 
+                         style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10;">
+                  <columns>
+                     <TableColumn fx:id="colNombre" prefWidth="600.0" text="Nombre del Espectáculo" 
+                                 style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-alignment: CENTER-LEFT;" />
+                     <TableColumn fx:id="colFechaInicio" prefWidth="350.0" text="Fecha de Inicio" 
+                                 style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+                     <TableColumn fx:id="colFechaFin" prefWidth="350.0" text="Fecha de Finalización" 
+                                 style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+                  </columns>
+               </TableView>
+               <Button fx:id="btnVolver" mnemonicParsing="false" onAction="#handleVolver" 
+                       text="VOLVER AL LOGIN" textFill="white" 
+                       style="-fx-background-color: #64748b; -fx-background-radius: 8; -fx-padding: 14 40 14 40; -fx-font-weight: bold; -fx-font-size: 15; -fx-cursor: hand;">
+                  <font>
+                     <Font name="System Bold" size="15.0" />
+                  </font>
+                  <VBox.margin>
+                     <Insets top="10.0" />
+                  </VBox.margin>
+               </Button>
+               
+            </VBox>
+         </AnchorPane>
+      </StackPane>
+   </children>
+</AnchorPane>

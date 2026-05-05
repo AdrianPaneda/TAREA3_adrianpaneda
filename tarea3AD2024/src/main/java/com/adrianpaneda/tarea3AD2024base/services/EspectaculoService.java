@@ -164,4 +164,24 @@ public class EspectaculoService {
 	public List<Espectaculo> obtenerTodos() {
 		return espectaculoRepository.findAll();
 	}
+
+	/**
+	 * Obtiene un espectáculo por su ID cargando todos sus datos relacionados.
+	 * <p>
+	 * A diferencia de {@link #buscarPorId(Long)}, este método carga en una sola
+	 * consulta la coordinación, los números y los artistas de cada número, evitando
+	 * problemas de LazyInitializationException al acceder a colecciones fuera de la
+	 * transacción JPA.
+	 * </p>
+	 * <p>
+	 * Se utiliza para mostrar el detalle completo de un espectáculo.
+	 * </p>
+	 *
+	 * @param id el identificador del espectáculo
+	 * @return el espectáculo con todos sus datos relacionados, o {@code null} si no
+	 *         existe
+	 */
+	public Espectaculo obtenerConDetalle(Long id) {
+		return espectaculoRepository.findByIdConDetalle(id).orElse(null);
+	}
 }
