@@ -27,7 +27,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
- * Controlador para la pantalla de listado de espectáculos (CU1).
+ * Controlador para la pantalla de listado de espectáculos.
  * <p>
  * Muestra todos los espectáculos registrados en el sistema ordenados por fecha
  * de inicio (más recientes primero). Accesible para todos los usuarios
@@ -80,47 +80,67 @@ public class EspectaculosController implements Initializable {
 		configurarColumnas();
 		cargarEspectaculos();
 		configurarBotonVolver();
+
+		// La columna de detalle se añade aquí porque en configurarColumnas()
+		// el controller aún no tiene la sesión correctamente inicializada
+		// al ser un singleton de Spring creado al arrancar la app
+		if (SessionManager.isLoggedIn() && tablaEspectaculos.getColumns().size() == 3) {
+			añadirColumnaDetalle();
+		}
 	}
 
 	/**
-	 * Configura las columnas de la tabla vinculándolas con las propiedades de la
-	 * entidad Espectaculo.
-	 * <p>
-	 * Si el usuario está autenticado, añade una columna adicional con un botón "Ver
-	 * Detalle" en cada fila para acceder al detalle completo (CU4).
-	 * </p>
+	 * Configura las columnas fijas de la tabla vinculándolas con las propiedades de
+	 * la entidad Espectaculo.
 	 */
 	private void configurarColumnas() {
 		colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 		colFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicio"));
 		colFechaFin.setCellValueFactory(new PropertyValueFactory<>("fechaFin"));
 
-		// Columna "Ver Detalle" solo para usuarios autenticados
+		System.out.println("¿Logueado? " + SessionManager.isLoggedIn());
+		System.out.println("Usuario: " + SessionManager.getCurrentUsername());
+
 		if (SessionManager.isLoggedIn()) {
-			TableColumn<Espectaculo, Void> colDetalle = new TableColumn<>("Detalle");
-			colDetalle.setPrefWidth(200.0);
-			colDetalle.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-alignment: CENTER;");
-
-			colDetalle.setCellFactory(param -> new TableCell<>() {
-				private final Button btn = new Button("Ver Detalle");
-				{
-					btn.setStyle(
-							"-fx-background-color: #2563eb; -fx-text-fill: white; -fx-background-radius: 6; -fx-padding: 6 12 6 12; -fx-font-weight: bold; -fx-cursor: hand;");
-					btn.setOnAction(event -> {
-						Espectaculo espectaculo = getTableView().getItems().get(getIndex());
-						handleVerDetalle(espectaculo);
-					});
-				}
-
-				@Override
-				protected void updateItem(Void item, boolean empty) {
-					super.updateItem(item, empty);
-					setGraphic(empty ? null : btn);
-				}
-			});
-
-			tablaEspectaculos.getColumns().add(colDetalle);
+			System.out.println("Añadiendo columna detalle...");
+			// ...
 		}
+	}
+
+	/**
+	 * Añade dinámicamente la columna "Ver Detalle" a la tabla de espectáculos.
+	 * <p>
+	 * Esta columna solo se añade cuando hay un usuario autenticado. Cada fila
+	 * contiene un botón que guarda el ID del espectáculo en sesión y navega a la
+	 * pantalla de detalle (CU4). Se añade desde {@link #initialize} y no desde
+	 * {@link #configurarColumnas} porque el controller es un singleton de Spring y
+	 * la sesión no está disponible en el momento de su creación.
+	 * </p>
+	 */
+	private void añadirColumnaDetalle() {
+		TableColumn<Espectaculo, Void> colDetalle = new TableColumn<>("Detalle");
+		colDetalle.setPrefWidth(200.0);
+		colDetalle.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-alignment: CENTER;");
+
+		colDetalle.setCellFactory(param -> new TableCell<>() {
+			private final Button btn = new Button("Ver Detalle");
+			{
+				btn.setStyle(
+						"-fx-background-color: #2563eb; -fx-text-fill: white; -fx-background-radius: 6; -fx-padding: 6 12 6 12; -fx-font-weight: bold; -fx-cursor: hand;");
+				btn.setOnAction(event -> {
+					Espectaculo espectaculo = getTableView().getItems().get(getIndex());
+					handleVerDetalle(espectaculo);
+				});
+			}
+
+			@Override
+			protected void updateItem(Void item, boolean empty) {
+				super.updateItem(item, empty);
+				setGraphic(empty ? null : btn);
+			}
+		});
+
+		tablaEspectaculos.getColumns().add(colDetalle);
 	}
 
 	/**

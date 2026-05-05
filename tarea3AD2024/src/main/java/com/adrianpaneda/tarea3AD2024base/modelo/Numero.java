@@ -1,6 +1,6 @@
 package com.adrianpaneda.tarea3AD2024base.modelo;
 
-import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -80,14 +80,14 @@ public class Numero {
 	 */
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "numero_artista", joinColumns = @JoinColumn(name = "id_numero"), inverseJoinColumns = @JoinColumn(name = "id_artista"))
-	private List<Artista> artistas;
+	private Set<Artista> artistas;
 
 	/**
 	 * Obtiene la lista de artistas que participan en este número.
 	 *
 	 * @return lista de artistas
 	 */
-	public List<Artista> getArtistas() {
+	public Set<Artista> getArtistas() {
 		return artistas;
 	}
 
@@ -96,7 +96,7 @@ public class Numero {
 	 *
 	 * @param artistas la lista de artistas a asignar
 	 */
-	public void setArtistas(List<Artista> artistas) {
+	public void setArtistas(Set<Artista> artistas) {
 		this.artistas = artistas;
 	}
 
