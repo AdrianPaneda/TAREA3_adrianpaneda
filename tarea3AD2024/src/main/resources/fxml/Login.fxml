@@ -17,19 +17,16 @@
             fx:controller="com.adrianpaneda.tarea3AD2024base.controller.LoginController">
    
    <children>
-      <!-- Capa de fondo con imagen -->
       <StackPane prefHeight="1080.0" prefWidth="1920.0" 
                  style="-fx-background-image: url('/images/circo_background.jpg'); -fx-background-size: cover; -fx-background-position: center;">
          
-         <!-- Overlay oscuro para suavizar el fondo -->
          <AnchorPane style="-fx-background-color: rgba(0, 0, 0, 0.45);">
             
-            <!-- Panel central de login -->
-            <VBox alignment="CENTER" layoutX="685.0" layoutY="290.0" prefHeight="500.0" prefWidth="550.0" 
+            <!-- Panel central de login - centrado vertical y horizontal -->
+            <VBox alignment="CENTER" layoutX="685.0" layoutY="230.0" prefHeight="500.0" prefWidth="550.0" 
                   spacing="25.0" 
                   style="-fx-background-color: rgba(255, 255, 255, 0.98); -fx-background-radius: 20; -fx-padding: 60; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 40, 0, 0, 8);">
                
-               <!-- Título -->
                <Label text="GESTIÓN CIRCO" textFill="#2563eb">
                   <font>
                      <Font name="System Bold" size="42.0" />
@@ -45,7 +42,6 @@
                   </VBox.margin>
                </Label>
                
-               <!-- Campo Usuario -->
                <VBox spacing="8.0">
                   <Label text="Usuario:" textFill="#0f172a">
                      <font>
@@ -60,7 +56,6 @@
                   </TextField>
                </VBox>
                
-               <!-- Campo Contraseña -->
                <VBox spacing="8.0">
                   <Label text="Contraseña:" textFill="#0f172a">
                      <font>
@@ -75,7 +70,6 @@
                   </PasswordField>
                </VBox>
                
-               <!-- Botón Login -->
                <Button fx:id="btnLogin" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleLogin" 
                        text="INICIAR SESIÓN" textFill="white" 
                        style="-fx-background-color: #2563eb; -fx-background-radius: 8; -fx-padding: 16; -fx-font-weight: bold; -fx-font-size: 16; -fx-cursor: hand;">
@@ -87,7 +81,6 @@
                   </VBox.margin>
                </Button>
                
-               <!-- Botón Ver Espectáculos (Invitado) -->
                <Button fx:id="btnInvitado" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleInvitado" 
                        text="VER ESPECTÁCULOS COMO INVITADO" textFill="#475569" 
                        style="-fx-background-color: transparent; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 14; -fx-font-weight: bold; -fx-font-size: 14; -fx-cursor: hand;">
@@ -96,7 +89,6 @@
                   </font>
                </Button>
                
-               <!-- Label de error -->
                <Label fx:id="lblError" textFill="#dc2626" wrapText="true" alignment="CENTER" maxWidth="450.0">
                   <font>
                      <Font name="System Bold" size="15.0" />

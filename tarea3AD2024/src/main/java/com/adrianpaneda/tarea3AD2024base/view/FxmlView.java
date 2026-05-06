@@ -49,22 +49,6 @@ public enum FxmlView {
 	},
 
 	/**
-	 * Pantalla de gestión de personas (artistas y coordinaciones). CU3 - Gestionar
-	 * personas. Solo accesible para el administrador.
-	 */
-	PERSONAS {
-		@Override
-		public String getTitle() {
-			return getStringFromResourceBundle("personas.title");
-		}
-
-		@Override
-		public String getFxmlFile() {
-			return "/fxml/Personas.fxml";
-		}
-	},
-
-	/**
 	 * Pantalla de detalle de un espectáculo mostrando sus números. CU4 - Ver
 	 * detalle de espectáculo.
 	 */
@@ -94,6 +78,22 @@ public enum FxmlView {
 		@Override
 		public String getFxmlFile() {
 			return "/fxml/GestionarEspectaculos.fxml";
+		}
+	},
+	/**
+	 * Pantalla de gestión de personas (artistas y coordinaciones). CU3 - Gestionar
+	 * personas. Solo accesible para el administrador.
+	 */
+	GESTION_PERSONAS {
+
+		@Override
+		public String getTitle() {
+			return getStringFromResourceBundle("fichaGestionPersonas.title");
+		}
+
+		@Override
+		public String getFxmlFile() {
+			return "/fxml/GestionPersonas.fxml";
 		}
 	},
 

@@ -27,7 +27,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -226,7 +229,15 @@ public class ArtistaController implements Initializable {
 	 */
 	@FXML
 	private void handleCerrarSesion(ActionEvent event) {
-		SessionManager.logout();
-		stageManager.switchScene(FxmlView.LOGIN);
+		Alert confirmacion = new Alert(AlertType.CONFIRMATION);
+		confirmacion.setTitle("Confirmar cierre de sesión");
+		confirmacion.setHeaderText("¿Desea cerrar sesión?");
+		confirmacion.setContentText("Volverá a la pantalla de inicio de sesión.");
+
+		Optional<ButtonType> resultado = confirmacion.showAndWait();
+		if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+			SessionManager.logout();
+			stageManager.switchScene(FxmlView.LOGIN);
+		}
 	}
 }

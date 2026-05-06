@@ -217,7 +217,7 @@ public class EspectaculosController implements Initializable {
 		} else if (perfil == Perfil.coordinacion) {
 			stageManager.switchScene(FxmlView.GESTIONAR_ESPECTACULOS);
 		} else if (perfil == Perfil.admin) {
-			stageManager.switchScene(FxmlView.PERSONAS);
+			stageManager.switchScene(FxmlView.GESTION_PERSONAS);
 		}
 	}
 }

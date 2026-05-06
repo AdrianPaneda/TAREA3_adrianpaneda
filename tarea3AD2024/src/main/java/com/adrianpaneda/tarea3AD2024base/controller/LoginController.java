@@ -93,11 +93,11 @@ public class LoginController implements Initializable {
 			// Crear Credenciales falsas para el admin y poder mantener la sesion en
 			// SessionManager
 			Credenciales adminCredenciales = new Credenciales();
-			adminCredenciales.setNombreUsuario(adminUsuario);
+			adminCredenciales.setNombreUsuario(" ");
 			adminCredenciales.setPerfil(Perfil.admin);
 
 			SessionManager.setCurrentUser(adminCredenciales);
-			stageManager.switchScene(FxmlView.PERSONAS);
+			stageManager.switchScene(FxmlView.GESTION_PERSONAS);
 			return;
 		}
 
@@ -108,7 +108,7 @@ public class LoginController implements Initializable {
 			lblError.setText("Usuario o contraseña incorrectos");
 			return;
 		}
-
+		// En caso de que el Optional contenga credenciales las obtenemos con .get()
 		Credenciales credenciales = credencialesOpt.get();
 
 		// Verificar contraseña
@@ -117,7 +117,8 @@ public class LoginController implements Initializable {
 			return;
 		}
 
-		// Limpiar password antes de guardar en sesión
+		// Limpiar password antes de guardar en sesión (Esto es medida de seguridad para
+		// no mantener contraseñas guardadas en ningun sitio)
 		credenciales.setPassword(null);
 
 		// Login exitoso guardar sesión

@@ -30,4 +30,12 @@ public interface PersonaRepository extends JpaRepository<Persona, Long> {
 	 * @return {@code true} si el email ya está registrado
 	 */
 	boolean existsByEmail(String email);
+
+	/**
+	 * Busca una persona por su email.
+	 *
+	 * @param email el correo electrónico a buscar
+	 * @return la persona encontrada, o null si no existe
+	 */
+	Persona findByEmail(String email);
 }
