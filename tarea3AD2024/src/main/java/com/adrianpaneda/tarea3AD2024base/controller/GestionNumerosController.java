@@ -371,6 +371,13 @@ public class GestionNumerosController implements Initializable {
 				if (orden <= 0) {
 					lblErrorOrden.setText("El orden debe ser un número positivo");
 					valido = false;
+				} else {
+					boolean ordenOcupado = listaNumeros.stream().anyMatch(n -> n.getOrden() == orden
+							&& (numeroEnEdicion == null || !n.getId().equals(numeroEnEdicion.getId())));
+					if (ordenOcupado) {
+						lblErrorOrden.setText("Ya existe un número con ese orden en este espectáculo");
+						valido = false;
+					}
 				}
 			} catch (NumberFormatException e) {
 				lblErrorOrden.setText("El orden debe ser un número entero");

@@ -118,10 +118,9 @@ public class DetalleEspectaculoController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// Obtener ID del espectáculo guardado en sesión
+
 		Long id = SessionManager.getSelectedEspectaculo();
 
-		// Cargar espectáculo con todos sus datos relacionados
 		Espectaculo espectaculo = espectaculoService.obtenerConDetalle(id);
 
 		// Aqui por seguridad volvemos a la pantalla Espectaculos por si no encuentra el
