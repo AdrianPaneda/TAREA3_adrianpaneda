@@ -18,241 +18,376 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0"
-            prefWidth="1920.0" xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.adrianpaneda.tarea3AD2024base.controller.GestionPersonasController">
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0"
+	prefWidth="1920.0" xmlns="http://javafx.com/javafx/21"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.adrianpaneda.tarea3AD2024base.controller.GestionPersonasController">
 
-   <children>
-      <StackPane prefHeight="1080.0" prefWidth="1920.0"
-                 style="-fx-background-image: url('/images/circo_background.jpg'); -fx-background-size: cover; -fx-background-position: center;">
+	<children>
+		<StackPane prefHeight="1080.0" prefWidth="1920.0"
+			style="-fx-background-image: url('/images/circo_background.jpg'); -fx-background-size: cover; -fx-background-position: center;">
 
-         <AnchorPane style="-fx-background-color: rgba(0, 0, 0, 0.45);">
+			<AnchorPane
+				style="-fx-background-color: rgba(0, 0, 0, 0.45);">
 
-            <VBox alignment="TOP_CENTER" layoutX="60.0" layoutY="60.0"
-                  prefHeight="960.0" prefWidth="1800.0" spacing="15.0"
-                  style="-fx-background-color: rgba(255, 255, 255, 0.98); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 40, 0, 0, 8);">
+				<VBox alignment="TOP_CENTER" layoutX="60.0" layoutY="60.0"
+					prefHeight="960.0" prefWidth="1800.0" spacing="15.0"
+					style="-fx-background-color: rgba(255, 255, 255, 0.98); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 40, 0, 0, 8);">
 
-               <Label text="GESTIÓN DE PERSONAS" textFill="#2563eb">
-                  <font><Font name="System Bold" size="34.0" /></font>
-               </Label>
+					<Label text="GESTIÓN DE PERSONAS" textFill="#2563eb">
+						<font>
+							<Font name="System Bold" size="34.0" />
+						</font>
+					</Label>
 
-               <HBox spacing="25.0" prefHeight="780.0">
+					<HBox spacing="25.0" prefHeight="780.0">
 
-                  <!-- ═══ PANEL IZQUIERDO ═══ -->
-                  <VBox spacing="12.0" prefWidth="880.0">
+						<!-- ═══ PANEL IZQUIERDO ═══ -->
+						<VBox spacing="12.0" prefWidth="880.0">
 
-                     <Label text="PERSONAS REGISTRADAS" textFill="#1e293b">
-                        <font><Font name="System Bold" size="18.0" /></font>
-                     </Label>
-                     <Label prefHeight="2.0" prefWidth="880.0" style="-fx-background-color: #2563eb;" />
+							<Label text="PERSONAS REGISTRADAS" textFill="#1e293b">
+								<font>
+									<Font name="System Bold" size="18.0" />
+								</font>
+							</Label>
+							<Label prefHeight="2.0" prefWidth="880.0"
+								style="-fx-background-color: #2563eb;" />
 
-                     <TableView fx:id="tablaPersonas" prefHeight="560.0" prefWidth="880.0"
-                                style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10;">
-                        <columns>
-                           <TableColumn fx:id="colNombre" prefWidth="240.0" text="Nombre"
-                                        style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER-LEFT;" />
-                           <TableColumn fx:id="colEmail" prefWidth="240.0" text="Email"
-                                        style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER-LEFT;" />
-                           <TableColumn fx:id="colPerfil" prefWidth="150.0" text="Perfil"
-                                        style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
-                        </columns>
-                     </TableView>
+							<TableView fx:id="tablaPersonas" prefHeight="560.0"
+								prefWidth="880.0"
+								style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10;">
+								<columns>
+									<TableColumn fx:id="colUsuario" prefWidth="150.0"
+										text="Usuario"
+										style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+									<TableColumn fx:id="colEmail" prefWidth="240.0"
+										text="Email"
+										style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER-LEFT;" />
+									<TableColumn fx:id="colPerfil" prefWidth="150.0"
+										text="Perfil"
+										style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+								</columns>
+							</TableView>
 
-                     <HBox spacing="15.0" alignment="CENTER">
-                        <VBox.margin><Insets top="8.0" /></VBox.margin>
-                        <Button fx:id="btnRegistrarArtista" mnemonicParsing="false"
-                                onAction="#handleRegistrarArtista"
-                                text="REGISTRAR ARTISTA" textFill="white"
-                                style="-fx-background-color: #2563eb; -fx-background-radius: 8; -fx-padding: 10 22 10 22; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
-                           <font><Font name="System Bold" size="13.0" /></font>
-                        </Button>
-                        <Button fx:id="btnRegistrarCoordinacion" mnemonicParsing="false"
-                                onAction="#handleRegistrarCoordinacion"
-                                text="REGISTRAR COORDINACIÓN" textFill="white"
-                                style="-fx-background-color: #2563eb; -fx-background-radius: 8; -fx-padding: 10 22 10 22; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
-                           <font><Font name="System Bold" size="13.0" /></font>
-                        </Button>
-                     </HBox>
+							<HBox spacing="15.0" alignment="CENTER">
+								<VBox.margin>
+									<Insets top="8.0" />
+								</VBox.margin>
+								<Button fx:id="btnRegistrarArtista"
+									mnemonicParsing="false" onAction="#handleRegistrarArtista"
+									text="REGISTRAR ARTISTA" textFill="white"
+									style="-fx-background-color: #2563eb; -fx-background-radius: 8; -fx-padding: 10 22 10 22; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
+									<font>
+										<Font name="System Bold" size="13.0" />
+									</font>
+								</Button>
+								<Button fx:id="btnRegistrarCoordinacion"
+									mnemonicParsing="false" onAction="#handleRegistrarCoordinacion"
+									text="REGISTRAR COORDINACIÓN" textFill="white"
+									style="-fx-background-color: #2563eb; -fx-background-radius: 8; -fx-padding: 10 22 10 22; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
+									<font>
+										<Font name="System Bold" size="13.0" />
+									</font>
+								</Button>
+							</HBox>
 
-                     <HBox alignment="CENTER">
-                        <VBox.margin><Insets top="10.0" /></VBox.margin>
-                        <Button fx:id="btnCerrarSesion" mnemonicParsing="false"
-                                onAction="#handleCerrarSesion" text="CERRAR SESIÓN"
-                                textFill="#475569"
-                                style="-fx-background-color: transparent; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 22 10 22; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
-                           <font><Font name="System Bold" size="13.0" /></font>
-                        </Button>
-                     </HBox>
-                  </VBox>
+							<HBox spacing="15.0" alignment="CENTER">
+								<VBox.margin>
+									<Insets top="5.0" />
+								</VBox.margin>
+								<Button fx:id="btnGestionEspectaculos"
+									mnemonicParsing="false" onAction="#handleGestionEspectaculos"
+									text="GESTIONAR ESPECTÁCULOS" textFill="white"
+									style="-fx-background-color: #7c3aed; -fx-background-radius: 8; -fx-padding: 10 22 10 22; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
+									<font>
+										<Font name="System Bold" size="13.0" />
+									</font>
+								</Button>
+								<Button fx:id="btnVerEspectaculos"
+									mnemonicParsing="false" onAction="#handleVerEspectaculos"
+									text="VER ESPECTÁCULOS" textFill="white"
+									style="-fx-background-color: #0891b2; -fx-background-radius: 8; -fx-padding: 10 22 10 22; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
+									<font>
+										<Font name="System Bold" size="13.0" />
+									</font>
+								</Button>
+							</HBox>
 
-                  <!-- ═══ PANEL DERECHO: FORMULARIO ═══ -->
-                  <VBox fx:id="contenedorFormulario" spacing="0.0" prefWidth="780.0" prefHeight="780.0"
-                        managed="false" visible="false">
+							<HBox alignment="CENTER">
+								<VBox.margin>
+									<Insets top="10.0" />
+								</VBox.margin>
+								<Button fx:id="btnCerrarSesion" mnemonicParsing="false"
+									onAction="#handleCerrarSesion" text="CERRAR SESIÓN"
+									textFill="#475569"
+									style="-fx-background-color: transparent; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 22 10 22; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
+									<font>
+										<Font name="System Bold" size="13.0" />
+									</font>
+								</Button>
+							</HBox>
+						</VBox>
 
-                     <ScrollPane fx:id="scrollFormulario" prefWidth="780.0"
-                                 fitToWidth="true" hbarPolicy="NEVER"
-                                 style="-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;">
-                        <VBox.vgrow><Priority fx:constant="ALWAYS" /></VBox.vgrow>
+						<!-- ═══ PANEL DERECHO: FORMULARIO ═══ -->
+						<VBox fx:id="contenedorFormulario" spacing="0.0"
+							prefWidth="780.0" prefHeight="780.0" managed="false"
+							visible="false">
 
-                        <VBox fx:id="panelFormulario" spacing="12.0" style="-fx-padding: 5;">
+							<ScrollPane fx:id="scrollFormulario" prefWidth="780.0"
+								fitToWidth="true" hbarPolicy="NEVER"
+								style="-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;">
+								<VBox.vgrow>
+									<Priority fx:constant="ALWAYS" />
+								</VBox.vgrow>
 
-                           <Label fx:id="lblTituloFormulario" text="REGISTRAR ARTISTA" textFill="#2563eb">
-                              <font><Font name="System Bold" size="20.0" /></font>
-                           </Label>
-                           <Label prefHeight="2.0" prefWidth="760.0" style="-fx-background-color: #2563eb;" />
+								<VBox fx:id="panelFormulario" spacing="12.0"
+									style="-fx-padding: 5;">
 
-                           <Label text="DATOS PERSONALES" textFill="#1e293b">
-                              <font><Font name="System Bold" size="15.0" /></font>
-                              <VBox.margin><Insets top="8.0" /></VBox.margin>
-                           </Label>
+									<Label fx:id="lblTituloFormulario"
+										text="REGISTRAR ARTISTA" textFill="#2563eb">
+										<font>
+											<Font name="System Bold" size="20.0" />
+										</font>
+									</Label>
+									<Label prefHeight="2.0" prefWidth="760.0"
+										style="-fx-background-color: #2563eb;" />
 
-                           <VBox spacing="3.0">
-                              <Label text="Nombre:" textFill="#475569">
-                                 <font><Font name="System Bold" size="13.0" /></font>
-                              </Label>
-                              <TextField fx:id="txtNombre" promptText="Nombre completo"
-                                         style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7; -fx-font-size: 13;" />
-                              <Label fx:id="lblErrorNombre" textFill="#dc2626" wrapText="true">
-                                 <font><Font size="11.0" /></font>
-                              </Label>
-                           </VBox>
+									<Label text="DATOS PERSONALES" textFill="#1e293b">
+										<font>
+											<Font name="System Bold" size="15.0" />
+										</font>
+										<VBox.margin>
+											<Insets top="8.0" />
+										</VBox.margin>
+									</Label>
 
-                           <VBox spacing="3.0">
-                              <Label text="Email:" textFill="#475569">
-                                 <font><Font name="System Bold" size="13.0" /></font>
-                              </Label>
-                              <TextField fx:id="txtEmail" promptText="ejemplo@correo.com"
-                                         style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7; -fx-font-size: 13;" />
-                              <Label fx:id="lblErrorEmail" textFill="#dc2626" wrapText="true">
-                                 <font><Font size="11.0" /></font>
-                              </Label>
-                           </VBox>
+									<VBox spacing="3.0">
+										<Label text="Nombre:" textFill="#475569">
+											<font>
+												<Font name="System Bold" size="13.0" />
+											</font>
+										</Label>
+										<TextField fx:id="txtNombre"
+											promptText="Nombre completo"
+											style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7; -fx-font-size: 13;" />
+										<Label fx:id="lblErrorNombre" textFill="#dc2626"
+											wrapText="true">
+											<font>
+												<Font size="11.0" />
+											</font>
+										</Label>
+									</VBox>
 
-                           <VBox spacing="3.0">
-                              <Label text="Nacionalidad:" textFill="#475569">
-                                 <font><Font name="System Bold" size="13.0" /></font>
-                              </Label>
-                              <TextField fx:id="txtNacionalidad" promptText="Nacionalidad"
-                                         style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7; -fx-font-size: 13;" />
-                              <Label fx:id="lblErrorNacionalidad" textFill="#dc2626" wrapText="true">
-                                 <font><Font size="11.0" /></font>
-                              </Label>
-                           </VBox>
+									<VBox spacing="3.0">
+										<Label text="Email:" textFill="#475569">
+											<font>
+												<Font name="System Bold" size="13.0" />
+											</font>
+										</Label>
+										<TextField fx:id="txtEmail"
+											promptText="ejemplo@correo.com"
+											style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7; -fx-font-size: 13;" />
+										<Label fx:id="lblErrorEmail" textFill="#dc2626"
+											wrapText="true">
+											<font>
+												<Font size="11.0" />
+											</font>
+										</Label>
+									</VBox>
 
-                           <!-- DATOS DE ARTISTA -->
-                           <VBox fx:id="panelArtista" spacing="12.0" managed="false" visible="false">
-                              <Label text="DATOS DE ARTISTA" textFill="#1e293b">
-                                 <font><Font name="System Bold" size="15.0" /></font>
-                                 <VBox.margin><Insets top="8.0" /></VBox.margin>
-                              </Label>
-                              <VBox spacing="3.0">
-                                 <Label text="Apodo (opcional):" textFill="#475569">
-                                    <font><Font name="System Bold" size="13.0" /></font>
-                                 </Label>
-                                 <TextField fx:id="txtApodo" promptText="Apodo artístico"
-                                            style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7; -fx-font-size: 13;" />
-                              </VBox>
-                              <VBox spacing="5.0">
-                                 <Label text="Especialidades (al menos una):" textFill="#475569">
-                                    <font><Font name="System Bold" size="13.0" /></font>
-                                 </Label>
-                                 <HBox spacing="20.0">
-                                    <CheckBox fx:id="chkAcrobacia" text="Acrobacia" textFill="#0f172a">
-                                       <font><Font size="13.0" /></font>
-                                    </CheckBox>
-                                    <CheckBox fx:id="chkHumor" text="Humor" textFill="#0f172a">
-                                       <font><Font size="13.0" /></font>
-                                    </CheckBox>
-                                    <CheckBox fx:id="chkMagia" text="Magia" textFill="#0f172a">
-                                       <font><Font size="13.0" /></font>
-                                    </CheckBox>
-                                 </HBox>
-                                 <HBox spacing="20.0">
-                                    <CheckBox fx:id="chkEquilibrismo" text="Equilibrismo" textFill="#0f172a">
-                                       <font><Font size="13.0" /></font>
-                                    </CheckBox>
-                                    <CheckBox fx:id="chkMalabarismo" text="Malabarismo" textFill="#0f172a">
-                                       <font><Font size="13.0" /></font>
-                                    </CheckBox>
-                                 </HBox>
-                                 <Label fx:id="lblErrorEspecialidades" textFill="#dc2626" wrapText="true">
-                                    <font><Font size="11.0" /></font>
-                                 </Label>
-                              </VBox>
-                           </VBox>
+									<VBox spacing="3.0">
+										<Label text="Nacionalidad:" textFill="#475569">
+											<font>
+												<Font name="System Bold" size="13.0" />
+											</font>
+										</Label>
+										<TextField fx:id="txtNacionalidad"
+											promptText="Nacionalidad"
+											style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7; -fx-font-size: 13;" />
+										<Label fx:id="lblErrorNacionalidad" textFill="#dc2626"
+											wrapText="true">
+											<font>
+												<Font size="11.0" />
+											</font>
+										</Label>
+									</VBox>
 
-                           <!-- DATOS DE COORDINACIÓN -->
-                           <VBox fx:id="panelCoordinacion" spacing="12.0" managed="false" visible="false">
-                              <Label text="DATOS DE COORDINACIÓN" textFill="#1e293b">
-                                 <font><Font name="System Bold" size="15.0" /></font>
-                                 <VBox.margin><Insets top="8.0" /></VBox.margin>
-                              </Label>
-                              <CheckBox fx:id="chkSenior" text="Es senior" textFill="#0f172a" onAction="#handleToggleSenior">
-                                 <font><Font size="13.0" /></font>
-                              </CheckBox>
-                              <VBox spacing="3.0">
-                                 <Label text="Fecha senior:" textFill="#475569">
-                                    <font><Font name="System Bold" size="13.0" /></font>
-                                 </Label>
-                                 <DatePicker fx:id="dateFechaSenior" disable="true" style="-fx-font-size: 13;" />
-                                 <Label fx:id="lblErrorFechaSenior" textFill="#dc2626" wrapText="true">
-                                    <font><Font size="11.0" /></font>
-                                 </Label>
-                              </VBox>
-                           </VBox>
+									<!-- DATOS DE ARTISTA -->
+									<VBox fx:id="panelArtista" spacing="12.0" managed="false"
+										visible="false">
+										<Label text="DATOS DE ARTISTA" textFill="#1e293b">
+											<font>
+												<Font name="System Bold" size="15.0" />
+											</font>
+											<VBox.margin>
+												<Insets top="8.0" />
+											</VBox.margin>
+										</Label>
+										<VBox spacing="3.0">
+											<Label text="Apodo (opcional):" textFill="#475569">
+												<font>
+													<Font name="System Bold" size="13.0" />
+												</font>
+											</Label>
+											<TextField fx:id="txtApodo"
+												promptText="Apodo artístico"
+												style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7; -fx-font-size: 13;" />
+										</VBox>
+										<VBox spacing="5.0">
+											<Label text="Especialidades (al menos una):"
+												textFill="#475569">
+												<font>
+													<Font name="System Bold" size="13.0" />
+												</font>
+											</Label>
+											<HBox spacing="20.0">
+												<CheckBox fx:id="chkAcrobacia" text="Acrobacia"
+													textFill="#0f172a">
+													<font>
+														<Font size="13.0" />
+													</font>
+												</CheckBox>
+												<CheckBox fx:id="chkHumor" text="Humor"
+													textFill="#0f172a">
+													<font>
+														<Font size="13.0" />
+													</font>
+												</CheckBox>
+												<CheckBox fx:id="chkMagia" text="Magia"
+													textFill="#0f172a">
+													<font>
+														<Font size="13.0" />
+													</font>
+												</CheckBox>
+											</HBox>
+											<HBox spacing="20.0">
+												<CheckBox fx:id="chkEquilibrismo"
+													text="Equilibrismo" textFill="#0f172a">
+													<font>
+														<Font size="13.0" />
+													</font>
+												</CheckBox>
+												<CheckBox fx:id="chkMalabarismo" text="Malabarismo"
+													textFill="#0f172a">
+													<font>
+														<Font size="13.0" />
+													</font>
+												</CheckBox>
+											</HBox>
+											<Label fx:id="lblErrorEspecialidades"
+												textFill="#dc2626" wrapText="true">
+												<font>
+													<Font size="11.0" />
+												</font>
+											</Label>
+										</VBox>
+									</VBox>
 
-                           <!-- CREDENCIALES -->
-                           <VBox fx:id="panelCredenciales" spacing="12.0">
-                              <Label text="CREDENCIALES DE ACCESO" textFill="#1e293b">
-                                 <font><Font name="System Bold" size="15.0" /></font>
-                                 <VBox.margin><Insets top="8.0" /></VBox.margin>
-                              </Label>
-                              <VBox spacing="3.0">
-                                 <Label text="Nombre de usuario:" textFill="#475569">
-                                    <font><Font name="System Bold" size="13.0" /></font>
-                                 </Label>
-                                 <TextField fx:id="txtUsuario" promptText="Solo letras, sin espacios, mín. 3 caracteres"
-                                            style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7; -fx-font-size: 13;" />
-                                 <Label fx:id="lblErrorUsuario" textFill="#dc2626" wrapText="true">
-                                    <font><Font size="11.0" /></font>
-                                 </Label>
-                              </VBox>
-                              <VBox spacing="3.0">
-                                 <Label text="Contraseña:" textFill="#475569">
-                                    <font><Font name="System Bold" size="13.0" /></font>
-                                 </Label>
-                                 <PasswordField fx:id="txtPassword" promptText="Sin espacios, mín. 3 caracteres"
-                                                style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7; -fx-font-size: 13;" />
-                                 <Label fx:id="lblErrorPassword" textFill="#dc2626" wrapText="true">
-                                    <font><Font size="11.0" /></font>
-                                 </Label>
-                              </VBox>
-                           </VBox>
+									<!-- DATOS DE COORDINACIÓN -->
+									<VBox fx:id="panelCoordinacion" spacing="12.0"
+										managed="false" visible="false">
+										<Label text="DATOS DE COORDINACIÓN" textFill="#1e293b">
+											<font>
+												<Font name="System Bold" size="15.0" />
+											</font>
+											<VBox.margin>
+												<Insets top="8.0" />
+											</VBox.margin>
+										</Label>
+										<CheckBox fx:id="chkSenior" text="Es senior"
+											textFill="#0f172a" onAction="#handleToggleSenior">
+											<font>
+												<Font size="13.0" />
+											</font>
+										</CheckBox>
+										<VBox spacing="3.0">
+											<Label text="Fecha senior:" textFill="#475569">
+												<font>
+													<Font name="System Bold" size="13.0" />
+												</font>
+											</Label>
+											<DatePicker fx:id="dateFechaSenior" disable="true"
+												style="-fx-font-size: 13;" />
+											<Label fx:id="lblErrorFechaSenior" textFill="#dc2626"
+												wrapText="true">
+												<font>
+													<Font size="11.0" />
+												</font>
+											</Label>
+										</VBox>
+									</VBox>
 
-                        </VBox>
-                     </ScrollPane>
+									<!-- CREDENCIALES -->
+									<VBox fx:id="panelCredenciales" spacing="12.0">
+										<Label text="CREDENCIALES DE ACCESO" textFill="#1e293b">
+											<font>
+												<Font name="System Bold" size="15.0" />
+											</font>
+											<VBox.margin>
+												<Insets top="8.0" />
+											</VBox.margin>
+										</Label>
+										<VBox spacing="3.0">
+											<Label text="Nombre de usuario:" textFill="#475569">
+												<font>
+													<Font name="System Bold" size="13.0" />
+												</font>
+											</Label>
+											<TextField fx:id="txtUsuario"
+												promptText="Solo letras, sin espacios, mín. 3 caracteres"
+												style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7; -fx-font-size: 13;" />
+											<Label fx:id="lblErrorUsuario" textFill="#dc2626"
+												wrapText="true">
+												<font>
+													<Font size="11.0" />
+												</font>
+											</Label>
+										</VBox>
+										<VBox spacing="3.0">
+											<Label text="Contraseña:" textFill="#475569">
+												<font>
+													<Font name="System Bold" size="13.0" />
+												</font>
+											</Label>
+											<PasswordField fx:id="txtPassword"
+												promptText="Sin espacios, mín. 3 caracteres"
+												style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7; -fx-font-size: 13;" />
+											<Label fx:id="lblErrorPassword" textFill="#dc2626"
+												wrapText="true">
+												<font>
+													<Font size="11.0" />
+												</font>
+											</Label>
+										</VBox>
+									</VBox>
 
-                     <!-- BOTONES FIJOS -->
-                     <HBox spacing="15.0" alignment="CENTER"
-                          style="-fx-padding: 15 0 5 0; -fx-background-color: transparent;">
-                        <Button fx:id="btnGuardar" mnemonicParsing="false"
-                                onAction="#handleGuardar" text="GUARDAR" textFill="white"
-                                style="-fx-background-color: #16a34a; -fx-background-radius: 8; -fx-padding: 10 28 10 28; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
-                           <font><Font name="System Bold" size="13.0" /></font>
-                        </Button>
-                        <Button fx:id="btnCancelar" mnemonicParsing="false"
-                                onAction="#handleCancelar" text="CANCELAR" textFill="#475569"
-                                style="-fx-background-color: transparent; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 28 10 28; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
-                           <font><Font name="System Bold" size="13.0" /></font>
-                        </Button>
-                     </HBox>
+								</VBox>
+							</ScrollPane>
 
-                  </VBox>
+							<!-- BOTONES FIJOS -->
+							<HBox spacing="15.0" alignment="CENTER"
+								style="-fx-padding: 15 0 5 0; -fx-background-color: transparent;">
+								<Button fx:id="btnGuardar" mnemonicParsing="false"
+									onAction="#handleGuardar" text="GUARDAR" textFill="white"
+									style="-fx-background-color: #16a34a; -fx-background-radius: 8; -fx-padding: 10 28 10 28; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
+									<font>
+										<Font name="System Bold" size="13.0" />
+									</font>
+								</Button>
+								<Button fx:id="btnCancelar" mnemonicParsing="false"
+									onAction="#handleCancelar" text="CANCELAR" textFill="#475569"
+									style="-fx-background-color: transparent; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 28 10 28; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
+									<font>
+										<Font name="System Bold" size="13.0" />
+									</font>
+								</Button>
+							</HBox>
 
-               </HBox>
-            </VBox>
-         </AnchorPane>
-      </StackPane>
-   </children>
+						</VBox>
+
+					</HBox>
+				</VBox>
+			</AnchorPane>
+		</StackPane>
+	</children>
 </AnchorPane>

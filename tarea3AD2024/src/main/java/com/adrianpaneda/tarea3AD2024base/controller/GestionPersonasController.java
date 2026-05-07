@@ -61,14 +61,17 @@ public class GestionPersonasController implements Initializable {
 	@FXML
 	private TableView<Persona> tablaPersonas;
 
-	@FXML
-	private TableColumn<Persona, String> colNombre;
+	// @FXML
+	// private TableColumn<Persona, String> colNombre;
 
 	@FXML
 	private TableColumn<Persona, String> colEmail;
 
 	@FXML
 	private TableColumn<Persona, String> colPerfil;
+
+	@FXML
+	private TableColumn<Persona, String> colUsuario;
 
 	@FXML
 	private Button btnRegistrarArtista;
@@ -166,6 +169,12 @@ public class GestionPersonasController implements Initializable {
 	@FXML
 	private Button btnCancelar;
 
+	@FXML
+	private Button btnGestionEspectaculos;
+
+	@FXML
+	private Button btnVerEspectaculos;
+
 	@Autowired
 	private PersonaService personaService;
 
@@ -198,12 +207,17 @@ public class GestionPersonasController implements Initializable {
 	}
 
 	private void configurarTabla() {
-		colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+		// colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 		colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 		colPerfil.setCellValueFactory(cellData -> {
 			Persona p = cellData.getValue();
 			String perfil = (p instanceof Artista) ? "Artista" : "Coordinación";
 			return new SimpleStringProperty(perfil);
+		});
+		colUsuario.setCellValueFactory(cellData -> {
+			Persona p = cellData.getValue();
+			String usuario = (p.getCredenciales() != null) ? p.getCredenciales().getNombreUsuario() : "-";
+			return new SimpleStringProperty(usuario);
 		});
 		añadirColumnaAcciones();
 	}
@@ -324,6 +338,8 @@ public class GestionPersonasController implements Initializable {
 	private void bloquearBotones(boolean bloquear) {
 		btnRegistrarArtista.setDisable(bloquear);
 		btnRegistrarCoordinacion.setDisable(bloquear);
+		btnGestionEspectaculos.setDisable(bloquear);
+		btnVerEspectaculos.setDisable(bloquear);
 		tablaPersonas.setDisable(bloquear);
 	}
 
@@ -626,6 +642,43 @@ public class GestionPersonasController implements Initializable {
 				error.showAndWait();
 			}
 		}
+	}
+
+	/**
+	 * Gestiona el botón de ver espectaculos con aviso si hay operación en curso
+	 * 
+	 * @param event
+	 */
+	@FXML
+	private void handleGestionEspectaculos(ActionEvent event) {
+		if (modoActual != null) {
+			Alert aviso = new Alert(AlertType.WARNING);
+			aviso.setTitle("Operación en curso");
+			aviso.setHeaderText("Tiene una operación sin guardar");
+			aviso.setContentText("Debe guardar o cancelar la operación actual antes de continuar.");
+			aviso.showAndWait();
+			return;
+		}
+		stageManager.switchScene(FxmlView.GESTIONAR_ESPECTACULOS);
+	}
+
+	/**
+	 * Gestiona ver los detalles de espectaculos con aviso si hay operación en
+	 * curso.
+	 * 
+	 * @param event
+	 */
+	@FXML
+	private void handleVerEspectaculos(ActionEvent event) {
+		if (modoActual != null) {
+			Alert aviso = new Alert(AlertType.WARNING);
+			aviso.setTitle("Operación en curso");
+			aviso.setHeaderText("Tiene una operación sin guardar");
+			aviso.setContentText("Debe guardar o cancelar la operación actual antes de continuar.");
+			aviso.showAndWait();
+			return;
+		}
+		stageManager.switchScene(FxmlView.ESPECTACULOS);
 	}
 
 	/**

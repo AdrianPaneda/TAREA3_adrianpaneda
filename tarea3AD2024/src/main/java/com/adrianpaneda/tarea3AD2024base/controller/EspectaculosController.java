@@ -46,7 +46,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
  *
  * @author Adrián Pañeda Hamadi
  * @version 1.0
- * @since 2025-01-01
+ * @since 2026-01-01
  */
 @Controller
 public class EspectaculosController implements Initializable {
@@ -66,6 +66,9 @@ public class EspectaculosController implements Initializable {
 	@FXML
 	private Button btnVolver;
 
+	@FXML
+	private TableColumn<Espectaculo, Long> colId;
+
 	@Autowired
 	private EspectaculoService espectaculoService;
 
@@ -81,10 +84,7 @@ public class EspectaculosController implements Initializable {
 		cargarEspectaculos();
 		configurarBotonVolver();
 
-		// La columna de detalle se añade aquí porque en configurarColumnas()
-		// el controller aún no tiene la sesión correctamente inicializada
-		// al ser un singleton de Spring creado al arrancar la app
-		if (SessionManager.isLoggedIn() && tablaEspectaculos.getColumns().size() == 3) {
+		if (SessionManager.isLoggedIn() && tablaEspectaculos.getColumns().size() == 4) {
 			añadirColumnaDetalle();
 		}
 	}
@@ -94,6 +94,7 @@ public class EspectaculosController implements Initializable {
 	 * la entidad Espectaculo.
 	 */
 	private void configurarColumnas() {
+		colId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 		colFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicio"));
 		colFechaFin.setCellValueFactory(new PropertyValueFactory<>("fechaFin"));

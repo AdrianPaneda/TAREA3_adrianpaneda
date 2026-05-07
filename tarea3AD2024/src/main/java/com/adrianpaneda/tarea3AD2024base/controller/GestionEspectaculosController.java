@@ -150,6 +150,7 @@ public class GestionEspectaculosController implements Initializable {
 		configurarTabla();
 		cargarEspectaculos();
 		ocultarFormulario();
+		configurarBotonVolver();
 	}
 
 	private void validarAcceso() {
@@ -457,24 +458,45 @@ public class GestionEspectaculosController implements Initializable {
 		stageManager.switchScene(FxmlView.ESPECTACULOS);
 	}
 
+	/**
+	 * Configura el botón inferior según el perfil del usuario.
+	 * <p>
+	 * Admin → "VOLVER A PERSONAS" (navega a gestión de personas). Coordinación →
+	 * "CERRAR SESIÓN" (hace logout).
+	 * </p>
+	 */
+	private void configurarBotonVolver() {
+		if (SessionManager.getCurrentPerfil() == Perfil.admin) {
+			btnCerrarSesion.setText("VOLVER A PERSONAS");
+		}
+	}
+
 	@FXML
 	private void handleCerrarSesion(ActionEvent event) {
 		if (modoActual != null) {
 			Alert aviso = new Alert(AlertType.WARNING);
 			aviso.setTitle("Operación en curso");
 			aviso.setHeaderText("Tiene una operación sin guardar");
-			aviso.setContentText("Debe guardar o cancelar la operación actual antes de cerrar sesión.");
+			aviso.setContentText("Debe guardar o cancelar la operación actual antes de continuar.");
 			aviso.showAndWait();
 			return;
 		}
-		Alert confirmacion = new Alert(AlertType.CONFIRMATION);
-		confirmacion.setTitle("Confirmar cierre de sesión");
-		confirmacion.setHeaderText("¿Desea cerrar sesión?");
-		confirmacion.setContentText("Volverá a la pantalla de inicio de sesión.");
-		Optional<ButtonType> resultado = confirmacion.showAndWait();
-		if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-			SessionManager.logout();
-			stageManager.switchScene(FxmlView.LOGIN);
+
+		if (SessionManager.getCurrentPerfil() == Perfil.admin) {
+			// Admin → volver a gestión de personas
+			stageManager.switchScene(FxmlView.GESTION_PERSONAS);
+		} else {
+			// Coordinación → cerrar sesión
+			Alert confirmacion = new Alert(AlertType.CONFIRMATION);
+			confirmacion.setTitle("Confirmar cierre de sesión");
+			confirmacion.setHeaderText("¿Desea cerrar sesión?");
+			confirmacion.setContentText("Volverá a la pantalla de inicio de sesión.");
+
+			Optional<ButtonType> resultado = confirmacion.showAndWait();
+			if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+				SessionManager.logout();
+				stageManager.switchScene(FxmlView.LOGIN);
+			}
 		}
 	}
 }
