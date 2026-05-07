@@ -24,7 +24,7 @@ import jakarta.persistence.Table;
  *
  * @author Adrián Pañeda Hamadi
  * @version 1.0
- * @since 2025-01-01
+ * @since 2026-01-01
  * @see Perfil
  * @see com.adrianpaneda.tarea3AD2024base.modelo.Persona
  */
