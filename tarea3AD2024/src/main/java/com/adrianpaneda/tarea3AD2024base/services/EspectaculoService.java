@@ -184,4 +184,19 @@ public class EspectaculoService {
 	public Espectaculo obtenerConDetalle(Long id) {
 		return espectaculoRepository.findByIdConDetalle(id).orElse(null);
 	}
+
+	/**
+	 * Guarda un espectáculo sin validar el mínimo de números.
+	 * <p>
+	 * Se utiliza al crear o modificar un espectáculo porque los números se añaden
+	 * en una pantalla posterior. La validación del mínimo de 3 números se realizará
+	 * al finalizar la gestión de números.
+	 * </p>
+	 *
+	 * @param espectaculo el espectáculo a guardar
+	 * @return el espectáculo guardado
+	 */
+	public Espectaculo guardarSinValidarNumeros(Espectaculo espectaculo) {
+		return espectaculoRepository.save(espectaculo);
+	}
 }

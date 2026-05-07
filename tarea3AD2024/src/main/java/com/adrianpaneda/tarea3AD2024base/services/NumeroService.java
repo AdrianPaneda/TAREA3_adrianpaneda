@@ -99,4 +99,28 @@ public class NumeroService {
 	public List<Numero> obtenerTodos() {
 		return numeroRepository.findAll();
 	}
+
+	/**
+	 * Obtiene los números de un espectáculo ordenados por su campo orden.
+	 *
+	 * @param espectaculoId el id del espectáculo
+	 * @return lista de números ordenados
+	 */
+	public List<Numero> obtenerPorEspectaculo(Long espectaculoId) {
+		return numeroRepository.findByEspectaculoIdOrderByOrdenAsc(espectaculoId);
+	}
+
+	/**
+	 * Obtiene un número con sus artistas cargados.
+	 * <p>
+	 * Utiliza JOIN FETCH para cargar los artistas del número en una sola consulta,
+	 * evitando LazyInitializationException.
+	 * </p>
+	 *
+	 * @param id el id del número
+	 * @return el número con sus artistas, o null si no existe
+	 */
+	public Numero obtenerConArtistas(Long id) {
+		return numeroRepository.findByIdConArtistas(id).orElse(null);
+	}
 }

@@ -50,11 +50,6 @@ import javafx.scene.layout.VBox;
  * Permite al administrador registrar, modificar y eliminar artistas y
  * coordinadores del sistema, incluyendo sus credenciales de acceso.
  * </p>
- * <p>
- * La pantalla se divide en dos paneles: uno con la lista de personas
- * registradas y otro con un formulario dinámico que se adapta según el tipo de
- * persona (artista o coordinación) y el modo (registro o edición).
- * </p>
  *
  * @author Adrián Pañeda Hamadi
  * @version 1.0
@@ -62,8 +57,6 @@ import javafx.scene.layout.VBox;
  */
 @Controller
 public class GestionPersonasController implements Initializable {
-
-	// ═══════════════ TABLA Y BOTONES PRINCIPALES ═══════════════
 
 	@FXML
 	private TableView<Persona> tablaPersonas;
@@ -86,7 +79,8 @@ public class GestionPersonasController implements Initializable {
 	@FXML
 	private Button btnCerrarSesion;
 
-	// ═══════════════ FORMULARIO ═══════════════
+	@FXML
+	private VBox contenedorFormulario;
 
 	@FXML
 	private ScrollPane scrollFormulario;
@@ -97,7 +91,6 @@ public class GestionPersonasController implements Initializable {
 	@FXML
 	private Label lblTituloFormulario;
 
-	// Datos personales
 	@FXML
 	private TextField txtNombre;
 
@@ -116,7 +109,6 @@ public class GestionPersonasController implements Initializable {
 	@FXML
 	private Label lblErrorNacionalidad;
 
-	// Panel artista
 	@FXML
 	private VBox panelArtista;
 
@@ -141,7 +133,6 @@ public class GestionPersonasController implements Initializable {
 	@FXML
 	private Label lblErrorEspecialidades;
 
-	// Panel coordinación
 	@FXML
 	private VBox panelCoordinacion;
 
@@ -154,7 +145,6 @@ public class GestionPersonasController implements Initializable {
 	@FXML
 	private Label lblErrorFechaSenior;
 
-	// Panel credenciales
 	@FXML
 	private VBox panelCredenciales;
 
@@ -176,8 +166,6 @@ public class GestionPersonasController implements Initializable {
 	@FXML
 	private Button btnCancelar;
 
-	// ═══════════════ DEPENDENCIAS ═══════════════
-
 	@Autowired
 	private PersonaService personaService;
 
@@ -187,19 +175,11 @@ public class GestionPersonasController implements Initializable {
 
 	private ObservableList<Persona> listaPersonas = FXCollections.observableArrayList();
 
-	/**
-	 * Modo actual del formulario. Determina qué tipo de persona se está registrando
-	 * o editando.
-	 */
 	private enum Modo {
 		REGISTRO_ARTISTA, REGISTRO_COORDINACION, EDITAR_ARTISTA, EDITAR_COORDINACION
 	}
 
 	private Modo modoActual;
-
-	/**
-	 * Persona que se está editando actualmente. Null si está en modo registro.
-	 */
 	private Persona personaEnEdicion;
 
 	@Override
@@ -210,14 +190,6 @@ public class GestionPersonasController implements Initializable {
 		ocultarFormulario();
 	}
 
-	// ═══════════════ VALIDACIÓN DE ACCESO ═══════════════
-
-	/**
-	 * Valida que el usuario tenga perfil de administrador.
-	 * <p>
-	 * Si no es admin, redirige al login.
-	 * </p>
-	 */
 	private void validarAcceso() {
 		Credenciales user = SessionManager.getCurrentUser();
 		if (user == null || user.getPerfil() != Perfil.admin) {
@@ -225,29 +197,17 @@ public class GestionPersonasController implements Initializable {
 		}
 	}
 
-	// ═══════════════ TABLA DE PERSONAS ═══════════════
-
-	/**
-	 * Configura las columnas de la tabla y añade la columna de acciones.
-	 */
 	private void configurarTabla() {
 		colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 		colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-
-		// Columna perfil: muestra "Artista" o "Coordinación" según el tipo
 		colPerfil.setCellValueFactory(cellData -> {
 			Persona p = cellData.getValue();
 			String perfil = (p instanceof Artista) ? "Artista" : "Coordinación";
 			return new SimpleStringProperty(perfil);
 		});
-
 		añadirColumnaAcciones();
 	}
 
-	/**
-	 * Añade dinámicamente una columna con botones "Editar" y "Eliminar" en cada
-	 * fila de la tabla.
-	 */
 	private void añadirColumnaAcciones() {
 		TableColumn<Persona, Void> colAcciones = new TableColumn<>("Acciones");
 		colAcciones.setPrefWidth(220.0);
@@ -269,7 +229,6 @@ public class GestionPersonasController implements Initializable {
 					Persona persona = getTableView().getItems().get(getIndex());
 					handleEditar(persona);
 				});
-
 				btnEliminar.setOnAction(event -> {
 					Persona persona = getTableView().getItems().get(getIndex());
 					handleEliminar(persona);
@@ -286,22 +245,12 @@ public class GestionPersonasController implements Initializable {
 		tablaPersonas.getColumns().add(colAcciones);
 	}
 
-	/**
-	 * Carga todas las personas desde la base de datos y las muestra en la tabla.
-	 */
 	private void cargarPersonas() {
 		listaPersonas.clear();
 		listaPersonas.addAll(personaService.obtenerTodas());
 		tablaPersonas.setItems(listaPersonas);
 	}
 
-	// ═══════════════ MODOS DEL FORMULARIO ═══════════════
-
-	/**
-	 * Maneja el evento de click en el botón "Registrar Artista".
-	 *
-	 * @param event el evento de acción del botón
-	 */
 	@FXML
 	private void handleRegistrarArtista(ActionEvent event) {
 		modoActual = Modo.REGISTRO_ARTISTA;
@@ -313,11 +262,6 @@ public class GestionPersonasController implements Initializable {
 		mostrarCredenciales(true);
 	}
 
-	/**
-	 * Maneja el evento de click en el botón "Registrar Coordinación".
-	 *
-	 * @param event el evento de acción del botón
-	 */
 	@FXML
 	private void handleRegistrarCoordinacion(ActionEvent event) {
 		modoActual = Modo.REGISTRO_COORDINACION;
@@ -329,12 +273,6 @@ public class GestionPersonasController implements Initializable {
 		mostrarCredenciales(true);
 	}
 
-	/**
-	 * Activa el modo edición rellenando el formulario con los datos de la persona
-	 * seleccionada.
-	 *
-	 * @param persona la persona a editar
-	 */
 	private void handleEditar(Persona persona) {
 		personaEnEdicion = persona;
 		limpiarFormulario();
@@ -352,26 +290,43 @@ public class GestionPersonasController implements Initializable {
 			rellenarDatosCoordinacion((Coordinacion) persona);
 		}
 
-		// Datos personales comunes
 		txtNombre.setText(persona.getNombre());
 		txtEmail.setText(persona.getEmail());
 		txtNacionalidad.setText(persona.getNacionalidad());
-
-		// En modo edición no se muestran las credenciales
 		mostrarCredenciales(false);
 	}
 
 	/**
-	 * Muestra el panel del formulario.
+	 * Muestra el panel del formulario y bloquea los botones principales.
 	 */
 	private void mostrarFormulario() {
-		scrollFormulario.setVisible(true);
-		scrollFormulario.setManaged(true);
+		contenedorFormulario.setVisible(true);
+		contenedorFormulario.setManaged(true);
+		bloquearBotones(true);
 	}
 
 	/**
-	 * Muestra el panel del formulario de artista y oculta el de coordinación.
+	 * Oculta el formulario completo y desbloquea los botones principales.
 	 */
+	private void ocultarFormulario() {
+		contenedorFormulario.setVisible(false);
+		contenedorFormulario.setManaged(false);
+		modoActual = null;
+		personaEnEdicion = null;
+		bloquearBotones(false);
+	}
+
+	/**
+	 * Bloquea o desbloquea los botones principales durante la edición o registro.
+	 *
+	 * @param bloquear true para bloquear, false para desbloquear
+	 */
+	private void bloquearBotones(boolean bloquear) {
+		btnRegistrarArtista.setDisable(bloquear);
+		btnRegistrarCoordinacion.setDisable(bloquear);
+		tablaPersonas.setDisable(bloquear);
+	}
+
 	private void mostrarFormularioArtista() {
 		panelArtista.setVisible(true);
 		panelArtista.setManaged(true);
@@ -379,9 +334,6 @@ public class GestionPersonasController implements Initializable {
 		panelCoordinacion.setManaged(false);
 	}
 
-	/**
-	 * Muestra el panel del formulario de coordinación y oculta el de artista.
-	 */
 	private void mostrarFormularioCoordinacion() {
 		panelCoordinacion.setVisible(true);
 		panelCoordinacion.setManaged(true);
@@ -389,24 +341,13 @@ public class GestionPersonasController implements Initializable {
 		panelArtista.setManaged(false);
 	}
 
-	/**
-	 * Muestra u oculta el panel de credenciales.
-	 *
-	 * @param mostrar true para mostrar, false para ocultar
-	 */
 	private void mostrarCredenciales(boolean mostrar) {
 		panelCredenciales.setVisible(mostrar);
 		panelCredenciales.setManaged(mostrar);
 	}
 
-	/**
-	 * Rellena los campos del formulario con los datos de un artista.
-	 *
-	 * @param artista el artista cuyos datos se cargarán
-	 */
 	private void rellenarDatosArtista(Artista artista) {
 		txtApodo.setText(artista.getApodo() != null ? artista.getApodo() : "");
-
 		Set<Especialidad> esp = artista.getEspecialidades();
 		if (esp != null) {
 			chkAcrobacia.setSelected(esp.contains(Especialidad.ACROBACIA));
@@ -417,28 +358,12 @@ public class GestionPersonasController implements Initializable {
 		}
 	}
 
-	/**
-	 * Rellena los campos del formulario con los datos de una coordinación.
-	 *
-	 * @param coordinacion la coordinación cuyos datos se cargarán
-	 */
 	private void rellenarDatosCoordinacion(Coordinacion coordinacion) {
 		chkSenior.setSelected(coordinacion.isSenior());
 		dateFechaSenior.setDisable(!coordinacion.isSenior());
 		dateFechaSenior.setValue(coordinacion.getFechaSenior());
 	}
 
-	// ═══════════════ TOGGLE SENIOR ═══════════════
-
-	/**
-	 * Maneja el evento de cambio del checkbox senior.
-	 * <p>
-	 * Habilita o deshabilita el DatePicker de fecha senior según el estado del
-	 * checkbox.
-	 * </p>
-	 *
-	 * @param event el evento de acción del checkbox
-	 */
 	@FXML
 	private void handleToggleSenior(ActionEvent event) {
 		boolean esSenior = chkSenior.isSelected();
@@ -448,20 +373,9 @@ public class GestionPersonasController implements Initializable {
 		}
 	}
 
-	// ═══════════════ GUARDAR ═══════════════
-
-	/**
-	 * Maneja el evento de click en el botón "Guardar".
-	 * <p>
-	 * Valida los datos y llama al método correspondiente según el modo actual.
-	 * </p>
-	 *
-	 * @param event el evento de acción del botón
-	 */
 	@FXML
 	private void handleGuardar(ActionEvent event) {
 		limpiarErrores();
-
 		if (modoActual == Modo.REGISTRO_ARTISTA) {
 			registrarArtista();
 		} else if (modoActual == Modo.REGISTRO_COORDINACION) {
@@ -473,14 +387,10 @@ public class GestionPersonasController implements Initializable {
 		}
 	}
 
-	/**
-	 * Registra un nuevo artista validando todos los datos.
-	 */
 	private void registrarArtista() {
 		if (!validarDatosPersonales() || !validarEspecialidades() || !validarCredenciales()) {
 			return;
 		}
-
 		try {
 			Artista artista = new Artista();
 			artista.setNombre(txtNombre.getText().trim());
@@ -488,13 +398,10 @@ public class GestionPersonasController implements Initializable {
 			artista.setNacionalidad(txtNacionalidad.getText().trim());
 			artista.setApodo(txtApodo.getText().trim().isEmpty() ? null : txtApodo.getText().trim());
 			artista.setEspecialidades(obtenerEspecialidadesSeleccionadas());
-
 			Credenciales credenciales = crearCredenciales(Perfil.artista);
 			artista.setCredenciales(credenciales);
-
 			personaService.validarEmailUnico(artista.getEmail());
 			personaService.guardar(artista);
-
 			cargarPersonas();
 			ocultarFormulario();
 		} catch (IllegalArgumentException e) {
@@ -502,14 +409,10 @@ public class GestionPersonasController implements Initializable {
 		}
 	}
 
-	/**
-	 * Registra una nueva coordinación validando todos los datos.
-	 */
 	private void registrarCoordinacion() {
 		if (!validarDatosPersonales() || !validarFechaSenior() || !validarCredenciales()) {
 			return;
 		}
-
 		try {
 			Coordinacion coordinacion = new Coordinacion();
 			coordinacion.setNombre(txtNombre.getText().trim());
@@ -517,13 +420,10 @@ public class GestionPersonasController implements Initializable {
 			coordinacion.setNacionalidad(txtNacionalidad.getText().trim());
 			coordinacion.setSenior(chkSenior.isSelected());
 			coordinacion.setFechaSenior(chkSenior.isSelected() ? dateFechaSenior.getValue() : null);
-
 			Credenciales credenciales = crearCredenciales(Perfil.coordinacion);
 			coordinacion.setCredenciales(credenciales);
-
 			personaService.validarEmailUnico(coordinacion.getEmail());
 			personaService.guardar(coordinacion);
-
 			cargarPersonas();
 			ocultarFormulario();
 		} catch (IllegalArgumentException e) {
@@ -531,14 +431,10 @@ public class GestionPersonasController implements Initializable {
 		}
 	}
 
-	/**
-	 * Actualiza los datos de un artista existente.
-	 */
 	private void actualizarArtista() {
 		if (!validarDatosPersonales() || !validarEspecialidades()) {
 			return;
 		}
-
 		try {
 			Artista artista = (Artista) personaEnEdicion;
 			artista.setNombre(txtNombre.getText().trim());
@@ -546,9 +442,7 @@ public class GestionPersonasController implements Initializable {
 			artista.setNacionalidad(txtNacionalidad.getText().trim());
 			artista.setApodo(txtApodo.getText().trim().isEmpty() ? null : txtApodo.getText().trim());
 			artista.setEspecialidades(obtenerEspecialidadesSeleccionadas());
-
 			personaService.actualizar(artista);
-
 			cargarPersonas();
 			ocultarFormulario();
 		} catch (IllegalArgumentException e) {
@@ -556,14 +450,10 @@ public class GestionPersonasController implements Initializable {
 		}
 	}
 
-	/**
-	 * Actualiza los datos de una coordinación existente.
-	 */
 	private void actualizarCoordinacion() {
 		if (!validarDatosPersonales() || !validarFechaSenior()) {
 			return;
 		}
-
 		try {
 			Coordinacion coordinacion = (Coordinacion) personaEnEdicion;
 			coordinacion.setNombre(txtNombre.getText().trim());
@@ -571,9 +461,7 @@ public class GestionPersonasController implements Initializable {
 			coordinacion.setNacionalidad(txtNacionalidad.getText().trim());
 			coordinacion.setSenior(chkSenior.isSelected());
 			coordinacion.setFechaSenior(chkSenior.isSelected() ? dateFechaSenior.getValue() : null);
-
 			personaService.actualizar(coordinacion);
-
 			cargarPersonas();
 			ocultarFormulario();
 		} catch (IllegalArgumentException e) {
@@ -581,21 +469,12 @@ public class GestionPersonasController implements Initializable {
 		}
 	}
 
-	// VALIDACIONES
-
-	/**
-	 * Valida los datos personales (nombre, email, nacionalidad).
-	 *
-	 * @return true si todos los datos personales son válidos
-	 */
 	private boolean validarDatosPersonales() {
 		boolean valido = true;
-
 		if (txtNombre.getText().trim().isEmpty()) {
 			lblErrorNombre.setText("El nombre es obligatorio");
 			valido = false;
 		}
-
 		String email = txtEmail.getText().trim();
 		if (email.isEmpty()) {
 			lblErrorEmail.setText("El email es obligatorio");
@@ -604,20 +483,13 @@ public class GestionPersonasController implements Initializable {
 			lblErrorEmail.setText("El formato del email no es válido");
 			valido = false;
 		}
-
 		if (txtNacionalidad.getText().trim().isEmpty()) {
 			lblErrorNacionalidad.setText("La nacionalidad es obligatoria");
 			valido = false;
 		}
-
 		return valido;
 	}
 
-	/**
-	 * Valida que se haya seleccionado al menos una especialidad.
-	 *
-	 * @return true si hay al menos una especialidad seleccionada
-	 */
 	private boolean validarEspecialidades() {
 		if (obtenerEspecialidadesSeleccionadas().isEmpty()) {
 			lblErrorEspecialidades.setText("Debe seleccionar al menos una especialidad");
@@ -626,12 +498,6 @@ public class GestionPersonasController implements Initializable {
 		return true;
 	}
 
-	/**
-	 * Valida que si el coordinador es senior, tenga fecha senior asignada y la
-	 * fecha no sea superior a la actual
-	 *
-	 * @return true si la fecha senior es válida
-	 */
 	private boolean validarFechaSenior() {
 		if (chkSenior.isSelected() && dateFechaSenior.getValue() == null) {
 			lblErrorFechaSenior.setText("Si es senior, debe indicar la fecha");
@@ -644,30 +510,21 @@ public class GestionPersonasController implements Initializable {
 		return true;
 	}
 
-	/**
-	 * Valida las credenciales (usuario y contraseña).
-	 *
-	 * @return true si las credenciales son válidas
-	 */
 	private boolean validarCredenciales() {
 		boolean valido = true;
 		String usuario = txtUsuario.getText();
 		String password = txtPassword.getText();
-
 		if (usuario.isEmpty()) {
 			lblErrorUsuario.setText("El nombre de usuario es obligatorio");
 			valido = false;
 		}
-
 		if (password.isEmpty()) {
 			lblErrorPassword.setText("La contraseña es obligatoria");
 			valido = false;
 		}
-
 		if (!valido) {
 			return false;
 		}
-
 		try {
 			personaService.validarCredenciales(usuario, password);
 		} catch (IllegalArgumentException e) {
@@ -679,17 +536,9 @@ public class GestionPersonasController implements Initializable {
 			}
 			valido = false;
 		}
-
 		return valido;
 	}
 
-	// HELPERS
-
-	/**
-	 * Obtiene el conjunto de especialidades seleccionadas en los checkboxes.
-	 *
-	 * @return conjunto de especialidades marcadas
-	 */
 	private Set<Especialidad> obtenerEspecialidadesSeleccionadas() {
 		Set<Especialidad> especialidades = new HashSet<>();
 		if (chkAcrobacia.isSelected())
@@ -705,12 +554,6 @@ public class GestionPersonasController implements Initializable {
 		return especialidades;
 	}
 
-	/**
-	 * Crea un objeto Credenciales con los datos del formulario.
-	 *
-	 * @param perfil el perfil a asignar a las credenciales
-	 * @return el objeto Credenciales creado
-	 */
 	private Credenciales crearCredenciales(Perfil perfil) {
 		Credenciales credenciales = new Credenciales();
 		credenciales.setNombreUsuario(txtUsuario.getText().trim().toLowerCase());
@@ -719,9 +562,6 @@ public class GestionPersonasController implements Initializable {
 		return credenciales;
 	}
 
-	/**
-	 * Limpia todos los campos y mensajes de error del formulario.
-	 */
 	private void limpiarFormulario() {
 		txtNombre.clear();
 		txtEmail.clear();
@@ -729,23 +569,17 @@ public class GestionPersonasController implements Initializable {
 		txtApodo.clear();
 		txtUsuario.clear();
 		txtPassword.clear();
-
 		chkAcrobacia.setSelected(false);
 		chkHumor.setSelected(false);
 		chkMagia.setSelected(false);
 		chkEquilibrismo.setSelected(false);
 		chkMalabarismo.setSelected(false);
-
 		chkSenior.setSelected(false);
 		dateFechaSenior.setValue(null);
 		dateFechaSenior.setDisable(true);
-
 		limpiarErrores();
 	}
 
-	/**
-	 * Limpia todos los mensajes de error.
-	 */
 	private void limpiarErrores() {
 		lblErrorNombre.setText("");
 		lblErrorEmail.setText("");
@@ -756,12 +590,6 @@ public class GestionPersonasController implements Initializable {
 		lblErrorPassword.setText("");
 	}
 
-	/**
-	 * Muestra un mensaje de error en el label correspondiente según el contenido
-	 * del mensaje.
-	 *
-	 * @param mensaje el mensaje de error a mostrar
-	 */
 	private void mostrarErrorGeneral(String mensaje) {
 		if (mensaje.toLowerCase().contains("email")) {
 			lblErrorEmail.setText(mensaje);
@@ -772,39 +600,16 @@ public class GestionPersonasController implements Initializable {
 		}
 	}
 
-	/**
-	 * Oculta el formulario completo (modo inicial).
-	 */
-	private void ocultarFormulario() {
-		scrollFormulario.setVisible(false);
-		scrollFormulario.setManaged(false);
-		modoActual = null;
-		personaEnEdicion = null;
-	}
-
-	// HANDLERS BOTONES
-
-	/**
-	 * Maneja el evento de click en el botón "Cancelar".
-	 *
-	 * @param event el evento de acción del botón
-	 */
 	@FXML
 	private void handleCancelar(ActionEvent event) {
 		ocultarFormulario();
 	}
 
-	/**
-	 * Muestra una confirmación y elimina la persona si se acepta.
-	 *
-	 * @param persona la persona a eliminar
-	 */
 	private void handleEliminar(Persona persona) {
 		Alert confirmacion = new Alert(AlertType.CONFIRMATION);
 		confirmacion.setTitle("Confirmar eliminación");
 		confirmacion.setHeaderText("¿Eliminar a " + persona.getNombre() + "?");
 		confirmacion.setContentText("Esta acción no se puede deshacer. Se eliminarán también sus credenciales.");
-
 		Optional<ButtonType> resultado = confirmacion.showAndWait();
 		if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
 			try {
@@ -824,17 +629,22 @@ public class GestionPersonasController implements Initializable {
 	}
 
 	/**
-	 * Maneja el evento de click en el botón "Cerrar Sesión".
-	 *
-	 * @param event el evento de acción del botón
+	 * Cierra la sesión con aviso si hay operación en curso.
 	 */
 	@FXML
 	private void handleCerrarSesion(ActionEvent event) {
+		if (modoActual != null) {
+			Alert aviso = new Alert(AlertType.WARNING);
+			aviso.setTitle("Operación en curso");
+			aviso.setHeaderText("Tiene una operación sin guardar");
+			aviso.setContentText("Debe guardar o cancelar la operación actual antes de cerrar sesión.");
+			aviso.showAndWait();
+			return;
+		}
 		Alert confirmacion = new Alert(AlertType.CONFIRMATION);
 		confirmacion.setTitle("Confirmar cierre de sesión");
 		confirmacion.setHeaderText("¿Desea cerrar sesión?");
 		confirmacion.setContentText("Volverá a la pantalla de inicio de sesión.");
-
 		Optional<ButtonType> resultado = confirmacion.showAndWait();
 		if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
 			SessionManager.logout();

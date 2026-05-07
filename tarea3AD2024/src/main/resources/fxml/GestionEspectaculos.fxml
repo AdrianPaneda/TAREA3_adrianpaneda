@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0"
+            prefWidth="1920.0" xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.adrianpaneda.tarea3AD2024base.controller.GestionEspectaculosController">
+
+   <children>
+      <StackPane prefHeight="1080.0" prefWidth="1920.0"
+                 style="-fx-background-image: url('/images/circo_background.jpg'); -fx-background-size: cover; -fx-background-position: center;">
+
+         <AnchorPane style="-fx-background-color: rgba(0, 0, 0, 0.45);">
+
+            <VBox alignment="TOP_CENTER" layoutX="60.0" layoutY="60.0"
+                  prefHeight="960.0" prefWidth="1800.0" spacing="15.0"
+                  style="-fx-background-color: rgba(255, 255, 255, 0.98); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 40, 0, 0, 8);">
+
+               <Label text="GESTIÓN DE ESPECTÁCULOS" textFill="#2563eb">
+                  <font><Font name="System Bold" size="34.0" /></font>
+               </Label>
+
+               <HBox spacing="25.0" prefHeight="780.0">
+
+                  <!-- ═══ PANEL IZQUIERDO ═══ -->
+                  <VBox spacing="12.0" prefWidth="960.0">
+
+                     <Label text="ESPECTÁCULOS REGISTRADOS" textFill="#1e293b">
+                        <font><Font name="System Bold" size="18.0" /></font>
+                     </Label>
+                     <Label prefHeight="2.0" prefWidth="960.0" style="-fx-background-color: #2563eb;" />
+
+                     <TableView fx:id="tablaEspectaculos" prefHeight="560.0" prefWidth="960.0"
+                                style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10;">
+                        <columns>
+                           <TableColumn fx:id="colNombre" prefWidth="220.0" text="Nombre"
+                                        style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER-LEFT;" />
+                           <TableColumn fx:id="colFechaInicio" prefWidth="140.0" text="Fecha Inicio"
+                                        style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+                           <TableColumn fx:id="colFechaFin" prefWidth="140.0" text="Fecha Fin"
+                                        style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+                           <TableColumn fx:id="colCoordinador" prefWidth="220.0" text="Coordinador"
+                                        style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER-LEFT;" />
+                        </columns>
+                     </TableView>
+
+                     <HBox spacing="15.0" alignment="CENTER">
+                        <VBox.margin><Insets top="8.0" /></VBox.margin>
+                        <Button fx:id="btnCrear" mnemonicParsing="false"
+                                onAction="#handleCrear"
+                                text="CREAR ESPECTÁCULO" textFill="white"
+                                style="-fx-background-color: #2563eb; -fx-background-radius: 8; -fx-padding: 10 22 10 22; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
+                           <font><Font name="System Bold" size="13.0" /></font>
+                        </Button>
+                        <Button fx:id="btnVerEspectaculos" mnemonicParsing="false"
+                                onAction="#handleVerEspectaculos"
+                                text="VER ESPECTÁCULOS" textFill="white"
+                                style="-fx-background-color: #0891b2; -fx-background-radius: 8; -fx-padding: 10 22 10 22; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
+                           <font><Font name="System Bold" size="13.0" /></font>
+                        </Button>
+                     </HBox>
+
+                     <HBox alignment="CENTER">
+                        <VBox.margin><Insets top="10.0" /></VBox.margin>
+                        <Button fx:id="btnCerrarSesion" mnemonicParsing="false"
+                                onAction="#handleCerrarSesion" text="CERRAR SESIÓN"
+                                textFill="#475569"
+                                style="-fx-background-color: transparent; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 22 10 22; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
+                           <font><Font name="System Bold" size="13.0" /></font>
+                        </Button>
+                     </HBox>
+                  </VBox>
+
+                  <!-- ═══ PANEL DERECHO: FORMULARIO ═══ -->
+                  <VBox fx:id="contenedorFormulario" spacing="0.0" prefWidth="700.0" prefHeight="780.0"
+                        managed="false" visible="false">
+
+                     <ScrollPane fx:id="scrollFormulario" prefWidth="700.0"
+                                 fitToWidth="true" hbarPolicy="NEVER"
+                                 style="-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;">
+                        <VBox.vgrow><Priority fx:constant="ALWAYS" /></VBox.vgrow>
+
+                        <VBox fx:id="panelFormulario" spacing="12.0" style="-fx-padding: 5;">
+
+                           <Label fx:id="lblTituloFormulario" text="CREAR ESPECTÁCULO" textFill="#2563eb">
+                              <font><Font name="System Bold" size="20.0" /></font>
+                           </Label>
+                           <Label prefHeight="2.0" prefWidth="680.0" style="-fx-background-color: #2563eb;" />
+
+                           <Label text="DATOS DEL ESPECTÁCULO" textFill="#1e293b">
+                              <font><Font name="System Bold" size="15.0" /></font>
+                              <VBox.margin><Insets top="8.0" /></VBox.margin>
+                           </Label>
+
+                           <VBox spacing="3.0">
+                              <Label text="Nombre (máx. 25 caracteres):" textFill="#475569">
+                                 <font><Font name="System Bold" size="13.0" /></font>
+                              </Label>
+                              <TextField fx:id="txtNombre" promptText="Nombre del espectáculo"
+                                         style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7; -fx-font-size: 13;" />
+                              <Label fx:id="lblErrorNombre" textFill="#dc2626" wrapText="true">
+                                 <font><Font size="11.0" /></font>
+                              </Label>
+                           </VBox>
+
+                           <VBox spacing="3.0">
+                              <Label text="Fecha de inicio:" textFill="#475569">
+                                 <font><Font name="System Bold" size="13.0" /></font>
+                              </Label>
+                              <DatePicker fx:id="dateFechaInicio" style="-fx-font-size: 13;" />
+                              <Label fx:id="lblErrorFechaInicio" textFill="#dc2626" wrapText="true">
+                                 <font><Font size="11.0" /></font>
+                              </Label>
+                           </VBox>
+
+                           <VBox spacing="3.0">
+                              <Label text="Fecha de fin:" textFill="#475569">
+                                 <font><Font name="System Bold" size="13.0" /></font>
+                              </Label>
+                              <DatePicker fx:id="dateFechaFin" style="-fx-font-size: 13;" />
+                              <Label fx:id="lblErrorFechaFin" textFill="#dc2626" wrapText="true">
+                                 <font><Font size="11.0" /></font>
+                              </Label>
+                           </VBox>
+
+                           <!-- COORDINADOR (solo Admin) -->
+                           <VBox fx:id="panelCoordinador" spacing="12.0" managed="false" visible="false">
+                              <Label text="ASIGNAR COORDINADOR" textFill="#1e293b">
+                                 <font><Font name="System Bold" size="15.0" /></font>
+                                 <VBox.margin><Insets top="8.0" /></VBox.margin>
+                              </Label>
+                              <VBox spacing="3.0">
+                                 <Label text="Coordinador:" textFill="#475569">
+                                    <font><Font name="System Bold" size="13.0" /></font>
+                                 </Label>
+                                 <ComboBox fx:id="comboCoordinador" prefWidth="400.0"
+                                           promptText="Seleccione coordinador"
+                                           style="-fx-font-size: 13;" />
+                                 <Label fx:id="lblErrorCoordinador" textFill="#dc2626" wrapText="true">
+                                    <font><Font size="11.0" /></font>
+                                 </Label>
+                              </VBox>
+                           </VBox>
+
+                        </VBox>
+                     </ScrollPane>
+
+                     <!-- BOTONES FIJOS -->
+                     <HBox spacing="15.0" alignment="CENTER"
+                        style="-fx-padding: 15 0 5 0; -fx-background-color: transparent;">
+                        <Button fx:id="btnGuardar" mnemonicParsing="false"
+                                onAction="#handleGuardar" text="GUARDAR" textFill="white"
+                                style="-fx-background-color: #16a34a; -fx-background-radius: 8; -fx-padding: 10 28 10 28; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
+                           <font><Font name="System Bold" size="13.0" /></font>
+                        </Button>
+                        <Button fx:id="btnCancelar" mnemonicParsing="false"
+                                onAction="#handleCancelar" text="CANCELAR" textFill="#475569"
+                                style="-fx-background-color: transparent; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 28 10 28; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
+                           <font><Font name="System Bold" size="13.0" /></font>
+                        </Button>
+                     </HBox>
+
+                  </VBox>
+
+               </HBox>
+            </VBox>
+         </AnchorPane>
+      </StackPane>
+   </children>
+</AnchorPane>

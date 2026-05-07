@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 public enum FxmlView {
 
 	/**
-	 * Pantalla de autenticación (login). CU2 - Login/Logout.
+	 * Pantalla de autenticación (login).
 	 */
 	LOGIN {
 		@Override
@@ -33,8 +33,7 @@ public enum FxmlView {
 	},
 
 	/**
-	 * Pantalla principal que lista todos los espectáculos del circo. CU1 - Ver
-	 * espectáculos.
+	 * Pantalla principal que lista todos los espectáculos del circo.
 	 */
 	ESPECTACULOS {
 		@Override
@@ -49,8 +48,7 @@ public enum FxmlView {
 	},
 
 	/**
-	 * Pantalla de detalle de un espectáculo mostrando sus números. CU4 - Ver
-	 * detalle de espectáculo.
+	 * Pantalla de detalle de un espectáculo mostrando sus números.
 	 */
 	DETALLE_ESPECTACULO {
 		@Override
@@ -66,23 +64,38 @@ public enum FxmlView {
 
 	/**
 	 * Pantalla de gestión completa de espectáculos (crear, modificar, asignar
-	 * números). CU5 - Gestionar espectáculos. Accesible para coordinación y
-	 * administrador.
+	 * números). Accesible para coordinación y administrador.
 	 */
 	GESTIONAR_ESPECTACULOS {
 		@Override
 		public String getTitle() {
-			return getStringFromResourceBundle("gestionarEspectaculos.title");
+			return getStringFromResourceBundle("fichaGestionEspectaculos.title");
 		}
 
 		@Override
 		public String getFxmlFile() {
-			return "/fxml/GestionarEspectaculos.fxml";
+			return "/fxml/GestionEspectaculos.fxml";
+		}
+	},
+
+	/**
+	 * Pantalla de gestión de números de un espectáculo seleccionado. Se accede
+	 * desde {@link #GESTIONAR_ESPECTACULOS}.
+	 */
+	GESTIONAR_NUMEROS {
+		@Override
+		public String getTitle() {
+			return getStringFromResourceBundle("fichaGestionNumeros.title");
+		}
+
+		@Override
+		public String getFxmlFile() {
+			return "/fxml/GestionNumeros.fxml";
 		}
 	},
 	/**
-	 * Pantalla de gestión de personas (artistas y coordinaciones). CU3 - Gestionar
-	 * personas. Solo accesible para el administrador.
+	 * Pantalla de gestión de personas (artistas y coordinaciones). Solo accesible
+	 * para el administrador.
 	 */
 	GESTION_PERSONAS {
 
