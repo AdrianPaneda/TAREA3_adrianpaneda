@@ -1,10 +1,23 @@
 package com.adrianpaneda.tarea3AD2024base.services;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import com.adrianpaneda.tarea3AD2024base.modelo.Persona;
 import com.adrianpaneda.tarea3AD2024base.repositorios.PersonaRepository;
@@ -161,4 +174,64 @@ public class PersonaService {
 	public List<Persona> obtenerTodas() {
 		return personaRepository.findAll();
 	}
+	
+	/**
+	 * @param nodos
+	 * @return Map<Integer,String> Metodo para recorrer nodos del xml paises
+	 * 
+	 */
+	private static Map<String, String> leerNodos(NodeList nodos) {
+
+		Map<String, String> paises = new TreeMap<>();
+		Node nodo;
+		for (int i = 0; i < nodos.getLength(); i++) {
+			nodo = nodos.item(i);
+			// Compruebo que el nodo es pais y añado al Map
+			if (nodo.getNodeName().equals("pais")) {
+				Element pais = (Element) nodo;
+				String id = pais.getElementsByTagName("id").item(0).getTextContent();
+				String nombre = pais.getElementsByTagName("nombre").item(0).getTextContent();
+				paises.put(id, nombre);
+			}
+		}
+		return paises;
+	}
+
+	/**
+	 * Metodo para listar paises
+	 * 
+	 * @param fichero
+	 * @return Map<String, String>
+	 */
+	public static Map<String, String> listarPaises(File fichero) {
+		System.out.println("**Listado de paises**");
+		Map<String, String> listaPaises = new TreeMap<>();
+		try {
+
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			factory.setIgnoringComments(true);
+			factory.setIgnoringElementContentWhitespace(true);
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document doc = builder.parse(fichero);
+			Node raiz = doc.getFirstChild();
+			System.out.println(raiz.getNodeName());
+			NodeList paises = raiz.getChildNodes();
+
+			listaPaises = leerNodos(paises);
+
+		} catch (IOException e) {
+			System.err.println("Se produjo una IOException:" + e.getLocalizedMessage());
+			e.printStackTrace();
+
+		} catch (SAXException e) {
+			System.out.println("Se produjo una SAXException: " + e.getMessage());
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			System.out.println("Se produjo una ParserConfigurationException: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return listaPaises;
+
+	}
+	
 }

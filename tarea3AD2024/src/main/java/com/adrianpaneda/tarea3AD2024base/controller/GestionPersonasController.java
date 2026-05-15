@@ -1,7 +1,12 @@
 package com.adrianpaneda.tarea3AD2024base.controller;
 
+import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -24,6 +29,7 @@ import com.adrianpaneda.tarea3AD2024base.view.FxmlView;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,6 +38,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -107,7 +114,7 @@ public class GestionPersonasController implements Initializable {
 	private Label lblErrorEmail;
 
 	@FXML
-	private TextField txtNacionalidad;
+	private ComboBox<String> txtNacionalidad;
 
 	@FXML
 	private Label lblErrorNacionalidad;
@@ -190,6 +197,8 @@ public class GestionPersonasController implements Initializable {
 
 	private Modo modoActual;
 	private Persona personaEnEdicion;
+	private ObservableList<String> nacionalidades;
+	private FilteredList<String> filtradasNacionalidades;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -197,6 +206,7 @@ public class GestionPersonasController implements Initializable {
 		configurarTabla();
 		cargarPersonas();
 		ocultarFormulario();
+		configurarNacionalidades();
 	}
 
 	private void validarAcceso() {
@@ -306,7 +316,7 @@ public class GestionPersonasController implements Initializable {
 
 		txtNombre.setText(persona.getNombre());
 		txtEmail.setText(persona.getEmail());
-		txtNacionalidad.setText(persona.getNacionalidad());
+		txtNacionalidad.setValue(persona.getNacionalidad());
 		mostrarCredenciales(false);
 	}
 
@@ -411,7 +421,7 @@ public class GestionPersonasController implements Initializable {
 			Artista artista = new Artista();
 			artista.setNombre(txtNombre.getText().trim());
 			artista.setEmail(txtEmail.getText().trim());
-			artista.setNacionalidad(txtNacionalidad.getText().trim());
+			artista.setNacionalidad(txtNacionalidad.getValue().trim());
 			artista.setApodo(txtApodo.getText().trim().isEmpty() ? null : txtApodo.getText().trim());
 			artista.setEspecialidades(obtenerEspecialidadesSeleccionadas());
 			Credenciales credenciales = crearCredenciales(Perfil.artista);
@@ -433,7 +443,7 @@ public class GestionPersonasController implements Initializable {
 			Coordinacion coordinacion = new Coordinacion();
 			coordinacion.setNombre(txtNombre.getText().trim());
 			coordinacion.setEmail(txtEmail.getText().trim());
-			coordinacion.setNacionalidad(txtNacionalidad.getText().trim());
+			coordinacion.setNacionalidad(txtNacionalidad.getValue().trim());
 			coordinacion.setSenior(chkSenior.isSelected());
 			coordinacion.setFechaSenior(chkSenior.isSelected() ? dateFechaSenior.getValue() : null);
 			Credenciales credenciales = crearCredenciales(Perfil.coordinacion);
@@ -455,7 +465,7 @@ public class GestionPersonasController implements Initializable {
 			Artista artista = (Artista) personaEnEdicion;
 			artista.setNombre(txtNombre.getText().trim());
 			artista.setEmail(txtEmail.getText().trim());
-			artista.setNacionalidad(txtNacionalidad.getText().trim());
+			artista.setNacionalidad(txtNacionalidad.getValue().trim());
 			artista.setApodo(txtApodo.getText().trim().isEmpty() ? null : txtApodo.getText().trim());
 			artista.setEspecialidades(obtenerEspecialidadesSeleccionadas());
 			personaService.actualizar(artista);
@@ -474,7 +484,7 @@ public class GestionPersonasController implements Initializable {
 			Coordinacion coordinacion = (Coordinacion) personaEnEdicion;
 			coordinacion.setNombre(txtNombre.getText().trim());
 			coordinacion.setEmail(txtEmail.getText().trim());
-			coordinacion.setNacionalidad(txtNacionalidad.getText().trim());
+			coordinacion.setNacionalidad(txtNacionalidad.getValue().trim());
 			coordinacion.setSenior(chkSenior.isSelected());
 			coordinacion.setFechaSenior(chkSenior.isSelected() ? dateFechaSenior.getValue() : null);
 			personaService.actualizar(coordinacion);
@@ -499,11 +509,27 @@ public class GestionPersonasController implements Initializable {
 			lblErrorEmail.setText("El formato del email no es válido");
 			valido = false;
 		}
-		if (txtNacionalidad.getText().trim().isEmpty()) {
+		if (txtNacionalidad.getValue().trim().isEmpty()) {
 			lblErrorNacionalidad.setText("La nacionalidad es obligatoria");
 			valido = false;
 		}
+		if(!verificarNacionalidad(txtNacionalidad.getValue())) {
+			
+			lblErrorNacionalidad.setText("Nacionalidad no válida");
+			valido = false;
+			
+		}
 		return valido;
+	}
+	
+	private boolean verificarNacionalidad(String nacionalidad) {
+		
+		File file = new File("src/main/resources/DATA/paises.xml");
+		List<String> nacionalidades = new ArrayList<>(PersonaService.listarPaises(file).values());
+		if(nacionalidades.contains(nacionalidad)) {
+			return true;
+		}else return false;
+		
 	}
 
 	private boolean validarEspecialidades() {
@@ -554,6 +580,40 @@ public class GestionPersonasController implements Initializable {
 		}
 		return valido;
 	}
+	
+	private void resetearFiltroNacionalidad() {
+	    if (filtradasNacionalidades != null) {
+	        filtradasNacionalidades.setPredicate(p -> true);
+	    }
+	}	
+	
+	private void configurarNacionalidades() {
+	    File file = new File("src/main/resources/DATA/paises.xml");
+	    Map<String, String> nacionalidadesMap = PersonaService.listarPaises(file);
+	    nacionalidades = FXCollections.observableArrayList(nacionalidadesMap.values());
+	    Collections.sort(nacionalidades);
+
+	    filtradasNacionalidades = new FilteredList<>(nacionalidades, p -> true);
+	    txtNacionalidad.setItems(filtradasNacionalidades);
+	    txtNacionalidad.setEditable(true);
+	    txtNacionalidad.setPromptText("Escribe para buscar...");
+
+	    txtNacionalidad.getEditor().textProperty().addListener((obs, oldVal, newVal) -> {
+	        final String filtro = newVal == null ? "" : newVal.toLowerCase().trim();
+
+	        if (txtNacionalidad.getValue() != null
+	            && txtNacionalidad.getValue().equalsIgnoreCase(newVal)) {
+	            return;
+	        }
+
+	        filtradasNacionalidades.setPredicate(nac -> 
+	            filtro.isEmpty() || nac.toLowerCase().contains(filtro));
+
+	        if (!filtro.isEmpty() && !filtradasNacionalidades.isEmpty()) {
+	            txtNacionalidad.show();
+	        }
+	    });
+	}
 
 	private Set<Especialidad> obtenerEspecialidadesSeleccionadas() {
 		Set<Especialidad> especialidades = new HashSet<>();
@@ -581,7 +641,6 @@ public class GestionPersonasController implements Initializable {
 	private void limpiarFormulario() {
 		txtNombre.clear();
 		txtEmail.clear();
-		txtNacionalidad.clear();
 		txtApodo.clear();
 		txtUsuario.clear();
 		txtPassword.clear();
@@ -593,6 +652,8 @@ public class GestionPersonasController implements Initializable {
 		chkSenior.setSelected(false);
 		dateFechaSenior.setValue(null);
 		dateFechaSenior.setDisable(true);
+		txtNacionalidad.setValue(null);        
+	    resetearFiltroNacionalidad();  
 		limpiarErrores();
 	}
 

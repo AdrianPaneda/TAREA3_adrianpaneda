@@ -1,6 +1,7 @@
 package com.adrianpaneda.tarea3AD2024base.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -72,6 +73,13 @@ public class DetalleEspectaculoController implements Initializable {
 
 	@FXML
 	private Label lblCoordSenior;
+	
+	@FXML
+	private Label lblFechaSenior;
+	
+	@FXML
+	private Label lblFechaSeniorTitle;
+	
 
 	// Tabla números
 	@FXML
@@ -161,12 +169,23 @@ public class DetalleEspectaculoController implements Initializable {
 			lblCoordNombre.setText("Sin asignar");
 			lblCoordEmail.setText("-");
 			lblCoordSenior.setText("-");
+			lblFechaSenior.setText("");
 			return;
 		}
 
 		lblCoordNombre.setText(coordinacion.getNombre());
 		lblCoordEmail.setText(coordinacion.getEmail());
 		lblCoordSenior.setText(coordinacion.isSenior() ? "Sí" : "No");
+		
+		if(coordinacion.isSenior()) {
+			String fechaSenior = coordinacion.getFechaSenior().toString();
+			lblFechaSenior.setText(fechaSenior);
+			
+		}else {
+			lblFechaSenior.setText("");
+			lblFechaSeniorTitle.setVisible(false);
+			
+		}
 	}
 
 	/**

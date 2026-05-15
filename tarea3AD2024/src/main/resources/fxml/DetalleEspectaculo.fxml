@@ -131,6 +131,14 @@
                            <font><Font size="15.0" /></font>
                         </Label>
                      </HBox>
+                      <HBox spacing="8.0" alignment="CENTER_LEFT">
+                        <Label fx:id="lblFechaSeniorTitle" text="Fecha Senior:" textFill="#475569">
+                           <font><Font name="System Bold" size="15.0" /></font>
+                        </Label>
+                        <Label fx:id="lblFechaSenior" textFill="#0f172a">
+                           <font><Font size="15.0" /></font>
+                        </Label>
+                     </HBox>
                   </HBox>
                </VBox>
 

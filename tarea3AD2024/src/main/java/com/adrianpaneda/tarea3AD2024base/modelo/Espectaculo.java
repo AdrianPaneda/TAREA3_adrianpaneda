@@ -2,6 +2,7 @@ package com.adrianpaneda.tarea3AD2024base.modelo;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -68,14 +69,14 @@ public class Espectaculo {
 	 * debe tener un mínimo de 3 números.
 	 */
 	@OneToMany(mappedBy = "espectaculo", fetch = FetchType.LAZY)
-	private List<Numero> numeros;
+	private Set<Numero> numeros;
 
 	/**
 	 * Obtiene la lista de números que componen este espectáculo.
 	 *
 	 * @return lista de números artísticos
 	 */
-	public List<Numero> getNumeros() {
+	public Set<Numero> getNumeros() {
 		return numeros;
 	}
 
@@ -84,7 +85,7 @@ public class Espectaculo {
 	 *
 	 * @param numeros la lista de números a asignar (mínimo 3)
 	 */
-	public void setNumeros(List<Numero> numeros) {
+	public void setNumeros(Set<Numero> numeros) {
 		this.numeros = numeros;
 	}
 
