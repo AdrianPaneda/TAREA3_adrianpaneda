@@ -19,8 +19,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.adrianpaneda.tarea3AD2024base.config.SessionManager;
+import com.adrianpaneda.tarea3AD2024base.modelo.Artista;
+import com.adrianpaneda.tarea3AD2024base.modelo.Coordinacion;
 import com.adrianpaneda.tarea3AD2024base.modelo.Persona;
+import com.adrianpaneda.tarea3AD2024base.modelo.db4o.TipoOperacion;
 import com.adrianpaneda.tarea3AD2024base.repositorios.PersonaRepository;
+import com.adrianpaneda.tarea3AD2024base.services.db4o.LogOperacionService;
 
 /**
  * Servicio para la gestión de personas del circo.
@@ -44,6 +49,9 @@ public class PersonaService {
 
 	@Autowired
 	private CredencialesService credencialesService;
+
+	@Autowired
+	private LogOperacionService logOperacionService;
 
 	/**
 	 * Valida que el email no esté duplicado en el sistema.
@@ -108,24 +116,33 @@ public class PersonaService {
 	}
 
 	/**
-	 * Guarda una persona en el sistema.
+	 * Guarda una persona en el sistema y registra la operación en el log.
 	 * <p>
-	 * Las credenciales asociadas se guardan automáticamente por cascade.
+	 * Las credenciales asociadas se guardan automáticamente por cascade. Tras
+	 * persistir la persona, se registra la operación en el historial DB4O indicando
+	 * el tipo de persona (Artista o Coordinación) y su id generado.
 	 * </p>
 	 *
 	 * @param persona la persona a guardar
 	 * @return la persona guardada con su ID generado
 	 */
+	@Transactional
 	public Persona guardar(Persona persona) {
-		return personaRepository.save(persona);
+		Persona guardada = personaRepository.save(persona);
+
+		String tipoEntidad = obtenerTipoEntidad(guardada);
+		logOperacionService.registrar(SessionManager.getCurrentUsername(), TipoOperacion.NUEVO,
+				"Se ha insertado un nuevo " + tipoEntidad + " de id " + guardada.getId());
+
+		return guardada;
 	}
 
 	/**
-	 * Actualiza los datos de una persona existente.
+	 * Actualiza los datos de una persona existente y registra la operación en el
+	 * log.
 	 * <p>
-	 * No modifica las credenciales asociadas (estas son inmutables tras el
-	 * registro). Se valida que el email sea único excluyendo el registro actual
-	 * para permitir que mantenga su email.
+	 * No modifica las credenciales asociadas. Se valida que el email sea único
+	 * excluyendo el registro actual.
 	 * </p>
 	 *
 	 * @param persona la persona a actualizar
@@ -135,14 +152,19 @@ public class PersonaService {
 	@Transactional
 	public Persona actualizar(Persona persona) {
 		validarEmailUnicoExcluyendo(persona.getEmail(), persona.getId());
-		return personaRepository.save(persona);
+		Persona actualizada = personaRepository.save(persona);
+
+		String tipoEntidad = obtenerTipoEntidad(actualizada);
+		logOperacionService.registrar(SessionManager.getCurrentUsername(), TipoOperacion.ACTUALIZACION,
+				"Se ha actualizado la información del id " + actualizada.getId() + " de " + tipoEntidad);
+
+		return actualizada;
 	}
 
 	/**
-	 * Elimina una persona del sistema por su ID.
+	 * Elimina una persona del sistema por su ID y registra la operación en el log.
 	 * <p>
-	 * Las credenciales asociadas se eliminan automáticamente por cascade
-	 * configurado en la entidad Persona.
+	 * Las credenciales asociadas se eliminan automáticamente por cascade.
 	 * </p>
 	 *
 	 * @param id el identificador de la persona a eliminar
@@ -150,10 +172,14 @@ public class PersonaService {
 	 */
 	@Transactional
 	public void eliminar(Long id) {
-		if (!personaRepository.existsById(id)) {
-			throw new IllegalArgumentException("La persona con ID " + id + " no existe");
-		}
+		Persona persona = personaRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("La persona con ID " + id + " no existe"));
+
+		String tipoEntidad = obtenerTipoEntidad(persona);
 		personaRepository.deleteById(id);
+
+		logOperacionService.registrar(SessionManager.getCurrentUsername(), TipoOperacion.BORRADO,
+				"Se ha eliminado " + tipoEntidad + " de id " + id);
 	}
 
 	/**
@@ -174,7 +200,7 @@ public class PersonaService {
 	public List<Persona> obtenerTodas() {
 		return personaRepository.findAll();
 	}
-	
+
 	/**
 	 * @param nodos
 	 * @return Map<Integer,String> Metodo para recorrer nodos del xml paises
@@ -233,5 +259,17 @@ public class PersonaService {
 		return listaPaises;
 
 	}
-	
+
+	/**
+	 * Determina el tipo concreto de persona...
+	 */
+	private String obtenerTipoEntidad(Persona persona) {
+		if (persona instanceof Artista) {
+			return "Artista";
+		} else if (persona instanceof Coordinacion) {
+			return "Coordinación";
+		}
+		return "Persona";
+	}
+
 }
