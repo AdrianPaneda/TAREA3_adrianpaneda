@@ -25,7 +25,7 @@ import com.db4o.config.EmbeddedConfiguration;
 public class DB4OConnection {
 
 	/** Ruta del fichero de base de datos DB4O. */
-	private static final String RUTA_BD = "ficheros/log.db4o";
+	private static final String RUTA_BD = "Ficheros/log.db4o";
 
 	/** Instancia única de la conexión (Singleton). */
 	private static DB4OConnection instancia;

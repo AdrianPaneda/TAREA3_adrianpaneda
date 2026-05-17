@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0"
+	prefWidth="1920.0" xmlns="http://javafx.com/javafx/21"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.adrianpaneda.tarea3AD2024base.controller.HistorialController">
+
+	<children>
+		<StackPane prefHeight="1080.0" prefWidth="1920.0"
+			style="-fx-background-image: url('/images/circo_background.jpg'); -fx-background-size: cover; -fx-background-position: center;">
+
+			<AnchorPane style="-fx-background-color: rgba(0, 0, 0, 0.45);">
+
+				<VBox alignment="TOP_CENTER" layoutX="60.0" layoutY="60.0"
+					prefHeight="960.0" prefWidth="1800.0" spacing="20.0"
+					style="-fx-background-color: rgba(255, 255, 255, 0.98); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 40, 0, 0, 8);">
+
+					<!-- TÍTULO -->
+					<Label text="HISTORIAL DE OPERACIONES" textFill="#2563eb">
+						<font>
+							<Font name="System Bold" size="34.0" />
+						</font>
+					</Label>
+
+					<!-- ═══ FILTROS ═══ -->
+					<VBox spacing="12.0">
+
+						<Label text="FILTROS DE BÚSQUEDA" textFill="#1e293b">
+							<font>
+								<Font name="System Bold" size="18.0" />
+							</font>
+						</Label>
+						<Label prefHeight="2.0" prefWidth="1740.0"
+							style="-fx-background-color: #2563eb;" />
+
+						<HBox spacing="30.0" alignment="CENTER_LEFT">
+							<VBox.margin>
+								<Insets top="5.0" />
+							</VBox.margin>
+
+							<!-- USUARIO -->
+							<VBox spacing="3.0" prefWidth="280.0">
+								<Label text="Usuario:" textFill="#475569">
+									<font>
+										<Font name="System Bold" size="13.0" />
+									</font>
+								</Label>
+								<TextField fx:id="txtUsuario"
+									promptText="Nombre de usuario (obligatorio)"
+									style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 7; -fx-font-size: 13;" />
+							</VBox>
+
+							<!-- TIPOS -->
+							<VBox spacing="5.0">
+								<Label text="Tipos de operación:" textFill="#475569">
+									<font>
+										<Font name="System Bold" size="13.0" />
+									</font>
+								</Label>
+								<HBox spacing="20.0">
+									<CheckBox fx:id="chkNuevo" text="NUEVO" textFill="#0f172a">
+										<font>
+											<Font size="13.0" />
+										</font>
+									</CheckBox>
+									<CheckBox fx:id="chkActualizacion" text="ACTUALIZACIÓN" textFill="#0f172a">
+										<font>
+											<Font size="13.0" />
+										</font>
+									</CheckBox>
+									<CheckBox fx:id="chkBorrado" text="BORRADO" textFill="#0f172a">
+										<font>
+											<Font size="13.0" />
+										</font>
+									</CheckBox>
+								</HBox>
+							</VBox>
+
+							<!-- FECHAS -->
+							<VBox spacing="3.0">
+								<Label text="Desde:" textFill="#475569">
+									<font>
+										<Font name="System Bold" size="13.0" />
+									</font>
+								</Label>
+								<DatePicker fx:id="dateDesde" style="-fx-font-size: 13;" />
+							</VBox>
+
+							<VBox spacing="3.0">
+								<Label text="Hasta:" textFill="#475569">
+									<font>
+										<Font name="System Bold" size="13.0" />
+									</font>
+								</Label>
+								<DatePicker fx:id="dateHasta" style="-fx-font-size: 13;" />
+							</VBox>
+
+						</HBox>
+
+						<!-- ERROR -->
+						<Label fx:id="lblError" textFill="#dc2626" wrapText="true">
+							<font>
+								<Font size="12.0" />
+							</font>
+						</Label>
+
+						<!-- BOTONES DE FILTRO -->
+						<HBox spacing="15.0" alignment="CENTER_LEFT">
+							<VBox.margin>
+								<Insets top="5.0" />
+							</VBox.margin>
+							<Button fx:id="btnBuscar" mnemonicParsing="false"
+								onAction="#handleBuscar" text="BUSCAR" textFill="white"
+								style="-fx-background-color: #2563eb; -fx-background-radius: 8; -fx-padding: 10 28 10 28; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
+								<font>
+									<Font name="System Bold" size="13.0" />
+								</font>
+							</Button>
+							<Button fx:id="btnLimpiar" mnemonicParsing="false"
+								onAction="#handleLimpiar" text="LIMPIAR" textFill="#475569"
+								style="-fx-background-color: transparent; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 28 10 28; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
+								<font>
+									<Font name="System Bold" size="13.0" />
+								</font>
+							</Button>
+						</HBox>
+					</VBox>
+
+					<!-- ═══ TABLA DE RESULTADOS ═══ -->
+					<VBox spacing="12.0">
+						<HBox alignment="CENTER_LEFT" spacing="15.0">
+							<Label text="OPERACIONES ENCONTRADAS" textFill="#1e293b">
+								<font>
+									<Font name="System Bold" size="18.0" />
+								</font>
+							</Label>
+							<Region HBox.hgrow="ALWAYS" />
+							<Label fx:id="lblTotal" textFill="#475569">
+								<font>
+									<Font name="System Bold" size="13.0" />
+								</font>
+							</Label>
+						</HBox>
+						<Label prefHeight="2.0" prefWidth="1740.0"
+							style="-fx-background-color: #2563eb;" />
+
+						<TableView fx:id="tablaHistorial" prefHeight="490.0"
+							prefWidth="1740.0"
+							style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10;">
+							<columns>
+								<TableColumn fx:id="colId" prefWidth="80.0" text="ID"
+									style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+								<TableColumn fx:id="colFecha" prefWidth="220.0"
+									text="Fecha y Hora"
+									style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+								<TableColumn fx:id="colUsuario" prefWidth="200.0"
+									text="Usuario"
+									style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER-LEFT;" />
+								<TableColumn fx:id="colTipo" prefWidth="180.0"
+									text="Tipo de operación"
+									style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+								<TableColumn fx:id="colResumen" prefWidth="1050.0"
+									text="Resumen"
+									style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER-LEFT;" />
+							</columns>
+						</TableView>
+					</VBox>
+
+					<!-- ═══ BOTÓN VOLVER ═══ -->
+					<HBox alignment="CENTER">
+						<VBox.margin>
+							<Insets top="10.0" />
+						</VBox.margin>
+						<Button fx:id="btnVolver" mnemonicParsing="false"
+							onAction="#handleVolver" text="VOLVER A GESTIÓN DE PERSONAS"
+							textFill="#475569"
+							style="-fx-background-color: transparent; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 12 30 12 30; -fx-font-weight: bold; -fx-font-size: 14; -fx-cursor: hand;">
+							<font>
+								<Font name="System Bold" size="14.0" />
+							</font>
+						</Button>
+					</HBox>
+
+				</VBox>
+			</AnchorPane>
+		</StackPane>
+	</children>
+</AnchorPane>

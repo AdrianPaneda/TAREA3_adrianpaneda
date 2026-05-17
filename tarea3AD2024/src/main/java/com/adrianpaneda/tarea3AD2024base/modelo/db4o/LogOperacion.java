@@ -1,6 +1,6 @@
 package com.adrianpaneda.tarea3AD2024base.modelo.db4o;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Clase que representa una operación registrada en el historial (log) del
@@ -28,7 +28,7 @@ public class LogOperacion {
 	private Long id;
 
 	/** Fecha y hora en que se produce la operación. */
-	private LocalDateTime fechaHora;
+	private Date fechaHora;
 
 	/** Nombre de usuario que realiza la operación. */
 	private String usuario;
@@ -62,7 +62,7 @@ public class LogOperacion {
 	 * @param tipoOperacion el tipo de operación
 	 * @param resumen       la descripción breve de la operación
 	 */
-	public LogOperacion(Long id, LocalDateTime fechaHora, String usuario, TipoOperacion tipoOperacion, String resumen) {
+	public LogOperacion(Long id, Date fechaHora, String usuario, TipoOperacion tipoOperacion, String resumen) {
 		this.id = id;
 		this.fechaHora = fechaHora;
 		this.usuario = usuario;
@@ -93,7 +93,7 @@ public class LogOperacion {
 	 *
 	 * @return la fecha y hora de la operación
 	 */
-	public LocalDateTime getFechaHora() {
+	public Date getFechaHora() {
 		return fechaHora;
 	}
 
@@ -102,7 +102,7 @@ public class LogOperacion {
 	 *
 	 * @param fechaHora la fecha y hora a asignar
 	 */
-	public void setFechaHora(LocalDateTime fechaHora) {
+	public void setFechaHora(Date fechaHora) {
 		this.fechaHora = fechaHora;
 	}
 

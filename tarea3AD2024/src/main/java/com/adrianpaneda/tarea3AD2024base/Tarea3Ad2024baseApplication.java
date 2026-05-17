@@ -4,8 +4,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import com.adrianpaneda.tarea3AD2024base.view.FxmlView;
 import com.adrianpaneda.tarea3AD2024base.config.StageManager;
+import com.adrianpaneda.tarea3AD2024base.config.db4o.DB4OConnection;
+import com.adrianpaneda.tarea3AD2024base.view.FxmlView;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -30,6 +31,12 @@ public class Tarea3Ad2024baseApplication extends Application {
 		stageManager = springContext.getBean(StageManager.class, primaryStage);
 		displayInitialScene();
 
+	}
+
+	@Override
+	public void stop() throws Exception {
+		DB4OConnection.getInstancia().cerrar();
+		springContext.close();
 	}
 
 	/**

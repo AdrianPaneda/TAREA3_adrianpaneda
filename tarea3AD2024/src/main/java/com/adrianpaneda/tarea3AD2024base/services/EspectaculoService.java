@@ -7,8 +7,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.adrianpaneda.tarea3AD2024base.config.SessionManager;
 import com.adrianpaneda.tarea3AD2024base.modelo.Espectaculo;
+import com.adrianpaneda.tarea3AD2024base.modelo.db4o.TipoOperacion;
 import com.adrianpaneda.tarea3AD2024base.repositorios.EspectaculoRepository;
+import com.adrianpaneda.tarea3AD2024base.services.db4o.LogOperacionService;
+
+import jakarta.transaction.Transactional;
 
 /**
  * Servicio para la gestión de espectáculos del circo.
@@ -30,6 +35,9 @@ public class EspectaculoService {
 
 	@Autowired
 	private EspectaculoRepository espectaculoRepository;
+
+	@Autowired
+	private LogOperacionService logOperacionService;
 
 	/**
 	 * Valida que el nombre del espectáculo sea único en el sistema.
@@ -114,7 +122,8 @@ public class EspectaculoService {
 	}
 
 	/**
-	 * Guarda un espectáculo en el sistema después de validar todas las reglas.
+	 * Guarda un espectáculo en el sistema después de validar todas las reglas y
+	 * registra la operación en el log.
 	 * <p>
 	 * Antes de persistir el espectáculo, se verifican todas las validaciones:
 	 * nombre único, longitud del nombre, duración máxima y mínimo de números. Si
@@ -126,14 +135,19 @@ public class EspectaculoService {
 	 * @return el espectáculo guardado con su ID generado
 	 * @throws IllegalArgumentException si alguna validación falla
 	 */
+	@Transactional
 	public Espectaculo guardar(Espectaculo espectaculo) {
-		// Validar todas las reglas antes de guardar
 		validarLongitudNombre(espectaculo.getNombre());
 		validarNombreUnico(espectaculo.getNombre());
 		validarDuracionMaxima(espectaculo.getFechaInicio(), espectaculo.getFechaFin());
 		validarMinimoNumeros(espectaculo);
 
-		return espectaculoRepository.save(espectaculo);
+		Espectaculo guardado = espectaculoRepository.save(espectaculo);
+
+		logOperacionService.registrar(SessionManager.getCurrentUsername(), TipoOperacion.NUEVO,
+				"Se ha insertado un nuevo Espectáculo de id " + guardado.getId());
+
+		return guardado;
 	}
 
 	/**
@@ -186,17 +200,32 @@ public class EspectaculoService {
 	}
 
 	/**
-	 * Guarda un espectáculo sin validar el mínimo de números.
+	 * Guarda un espectáculo sin validar el mínimo de números y registra la
+	 * operación en el log.
 	 * <p>
 	 * Se utiliza al crear o modificar un espectáculo porque los números se añaden
-	 * en una pantalla posterior. La validación del mínimo de 3 números se realizará
-	 * al finalizar la gestión de números.
+	 * en una pantalla posterior. La operación se registra como NUEVO si el
+	 * espectáculo no tenía ID previo (creación) o como ACTUALIZACION si ya existía
+	 * (modificación).
 	 * </p>
 	 *
 	 * @param espectaculo el espectáculo a guardar
 	 * @return el espectáculo guardado
 	 */
+	@Transactional
 	public Espectaculo guardarSinValidarNumeros(Espectaculo espectaculo) {
-		return espectaculoRepository.save(espectaculo);
+		boolean esNuevo = (espectaculo.getId() == null);
+
+		Espectaculo guardado = espectaculoRepository.save(espectaculo);
+
+		if (esNuevo) {
+			logOperacionService.registrar(SessionManager.getCurrentUsername(), TipoOperacion.NUEVO,
+					"Se ha insertado un nuevo Espectáculo de id " + guardado.getId());
+		} else {
+			logOperacionService.registrar(SessionManager.getCurrentUsername(), TipoOperacion.ACTUALIZACION,
+					"Se ha actualizado la información del id " + guardado.getId() + " de Espectáculo");
+		}
+
+		return guardado;
 	}
 }

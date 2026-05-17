@@ -1,6 +1,6 @@
 package com.adrianpaneda.tarea3AD2024base.services.db4o;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -47,18 +47,20 @@ public class LogOperacionService {
 	 * @param resumen       la descripción breve de la operación
 	 */
 	public void registrar(String usuario, TipoOperacion tipoOperacion, String resumen) {
+		System.out.println("Registrando usuario: " + usuario + " Tipo: " + tipoOperacion);
 		ObjectContainer db = DB4OConnection.getInstancia().getContenedor();
 
 		try {
 			LogOperacion log = new LogOperacion();
 			log.setId(generarNuevoId(db));
-			log.setFechaHora(LocalDateTime.now());
+			log.setFechaHora(new Date());
 			log.setUsuario(usuario);
 			log.setTipoOperacion(tipoOperacion);
 			log.setResumen(resumen);
 
 			db.store(log);
 			db.commit();
+
 		} catch (Exception e) {
 			db.rollback();
 			throw new RuntimeException("Error al registrar operación en el log: " + e.getMessage(), e);
@@ -138,8 +140,8 @@ public class LogOperacionService {
 	 *                    límite superior
 	 * @return lista de operaciones que cumplen los criterios indicados
 	 */
-	public List<LogOperacion> consultarConFiltros(String usuario, List<TipoOperacion> tipos, LocalDateTime fechaInicio,
-			LocalDateTime fechaFin) {
+	public List<LogOperacion> consultarConFiltros(String usuario, List<TipoOperacion> tipos, Date fechaInicio,
+			Date fechaFin) {
 		ObjectContainer db = DB4OConnection.getInstancia().getContenedor();
 
 		ObjectSet<LogOperacion> resultado = db.query(new Predicate<LogOperacion>() {
@@ -152,10 +154,10 @@ public class LogOperacionService {
 				if (tipos != null && !tipos.isEmpty() && !tipos.contains(log.getTipoOperacion())) {
 					return false;
 				}
-				if (fechaInicio != null && log.getFechaHora().isBefore(fechaInicio)) {
+				if (fechaInicio != null && log.getFechaHora().before(fechaInicio)) {
 					return false;
 				}
-				if (fechaFin != null && log.getFechaHora().isAfter(fechaFin)) {
+				if (fechaFin != null && log.getFechaHora().after(fechaFin)) {
 					return false;
 				}
 				return true;

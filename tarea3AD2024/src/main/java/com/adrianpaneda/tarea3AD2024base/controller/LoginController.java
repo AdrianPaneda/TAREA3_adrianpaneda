@@ -93,7 +93,7 @@ public class LoginController implements Initializable {
 			// Crear Credenciales falsas para el admin y poder mantener la sesion en
 			// SessionManager
 			Credenciales adminCredenciales = new Credenciales();
-			adminCredenciales.setNombreUsuario(" ");
+			adminCredenciales.setNombreUsuario("admin");
 			adminCredenciales.setPerfil(Perfil.admin);
 
 			SessionManager.setCurrentUser(adminCredenciales);

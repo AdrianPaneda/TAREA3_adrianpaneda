@@ -5,8 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.adrianpaneda.tarea3AD2024base.config.SessionManager;
 import com.adrianpaneda.tarea3AD2024base.modelo.Numero;
+import com.adrianpaneda.tarea3AD2024base.modelo.db4o.TipoOperacion;
 import com.adrianpaneda.tarea3AD2024base.repositorios.NumeroRepository;
+import com.adrianpaneda.tarea3AD2024base.services.db4o.LogOperacionService;
+
+import jakarta.transaction.Transactional;
 
 /**
  * Servicio para la gestión de números artísticos de espectáculos.
@@ -27,6 +32,9 @@ public class NumeroService {
 
 	@Autowired
 	private NumeroRepository numeroRepository;
+
+	@Autowired
+	private LogOperacionService logOperacionService;
 
 	/**
 	 * Valida que la duración del número cumpla el formato requerido.
@@ -56,20 +64,35 @@ public class NumeroService {
 	}
 
 	/**
-	 * Guarda un número artístico después de validar su duración.
+	 * Guarda un número artístico después de validar su duración y registra la
+	 * operación en el log.
 	 * <p>
 	 * Antes de persistir el número, se verifica que su duración cumpla con el
-	 * formato requerido (x.0 o x.5). Si la validación falla, se lanza una excepción
-	 * y el número no se guarda.
+	 * formato requerido (x.0 o x.5). La operación se registra como NUEVO si el
+	 * número no tenía ID previo o como ACTUALIZACION si ya existía.
 	 * </p>
 	 *
 	 * @param numero el número a guardar
 	 * @return el número guardado con su ID generado
 	 * @throws IllegalArgumentException si la duración no cumple el formato
 	 */
+	@Transactional
 	public Numero guardar(Numero numero) {
 		validarFormatoDuracion(numero.getDuracion());
-		return numeroRepository.save(numero);
+
+		boolean esNuevo = (numero.getId() == null);
+
+		Numero guardado = numeroRepository.save(numero);
+
+		if (esNuevo) {
+			logOperacionService.registrar(SessionManager.getCurrentUsername(), TipoOperacion.NUEVO,
+					"Se ha insertado un nuevo Número de id " + guardado.getId());
+		} else {
+			logOperacionService.registrar(SessionManager.getCurrentUsername(), TipoOperacion.ACTUALIZACION,
+					"Se ha actualizado la información del id " + guardado.getId() + " de Número");
+		}
+
+		return guardado;
 	}
 
 	/**

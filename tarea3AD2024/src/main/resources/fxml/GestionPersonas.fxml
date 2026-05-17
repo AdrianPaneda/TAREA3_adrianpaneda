@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.control.ComboBox?>  
+<?import javafx.scene.layout.Region?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
 	minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0"
@@ -46,13 +47,43 @@
 						<!-- ═══ PANEL IZQUIERDO ═══ -->
 						<VBox spacing="12.0" prefWidth="880.0">
 
-							<Label text="PERSONAS REGISTRADAS" textFill="#1e293b">
-								<font>
-									<Font name="System Bold" size="18.0" />
-								</font>
-							</Label>
-							<Label prefHeight="2.0" prefWidth="880.0"
-								style="-fx-background-color: #2563eb;" />
+							<HBox alignment="CENTER_LEFT" spacing="15.0">
+    <Label text="PERSONAS REGISTRADAS" textFill="#1e293b">
+        <font>
+            <Font name="System Bold" size="18.0" />
+        </font>
+    </Label>
+    
+    <!-- Spacer para empujar los botones a la derecha -->
+    <javafx.scene.layout.Region HBox.hgrow="ALWAYS" />
+    
+    <Button fx:id="btnGestionEspectaculos" mnemonicParsing="false"
+        onAction="#handleGestionEspectaculos"
+        text="GESTIONAR ESPECTÁCULOS" textFill="white"
+        style="-fx-background-color: #7c3aed; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Button>
+    <Button fx:id="btnVerEspectaculos" mnemonicParsing="false"
+        onAction="#handleVerEspectaculos"
+        text="VER ESPECTÁCULOS" textFill="white"
+        style="-fx-background-color: #0891b2; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Button>
+    <Button fx:id="btnHistorial" mnemonicParsing="false"
+        onAction="#handleHistorial"
+        text="HISTORIAL" textFill="white"
+        style="-fx-background-color: #ea580c; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Button>
+</HBox>
+<Label prefHeight="2.0" prefWidth="880.0"
+    style="-fx-background-color: #2563eb;" />
 
 							<TableView fx:id="tablaPersonas" prefHeight="560.0"
 								prefWidth="880.0"
@@ -86,28 +117,6 @@
 									mnemonicParsing="false" onAction="#handleRegistrarCoordinacion"
 									text="REGISTRAR COORDINACIÓN" textFill="white"
 									style="-fx-background-color: #2563eb; -fx-background-radius: 8; -fx-padding: 10 22 10 22; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
-									<font>
-										<Font name="System Bold" size="13.0" />
-									</font>
-								</Button>
-							</HBox>
-
-							<HBox spacing="15.0" alignment="CENTER">
-								<VBox.margin>
-									<Insets top="5.0" />
-								</VBox.margin>
-								<Button fx:id="btnGestionEspectaculos"
-									mnemonicParsing="false" onAction="#handleGestionEspectaculos"
-									text="GESTIONAR ESPECTÁCULOS" textFill="white"
-									style="-fx-background-color: #7c3aed; -fx-background-radius: 8; -fx-padding: 10 22 10 22; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
-									<font>
-										<Font name="System Bold" size="13.0" />
-									</font>
-								</Button>
-								<Button fx:id="btnVerEspectaculos"
-									mnemonicParsing="false" onAction="#handleVerEspectaculos"
-									text="VER ESPECTÁCULOS" textFill="white"
-									style="-fx-background-color: #0891b2; -fx-background-radius: 8; -fx-padding: 10 22 10 22; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
 									<font>
 										<Font name="System Bold" size="13.0" />
 									</font>

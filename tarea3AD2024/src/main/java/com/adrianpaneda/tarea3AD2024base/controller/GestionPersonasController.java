@@ -180,6 +180,9 @@ public class GestionPersonasController implements Initializable {
 	private Button btnGestionEspectaculos;
 
 	@FXML
+	private Button btnHistorial;
+
+	@FXML
 	private Button btnVerEspectaculos;
 
 	@Autowired
@@ -351,6 +354,7 @@ public class GestionPersonasController implements Initializable {
 		btnGestionEspectaculos.setDisable(bloquear);
 		btnVerEspectaculos.setDisable(bloquear);
 		tablaPersonas.setDisable(bloquear);
+		btnHistorial.setDisable(bloquear);
 	}
 
 	private void mostrarFormularioArtista() {
@@ -509,27 +513,28 @@ public class GestionPersonasController implements Initializable {
 			lblErrorEmail.setText("El formato del email no es válido");
 			valido = false;
 		}
-		if (txtNacionalidad.getValue().trim().isEmpty()) {
+		if (txtNacionalidad.getValue() == null || txtNacionalidad.getValue().toString().trim().isEmpty()) {
 			lblErrorNacionalidad.setText("La nacionalidad es obligatoria");
 			valido = false;
 		}
-		if(!verificarNacionalidad(txtNacionalidad.getValue())) {
-			
+		if (!verificarNacionalidad(txtNacionalidad.getValue())) {
+
 			lblErrorNacionalidad.setText("Nacionalidad no válida");
 			valido = false;
-			
+
 		}
 		return valido;
 	}
-	
+
 	private boolean verificarNacionalidad(String nacionalidad) {
-		
+
 		File file = new File("src/main/resources/DATA/paises.xml");
 		List<String> nacionalidades = new ArrayList<>(PersonaService.listarPaises(file).values());
-		if(nacionalidades.contains(nacionalidad)) {
+		if (nacionalidades.contains(nacionalidad)) {
 			return true;
-		}else return false;
-		
+		} else
+			return false;
+
 	}
 
 	private boolean validarEspecialidades() {
@@ -580,39 +585,37 @@ public class GestionPersonasController implements Initializable {
 		}
 		return valido;
 	}
-	
+
 	private void resetearFiltroNacionalidad() {
-	    if (filtradasNacionalidades != null) {
-	        filtradasNacionalidades.setPredicate(p -> true);
-	    }
-	}	
-	
+		if (filtradasNacionalidades != null) {
+			filtradasNacionalidades.setPredicate(p -> true);
+		}
+	}
+
 	private void configurarNacionalidades() {
-	    File file = new File("src/main/resources/DATA/paises.xml");
-	    Map<String, String> nacionalidadesMap = PersonaService.listarPaises(file);
-	    nacionalidades = FXCollections.observableArrayList(nacionalidadesMap.values());
-	    Collections.sort(nacionalidades);
+		File file = new File("src/main/resources/DATA/paises.xml");
+		Map<String, String> nacionalidadesMap = PersonaService.listarPaises(file);
+		nacionalidades = FXCollections.observableArrayList(nacionalidadesMap.values());
+		Collections.sort(nacionalidades);
 
-	    filtradasNacionalidades = new FilteredList<>(nacionalidades, p -> true);
-	    txtNacionalidad.setItems(filtradasNacionalidades);
-	    txtNacionalidad.setEditable(true);
-	    txtNacionalidad.setPromptText("Escribe para buscar...");
+		filtradasNacionalidades = new FilteredList<>(nacionalidades, p -> true);
+		txtNacionalidad.setItems(filtradasNacionalidades);
+		txtNacionalidad.setEditable(true);
+		txtNacionalidad.setPromptText("Escribe para buscar...");
 
-	    txtNacionalidad.getEditor().textProperty().addListener((obs, oldVal, newVal) -> {
-	        final String filtro = newVal == null ? "" : newVal.toLowerCase().trim();
+		txtNacionalidad.getEditor().textProperty().addListener((obs, oldVal, newVal) -> {
+			final String filtro = newVal == null ? "" : newVal.toLowerCase().trim();
 
-	        if (txtNacionalidad.getValue() != null
-	            && txtNacionalidad.getValue().equalsIgnoreCase(newVal)) {
-	            return;
-	        }
+			if (txtNacionalidad.getValue() != null && txtNacionalidad.getValue().equalsIgnoreCase(newVal)) {
+				return;
+			}
 
-	        filtradasNacionalidades.setPredicate(nac -> 
-	            filtro.isEmpty() || nac.toLowerCase().contains(filtro));
+			filtradasNacionalidades.setPredicate(nac -> filtro.isEmpty() || nac.toLowerCase().contains(filtro));
 
-	        if (!filtro.isEmpty() && !filtradasNacionalidades.isEmpty()) {
-	            txtNacionalidad.show();
-	        }
-	    });
+			if (!filtro.isEmpty() && !filtradasNacionalidades.isEmpty()) {
+				txtNacionalidad.show();
+			}
+		});
 	}
 
 	private Set<Especialidad> obtenerEspecialidadesSeleccionadas() {
@@ -652,8 +655,8 @@ public class GestionPersonasController implements Initializable {
 		chkSenior.setSelected(false);
 		dateFechaSenior.setValue(null);
 		dateFechaSenior.setDisable(true);
-		txtNacionalidad.setValue(null);        
-	    resetearFiltroNacionalidad();  
+		txtNacionalidad.setValue(null);
+		resetearFiltroNacionalidad();
 		limpiarErrores();
 	}
 
@@ -764,5 +767,28 @@ public class GestionPersonasController implements Initializable {
 			SessionManager.logout();
 			stageManager.switchScene(FxmlView.LOGIN);
 		}
+	}
+
+	/**
+	 * Maneja el evento de click en el botón "Historial".
+	 * <p>
+	 * Si hay una operación en curso (formulario abierto), avisa al usuario y no
+	 * navega. En caso contrario, navega a la pantalla de consulta del historial de
+	 * operaciones (CU10), accesible solo para el perfil Admin.
+	 * </p>
+	 *
+	 * @param event el evento de acción del botón
+	 */
+	@FXML
+	private void handleHistorial(ActionEvent event) {
+		if (modoActual != null) {
+			Alert aviso = new Alert(AlertType.WARNING);
+			aviso.setTitle("Operación en curso");
+			aviso.setHeaderText("Tiene una operación sin guardar");
+			aviso.setContentText("Debe guardar o cancelar la operación actual antes de continuar.");
+			aviso.showAndWait();
+			return;
+		}
+		stageManager.switchScene(FxmlView.HISTORIAL);
 	}
 }

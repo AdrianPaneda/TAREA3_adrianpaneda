@@ -124,6 +124,22 @@ public enum FxmlView {
 		public String getFxmlFile() {
 			return "/fxml/FichaArtista.fxml";
 		}
+	},
+
+	/**
+	 * Pantalla de consulta del historial de operaciones del sistema (CU10). Solo
+	 * accesible para el administrador. Los datos se persisten en DB4O.
+	 */
+	HISTORIAL {
+		@Override
+		public String getTitle() {
+			return getStringFromResourceBundle("historial.title");
+		}
+
+		@Override
+		public String getFxmlFile() {
+			return "/fxml/Historial.fxml";
+		}
 	};
 
 	/**
