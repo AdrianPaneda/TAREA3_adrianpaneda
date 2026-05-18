@@ -183,6 +183,9 @@ public class GestionPersonasController implements Initializable {
 	private Button btnHistorial;
 
 	@FXML
+	private Button btnIncidencias;
+
+	@FXML
 	private Button btnVerEspectaculos;
 
 	@Autowired
@@ -355,6 +358,7 @@ public class GestionPersonasController implements Initializable {
 		btnVerEspectaculos.setDisable(bloquear);
 		tablaPersonas.setDisable(bloquear);
 		btnHistorial.setDisable(bloquear);
+		btnIncidencias.setDisable(bloquear);
 	}
 
 	private void mostrarFormularioArtista() {
@@ -790,5 +794,10 @@ public class GestionPersonasController implements Initializable {
 			return;
 		}
 		stageManager.switchScene(FxmlView.HISTORIAL);
+	}
+
+	@FXML
+	private void handleIncidencias() {
+		stageManager.switchScene(FxmlView.INCIDENCIAS);
 	}
 }

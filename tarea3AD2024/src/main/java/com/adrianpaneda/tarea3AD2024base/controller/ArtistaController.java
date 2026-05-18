@@ -240,4 +240,9 @@ public class ArtistaController implements Initializable {
 			stageManager.switchScene(FxmlView.LOGIN);
 		}
 	}
+
+	@FXML
+	private void handleIncidencias() {
+		stageManager.switchScene(FxmlView.INCIDENCIAS);
+	}
 }

@@ -44,17 +44,26 @@
 
 					<HBox spacing="25.0" prefHeight="780.0">
 
-						<!-- ═══ PANEL IZQUIERDO ═══ -->
+				
 						<VBox spacing="12.0" prefWidth="880.0">
 
 							<HBox alignment="CENTER_LEFT" spacing="15.0">
-    <Label text="PERSONAS REGISTRADAS" textFill="#1e293b">
+    <HBox alignment="CENTER_LEFT">
+    <Label text="GESTIÓN DE PERSONAS" textFill="#2563eb" HBox.hgrow="ALWAYS">
         <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="System Bold" size="34.0" />
         </font>
     </Label>
+    <Region HBox.hgrow="ALWAYS" />
+    <Button fx:id="btnIncidencias" mnemonicParsing="false"
+        onAction="#handleIncidencias"
+        text="&#9888; INCIDENCIAS" textFill="white"
+        style="-fx-background-color: #dc2626; -fx-background-radius: 8; -fx-padding: 10 18 10 18; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
+        <font><Font name="System Bold" size="13.0" /></font>
+    </Button>
+</HBox>
     
-    <!-- Spacer para empujar los botones a la derecha -->
+
     <javafx.scene.layout.Region HBox.hgrow="ALWAYS" />
     
     <Button fx:id="btnGestionEspectaculos" mnemonicParsing="false"

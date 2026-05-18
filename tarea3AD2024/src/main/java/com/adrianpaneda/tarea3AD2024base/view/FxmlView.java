@@ -140,6 +140,38 @@ public enum FxmlView {
 		public String getFxmlFile() {
 			return "/fxml/Historial.fxml";
 		}
+	},
+
+	/**
+	 * Pantalla de consulta y gestión de incidencias (CU9, CU11). Accesible para
+	 * todos los usuarios autenticados.
+	 */
+	INCIDENCIAS {
+		@Override
+		public String getTitle() {
+			return getStringFromResourceBundle("incidencias.title");
+		}
+
+		@Override
+		public String getFxmlFile() {
+			return "/fxml/Incidencias.fxml";
+		}
+	},
+
+	/**
+	 * Formulario de registro de nueva incidencia (CU8). Accesible para todos los
+	 * usuarios autenticados.
+	 */
+	REGISTRAR_INCIDENCIA {
+		@Override
+		public String getTitle() {
+			return getStringFromResourceBundle("registrarIncidencia.title");
+		}
+
+		@Override
+		public String getFxmlFile() {
+			return "/fxml/RegistrarIncidencia.fxml";
+		}
 	};
 
 	/**

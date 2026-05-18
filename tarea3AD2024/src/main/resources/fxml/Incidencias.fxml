@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0"
+	prefWidth="1920.0" xmlns="http://javafx.com/javafx/21"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.adrianpaneda.tarea3AD2024base.controller.IncidenciasController">
+
+	<children>
+		<StackPane prefHeight="1080.0" prefWidth="1920.0"
+			style="-fx-background-image: url('/images/circo_background.jpg'); -fx-background-size: cover; -fx-background-position: center;">
+
+			<AnchorPane style="-fx-background-color: rgba(0, 0, 0, 0.45);">
+
+				<VBox alignment="TOP_CENTER" layoutX="60.0" layoutY="60.0"
+					prefHeight="960.0" prefWidth="1800.0" spacing="15.0"
+					style="-fx-background-color: rgba(255, 255, 255, 0.98); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 40, 0, 0, 8);">
+
+					<!-- Cabecera -->
+					<HBox alignment="CENTER_LEFT" spacing="15.0">
+						<Label text="&#9888;" textFill="#dc2626" style="-fx-font-size: 28px;" />
+						<Label text="INCIDENCIAS DEL CIRCO" textFill="#dc2626">
+							<font><Font name="System Bold" size="30.0" /></font>
+						</Label>
+						<Region HBox.hgrow="ALWAYS" />
+						<Button fx:id="btnNuevaIncidencia" mnemonicParsing="false"
+							onAction="#handleNuevaIncidencia" text="+ REGISTRAR INCIDENCIA"
+							textFill="white"
+							style="-fx-background-color: #dc2626; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;" />
+						<Button fx:id="btnVolver" mnemonicParsing="false"
+							onAction="#handleVolver" text="VOLVER" textFill="white"
+							style="-fx-background-color: #64748b; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;" />
+					</HBox>
+					<Label prefHeight="2.0" prefWidth="1740.0" style="-fx-background-color: #dc2626;" />
+
+					<!-- Layout principal -->
+					<HBox spacing="25.0" prefHeight="820.0">
+
+						<!-- PANEL FILTROS -->
+						<VBox spacing="14.0" prefWidth="340.0"
+							style="-fx-background-color: #f8fafc; -fx-background-radius: 12; -fx-padding: 20; -fx-border-color: #e2e8f0; -fx-border-width: 1.5; -fx-border-radius: 12;">
+
+							<Label text="FILTROS" textFill="#1e293b"
+								style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+							<Separator />
+
+							<VBox spacing="5.0">
+								<Label text="Tipo" textFill="#475569"
+									style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+								<ComboBox fx:id="cmbFiltroTipo" prefWidth="300.0" prefHeight="36.0"
+									promptText="Todos los tipos"
+									style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 1.5; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-size: 13px;" />
+							</VBox>
+
+							<VBox spacing="5.0">
+								<Label text="Estado" textFill="#475569"
+									style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+								<ComboBox fx:id="cmbFiltroEstado" prefWidth="300.0" prefHeight="36.0"
+									promptText="Todas"
+									style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 1.5; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-size: 13px;" />
+							</VBox>
+
+							<VBox spacing="5.0">
+								<Label text="ID Espect&#225;culo" textFill="#475569"
+									style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+								<TextField fx:id="txtFiltroEspectaculo" prefHeight="36.0"
+									promptText="Deja vac&#237;o para todos"
+									style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 1.5; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-size: 13px;" />
+							</VBox>
+
+							<VBox spacing="5.0">
+								<Label text="ID N&#250;mero" textFill="#475569"
+									style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+								<TextField fx:id="txtFiltroNumero" prefHeight="36.0"
+									promptText="Deja vac&#237;o para todos"
+									style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 1.5; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-size: 13px;" />
+							</VBox>
+
+							<Separator />
+							<Label text="Rango de fechas" textFill="#475569"
+								style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+
+							<VBox spacing="5.0">
+								<Label text="Desde" textFill="#64748b" style="-fx-font-size: 12px;" />
+								<DatePicker fx:id="dpFiltroDesde" prefWidth="300.0" prefHeight="36.0"
+									style="-fx-font-size: 13px;" />
+							</VBox>
+
+							<VBox spacing="5.0">
+								<Label text="Hasta" textFill="#64748b" style="-fx-font-size: 12px;" />
+								<DatePicker fx:id="dpFiltroHasta" prefWidth="300.0" prefHeight="36.0"
+									style="-fx-font-size: 13px;" />
+							</VBox>
+
+							<Separator />
+
+							<HBox spacing="10.0">
+								<Button fx:id="btnFiltrar" mnemonicParsing="false"
+									onAction="#handleFiltrar" text="FILTRAR" textFill="white"
+									style="-fx-background-color: #2563eb; -fx-background-radius: 8; -fx-padding: 10 20 10 20; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
+									<font><Font name="System Bold" size="13.0" /></font>
+								</Button>
+								<Button fx:id="btnLimpiarFiltros" mnemonicParsing="false"
+									onAction="#handleLimpiarFiltros" text="LIMPIAR" textFill="#475569"
+									style="-fx-background-color: #e2e8f0; -fx-background-radius: 8; -fx-padding: 10 20 10 20; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;" />
+							</HBox>
+
+						</VBox>
+
+						<!-- PANEL DERECHO -->
+						<VBox spacing="15.0" HBox.hgrow="ALWAYS">
+
+							<HBox alignment="CENTER_LEFT" spacing="10.0">
+								<Label text="Resultados:" textFill="#64748b"
+									style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+								<Label fx:id="lblContadorResultados" text="0 incidencias"
+									textFill="#2563eb"
+									style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+							</HBox>
+
+							<TableView fx:id="tablaIncidencias" prefHeight="460.0"
+								style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10;">
+								<columns>
+									<TableColumn fx:id="colId" prefWidth="70.0" text="ID"
+										style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+									<TableColumn fx:id="colFechaHora" prefWidth="180.0" text="Fecha y Hora"
+										style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+									<TableColumn fx:id="colTipo" prefWidth="130.0" text="Tipo"
+										style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+									<TableColumn fx:id="colDescripcion" prefWidth="330.0" text="Descripci&#243;n"
+										style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER-LEFT;" />
+									<TableColumn fx:id="colResuelta" prefWidth="100.0" text="Estado"
+										style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+									<TableColumn fx:id="colIdPersona" prefWidth="130.0" text="Reportada por"
+										style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+									<TableColumn fx:id="colAcciones" prefWidth="140.0" text="Acciones"
+										style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER;" />
+								</columns>
+							</TableView>
+
+							<!-- Panel resolucion (oculto por defecto, solo admin/coordinacion) -->
+							<VBox fx:id="panelResolucion" spacing="12.0" prefHeight="220.0"
+								visible="false"
+								style="-fx-background-color: #fef3c7; -fx-background-radius: 12; -fx-padding: 20; -fx-border-color: #f59e0b; -fx-border-width: 2; -fx-border-radius: 12;">
+								<HBox alignment="CENTER_LEFT" spacing="10.0">
+									<Label text="&#10003;" textFill="#92400e"
+										style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+									<Label fx:id="lblTituloResolucion" text="RESOLVER INCIDENCIA #?"
+										textFill="#92400e" style="-fx-font-size: 16px; -fx-font-weight: bold;">
+										<font><Font name="System Bold" size="16.0" /></font>
+									</Label>
+								</HBox>
+								<Label text="Acciones realizadas *" textFill="#78350f"
+									style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+								<TextArea fx:id="txtAccionesResolucion" prefHeight="90.0"
+									promptText="Describe las acciones llevadas a cabo para resolver la incidencia..."
+									wrapText="true"
+									style="-fx-background-color: white; -fx-border-color: #f59e0b; -fx-border-width: 1.5; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-size: 13px;" />
+								<HBox spacing="12.0">
+									<Button mnemonicParsing="false"
+										onAction="#handleConfirmarResolucion"
+										text="CONFIRMAR RESOLUCI&#211;N" textFill="white"
+										style="-fx-background-color: #16a34a; -fx-background-radius: 8; -fx-padding: 10 24 10 24; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
+										<font><Font name="System Bold" size="13.0" /></font>
+									</Button>
+									<Button mnemonicParsing="false"
+										onAction="#handleCancelarResolucion" text="CANCELAR" textFill="#475569"
+										style="-fx-background-color: #e2e8f0; -fx-background-radius: 8; -fx-padding: 10 24 10 24; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;" />
+									<Label fx:id="lblMensajeResolucion" text="" textFill="#16a34a"
+										style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+								</HBox>
+							</VBox>
+
+						</VBox>
+					</HBox>
+				</VBox>
+			</AnchorPane>
+		</StackPane>
+	</children>
+</AnchorPane>

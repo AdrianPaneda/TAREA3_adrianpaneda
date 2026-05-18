@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0"
+	prefWidth="1920.0" xmlns="http://javafx.com/javafx/21"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.adrianpaneda.tarea3AD2024base.controller.IncidenciasController">
+
+	<children>
+		<StackPane prefHeight="1080.0" prefWidth="1920.0"
+			style="-fx-background-image: url('/images/circo_background.jpg'); -fx-background-size: cover; -fx-background-position: center;">
+
+			<AnchorPane style="-fx-background-color: rgba(0, 0, 0, 0.45);">
+
+				<VBox alignment="TOP_CENTER" layoutX="560.0" layoutY="130.0"
+					prefHeight="820.0" prefWidth="800.0" spacing="22.0"
+					style="-fx-background-color: rgba(255, 255, 255, 0.98); -fx-background-radius: 20; -fx-padding: 50; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 40, 0, 0, 8);">
+
+					<!-- Cabecera -->
+					<HBox alignment="CENTER_LEFT" spacing="15.0">
+						<Label text="&#9888;" textFill="#dc2626" style="-fx-font-size: 32px;" />
+						<Label text="REGISTRAR INCIDENCIA" textFill="#dc2626">
+							<font><Font name="System Bold" size="32.0" /></font>
+						</Label>
+					</HBox>
+					<Label prefHeight="2.0" prefWidth="700.0"
+						style="-fx-background-color: #dc2626;" />
+
+					<!-- Tipo -->
+					<VBox spacing="6.0">
+						<Label text="Tipo de Incidencia *" textFill="#1e293b"
+							style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+						<ComboBox fx:id="cmbTipo" prefWidth="700.0" prefHeight="40.0"
+							promptText="Seleccione el tipo..."
+							style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 1.5; -fx-border-radius: 8; -fx-background-radius: 8; -fx-font-size: 14px;" />
+					</VBox>
+
+					<!-- Descripcion -->
+					<VBox spacing="6.0">
+						<Label text="Descripci&#243;n *" textFill="#1e293b"
+							style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+						<TextArea fx:id="txtDescripcion" prefWidth="700.0" prefHeight="130.0"
+							promptText="Describa la incidencia (m&#225;ximo 1000 caracteres)..."
+							wrapText="true"
+							style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 1.5; -fx-border-radius: 8; -fx-background-radius: 8; -fx-font-size: 14px;" />
+						<Label fx:id="lblContadorDesc" text="0 / 1000" textFill="#94a3b8"
+							style="-fx-font-size: 12px;" />
+					</VBox>
+
+					<Separator />
+
+					<!-- Asociaciones opcionales -->
+					<Label text="Asociaciones opcionales" textFill="#64748b"
+						style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+
+					<HBox spacing="30.0">
+						<VBox spacing="6.0" prefWidth="330.0">
+							<Label text="ID Espect&#225;culo (opcional)" textFill="#1e293b"
+								style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+							<TextField fx:id="txtIdEspectaculo" prefHeight="38.0"
+								promptText="Ej: 1"
+								style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 1.5; -fx-border-radius: 8; -fx-background-radius: 8; -fx-font-size: 14px;" />
+						</VBox>
+						<VBox spacing="6.0" prefWidth="330.0">
+							<Label text="ID N&#250;mero (opcional)" textFill="#1e293b"
+								style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+							<TextField fx:id="txtIdNumero" prefHeight="38.0"
+								promptText="Ej: 5"
+								style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 1.5; -fx-border-radius: 8; -fx-background-radius: 8; -fx-font-size: 14px;" />
+						</VBox>
+					</HBox>
+
+					<!-- Mensaje exito/error -->
+					<Label fx:id="lblMensaje" text="" prefHeight="24.0"
+						style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+
+					<!-- Botones -->
+					<HBox spacing="20.0" alignment="CENTER">
+						<VBox.margin><Insets top="10.0" /></VBox.margin>
+						<Button mnemonicParsing="false"
+							onAction="#handleRegistrar" text="REGISTRAR INCIDENCIA" textFill="white"
+							style="-fx-background-color: #dc2626; -fx-background-radius: 8; -fx-padding: 14 40 14 40; -fx-font-weight: bold; -fx-font-size: 15; -fx-cursor: hand;">
+							<font><Font name="System Bold" size="15.0" /></font>
+						</Button>
+						<Button mnemonicParsing="false"
+							onAction="#handleVolverDesdeRegistro" text="VOLVER" textFill="white"
+							style="-fx-background-color: #64748b; -fx-background-radius: 8; -fx-padding: 14 40 14 40; -fx-font-weight: bold; -fx-font-size: 15; -fx-cursor: hand;">
+							<font><Font name="System Bold" size="15.0" /></font>
+						</Button>
+					</HBox>
+
+				</VBox>
+			</AnchorPane>
+		</StackPane>
+	</children>
+</AnchorPane>

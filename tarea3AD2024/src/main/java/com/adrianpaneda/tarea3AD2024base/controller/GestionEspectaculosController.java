@@ -120,6 +120,9 @@ public class GestionEspectaculosController implements Initializable {
 	private Button btnCerrarSesion;
 
 	@FXML
+	private Button btnIncidencias;
+
+	@FXML
 	private Button btnGuardar;
 
 	@FXML
@@ -413,6 +416,7 @@ public class GestionEspectaculosController implements Initializable {
 		btnCrear.setDisable(bloquear);
 		btnVerEspectaculos.setDisable(bloquear);
 		tablaEspectaculos.setDisable(bloquear);
+		btnIncidencias.setDisable(bloquear);
 	}
 
 	private void limpiarFormulario() {
@@ -498,5 +502,10 @@ public class GestionEspectaculosController implements Initializable {
 				stageManager.switchScene(FxmlView.LOGIN);
 			}
 		}
+	}
+
+	@FXML
+	private void handleIncidencias() {
+		stageManager.switchScene(FxmlView.INCIDENCIAS);
 	}
 }
