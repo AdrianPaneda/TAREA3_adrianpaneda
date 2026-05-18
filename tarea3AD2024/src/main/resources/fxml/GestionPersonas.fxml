@@ -17,7 +17,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.control.ComboBox?>  
-<?import javafx.scene.layout.Region?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
 	minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0"
@@ -29,8 +28,7 @@
 		<StackPane prefHeight="1080.0" prefWidth="1920.0"
 			style="-fx-background-image: url('/images/circo_background.jpg'); -fx-background-size: cover; -fx-background-position: center;">
 
-			<AnchorPane
-				style="-fx-background-color: rgba(0, 0, 0, 0.45);">
+			<AnchorPane style="-fx-background-color: rgba(0, 0, 0, 0.45);">
 
 				<VBox alignment="TOP_CENTER" layoutX="60.0" layoutY="60.0"
 					prefHeight="960.0" prefWidth="1800.0" spacing="15.0"
@@ -44,55 +42,38 @@
 
 					<HBox spacing="25.0" prefHeight="780.0">
 
-				
+						<!-- ═══ PANEL IZQUIERDO ═══ -->
 						<VBox spacing="12.0" prefWidth="880.0">
 
+							<!-- Barra de botones superior alineada de forma simple -->
 							<HBox alignment="CENTER_LEFT" spacing="15.0">
-    <HBox alignment="CENTER_LEFT">
-    <Label text="GESTIÓN DE PERSONAS" textFill="#2563eb" HBox.hgrow="ALWAYS">
-        <font>
-            <Font name="System Bold" size="34.0" />
-        </font>
-    </Label>
-    <Region HBox.hgrow="ALWAYS" />
-    <Button fx:id="btnIncidencias" mnemonicParsing="false"
-        onAction="#handleIncidencias"
-        text="&#9888; INCIDENCIAS" textFill="white"
-        style="-fx-background-color: #dc2626; -fx-background-radius: 8; -fx-padding: 10 18 10 18; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;">
-        <font><Font name="System Bold" size="13.0" /></font>
-    </Button>
-</HBox>
-    
-
-    <javafx.scene.layout.Region HBox.hgrow="ALWAYS" />
-    
-    <Button fx:id="btnGestionEspectaculos" mnemonicParsing="false"
-        onAction="#handleGestionEspectaculos"
-        text="GESTIONAR ESPECTÁCULOS" textFill="white"
-        style="-fx-background-color: #7c3aed; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;">
-        <font>
-            <Font name="System Bold" size="12.0" />
-        </font>
-    </Button>
-    <Button fx:id="btnVerEspectaculos" mnemonicParsing="false"
-        onAction="#handleVerEspectaculos"
-        text="VER ESPECTÁCULOS" textFill="white"
-        style="-fx-background-color: #0891b2; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;">
-        <font>
-            <Font name="System Bold" size="12.0" />
-        </font>
-    </Button>
-    <Button fx:id="btnHistorial" mnemonicParsing="false"
-        onAction="#handleHistorial"
-        text="HISTORIAL" textFill="white"
-        style="-fx-background-color: #ea580c; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;">
-        <font>
-            <Font name="System Bold" size="12.0" />
-        </font>
-    </Button>
-</HBox>
-<Label prefHeight="2.0" prefWidth="880.0"
-    style="-fx-background-color: #2563eb;" />
+								<Button fx:id="btnGestionEspectaculos" mnemonicParsing="false"
+									onAction="#handleGestionEspectaculos"
+									text="GESTIONAR ESPECTÁCULOS" textFill="white"
+									style="-fx-background-color: #7c3aed; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;">
+									<font><Font name="System Bold" size="12.0" /></font>
+								</Button>
+								<Button fx:id="btnVerEspectaculos" mnemonicParsing="false"
+									onAction="#handleVerEspectaculos"
+									text="VER ESPECTÁCULOS" textFill="white"
+									style="-fx-background-color: #0891b2; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;">
+									<font><Font name="System Bold" size="12.0" /></font>
+								</Button>
+								<Button fx:id="btnHistorial" mnemonicParsing="false"
+									onAction="#handleHistorial"
+									text="HISTORIAL" textFill="white"
+									style="-fx-background-color: #ea580c; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;">
+									<font><Font name="System Bold" size="12.0" /></font>
+								</Button>
+								<Button fx:id="btnIncidencias" mnemonicParsing="false"
+									onAction="#handleIncidencias"
+									text="⚠ INCIDENCIAS" textFill="white"
+									style="-fx-background-color: #dc2626; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;">
+									<font><Font name="System Bold" size="12.0" /></font>
+								</Button>
+							</HBox>
+							
+							<Label prefHeight="2.0" prefWidth="880.0" style="-fx-background-color: #2563eb;" />
 
 							<TableView fx:id="tablaPersonas" prefHeight="560.0"
 								prefWidth="880.0"

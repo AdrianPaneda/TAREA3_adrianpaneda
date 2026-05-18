@@ -91,6 +91,9 @@ public class ArtistaController implements Initializable {
 	@Autowired
 	private ArtistaService artistaService;
 
+	@FXML
+	private Button btnIncidencias;
+
 	@Lazy
 	@Autowired
 	private StageManager stageManager;

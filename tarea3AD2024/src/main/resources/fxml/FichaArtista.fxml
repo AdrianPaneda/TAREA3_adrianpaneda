@@ -3,9 +3,10 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<!-- Se añade la importación de AnchorPane requerida para el nuevo diseño de la cabecera -->
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -30,15 +31,20 @@
                   spacing="25.0"
                   style="-fx-background-color: rgba(255, 255, 255, 0.98); -fx-background-radius: 20; -fx-padding: 50; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 40, 0, 0, 8);">
 
-               <!-- Título -->
-               <Label text="MI FICHA EN EL CIRCO" textFill="#2563eb">
-                  <font>
-                     <Font name="System Bold" size="38.0" />
-                  </font>
+               <!-- Cabecera de la Vista con Botón de Incidencias en la Esquina Superior Derecha -->
+               <AnchorPane prefWidth="1300.0">
+                  <children>
+                     <Label alignment="CENTER" text="MI FICHA EN EL CIRCO" textFill="#2563eb" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <font><Font name="System Bold" size="38.0" /></font>
+                     </Label>
+                     <Button fx:id="btnIncidencias" mnemonicParsing="false" onAction="#handleIncidencias" text="⚠️ INCIDENCIAS" textFill="white" style="-fx-background-color: #dc2626; -fx-background-radius: 8; -fx-padding: 12 24 12 24; -fx-font-weight: bold; -fx-font-size: 14; -fx-cursor: hand;" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="4.0">
+                        <font><Font name="System Bold" size="14.0" /></font>
+                     </Button>
+                  </children>
                   <VBox.margin>
                      <Insets bottom="5.0" />
                   </VBox.margin>
-               </Label>
+               </AnchorPane>
 
                <!-- ═══ SECCIÓN DATOS PERSONALES ═══ -->
                <VBox spacing="15.0">
