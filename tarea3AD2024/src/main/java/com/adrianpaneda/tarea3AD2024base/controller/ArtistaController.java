@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
+import com.adrianpaneda.tarea3AD2024base.config.HelpStageManager;
 import com.adrianpaneda.tarea3AD2024base.config.SessionManager;
 import com.adrianpaneda.tarea3AD2024base.config.StageManager;
 import com.adrianpaneda.tarea3AD2024base.modelo.Artista;
@@ -98,8 +99,18 @@ public class ArtistaController implements Initializable {
 	@Autowired
 	private StageManager stageManager;
 
+	@Autowired
+	private HelpStageManager helpStageManager;
+
 	private ObservableList<Numero> listaTrayectoria = FXCollections.observableArrayList();
 
+	/**
+	 * Punto de entrada JavaFX: valida el acceso, obtiene el artista en sesión y
+	 * carga sus datos personales y trayectoria en pantalla.
+	 *
+	 * @param location  la URL del FXML cargado
+	 * @param resources el bundle de recursos (no utilizado)
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -244,8 +255,20 @@ public class ArtistaController implements Initializable {
 		}
 	}
 
+	/**
+	 * Navega a la pantalla de consulta de incidencias.
+	 */
 	@FXML
 	private void handleIncidencias() {
 		stageManager.switchScene(FxmlView.INCIDENCIAS);
+	}
+
+	/**
+	 * Abre la ventana de ayuda contextual mostrando la sección de la ficha de
+	 * artista.
+	 */
+	@FXML
+	private void handleAyuda() {
+		helpStageManager.showHelp(FxmlView.FICHA_ARTISTA);
 	}
 }

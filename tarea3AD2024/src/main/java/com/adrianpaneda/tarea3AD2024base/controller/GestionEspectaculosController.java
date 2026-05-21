@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
+import com.adrianpaneda.tarea3AD2024base.config.HelpStageManager;
 import com.adrianpaneda.tarea3AD2024base.config.SessionManager;
 import com.adrianpaneda.tarea3AD2024base.config.StageManager;
 import com.adrianpaneda.tarea3AD2024base.modelo.Coordinacion;
@@ -138,6 +139,9 @@ public class GestionEspectaculosController implements Initializable {
 	@Autowired
 	private StageManager stageManager;
 
+	@Autowired
+	private HelpStageManager helpStageManager;
+
 	private ObservableList<Espectaculo> listaEspectaculos = FXCollections.observableArrayList();
 
 	private enum Modo {
@@ -156,6 +160,12 @@ public class GestionEspectaculosController implements Initializable {
 		configurarBotonVolver();
 	}
 
+	/**
+	 * Verifica que el usuario tenga perfil de coordinación o administrador.
+	 * <p>
+	 * Si no cumple el requisito, redirige al login.
+	 * </p>
+	 */
 	private void validarAcceso() {
 		Perfil perfil = SessionManager.getCurrentPerfil();
 		if (perfil != Perfil.coordinacion && perfil != Perfil.admin) {
@@ -163,6 +173,10 @@ public class GestionEspectaculosController implements Initializable {
 		}
 	}
 
+	/**
+	 * Configura las columnas de la tabla de espectáculos y añade la columna de
+	 * acciones (Editar / Números).
+	 */
 	private void configurarTabla() {
 		colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 		colFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicio"));
@@ -174,6 +188,9 @@ public class GestionEspectaculosController implements Initializable {
 		añadirColumnaAcciones();
 	}
 
+	/**
+	 * Añade dinámicamente la columna "Acciones" con los botones Editar y Números.
+	 */
 	private void añadirColumnaAcciones() {
 		TableColumn<Espectaculo, Void> colAcciones = new TableColumn<>("Acciones");
 		colAcciones.setPrefWidth(220.0);
@@ -211,12 +228,20 @@ public class GestionEspectaculosController implements Initializable {
 		tablaEspectaculos.getColumns().add(colAcciones);
 	}
 
+	/**
+	 * Carga todos los espectáculos desde la base de datos y los muestra en la
+	 * tabla.
+	 */
 	private void cargarEspectaculos() {
 		listaEspectaculos.clear();
 		listaEspectaculos.addAll(espectaculoService.obtenerTodos());
 		tablaEspectaculos.setItems(listaEspectaculos);
 	}
 
+	/**
+	 * Configura el ComboBox de coordinadores con todos los coordinadores del
+	 * sistema, mostrando su nombre como etiqueta.
+	 */
 	private void configurarComboCoordinador() {
 		comboCoordinador.setItems(FXCollections.observableArrayList(coordinacionService.obtenerTodas()));
 		comboCoordinador.setButtonCell(new ListCell<>() {
@@ -235,6 +260,14 @@ public class GestionEspectaculosController implements Initializable {
 		});
 	}
 
+	/**
+	 * Maneja el evento de click en el botón "Crear espectáculo".
+	 * <p>
+	 * Muestra el formulario en modo creación y lo configura con los campos vacíos.
+	 * </p>
+	 *
+	 * @param event el evento de acción del botón
+	 */
 	@FXML
 	private void handleCrear(ActionEvent event) {
 		modoActual = Modo.CREAR;
@@ -245,6 +278,11 @@ public class GestionEspectaculosController implements Initializable {
 		configurarPanelCoordinador();
 	}
 
+	/**
+	 * Abre el formulario en modo edición con los datos del espectáculo indicado.
+	 *
+	 * @param espectaculo el espectáculo cuyos datos se cargarán en el formulario
+	 */
 	private void handleEditar(Espectaculo espectaculo) {
 		modoActual = Modo.EDITAR;
 		espectaculoEnEdicion = espectaculo;
@@ -267,6 +305,15 @@ public class GestionEspectaculosController implements Initializable {
 		}
 	}
 
+	/**
+	 * Navega a la pantalla de gestión de números del espectáculo seleccionado.
+	 * <p>
+	 * Si hay una operación sin guardar en el formulario, muestra un aviso y no
+	 * navega.
+	 * </p>
+	 *
+	 * @param espectaculo el espectáculo cuyos números se gestionarán
+	 */
 	private void handleNumeros(Espectaculo espectaculo) {
 		if (modoActual != null) {
 			Alert aviso = new Alert(AlertType.WARNING);
@@ -280,6 +327,12 @@ public class GestionEspectaculosController implements Initializable {
 		stageManager.switchScene(FxmlView.GESTIONAR_NUMEROS);
 	}
 
+	/**
+	 * Muestra u oculta el panel de selección de coordinador según el perfil.
+	 * <p>
+	 * Solo el perfil {@code admin} puede asignar un coordinador al espectáculo.
+	 * </p>
+	 */
 	private void configurarPanelCoordinador() {
 		if (SessionManager.getCurrentPerfil() == Perfil.admin) {
 			panelCoordinador.setVisible(true);
@@ -291,6 +344,15 @@ public class GestionEspectaculosController implements Initializable {
 		}
 	}
 
+	/**
+	 * Maneja el evento de click en el botón "Guardar".
+	 * <p>
+	 * Valida el formulario y, si es correcto, ejecuta la operación de creación o
+	 * actualización según el modo activo.
+	 * </p>
+	 *
+	 * @param event el evento de acción del botón
+	 */
 	@FXML
 	private void handleGuardar(ActionEvent event) {
 		limpiarErrores();
@@ -304,6 +366,11 @@ public class GestionEspectaculosController implements Initializable {
 		}
 	}
 
+	/**
+	 * Crea un nuevo espectáculo con los datos del formulario y lo persiste.
+	 *
+	 * @throws IllegalArgumentException si alguna validación de negocio falla
+	 */
 	private void crearEspectaculo() {
 		try {
 			Espectaculo espectaculo = new Espectaculo();
@@ -322,6 +389,12 @@ public class GestionEspectaculosController implements Initializable {
 		}
 	}
 
+	/**
+	 * Actualiza el espectáculo en edición con los datos del formulario y lo
+	 * persiste.
+	 *
+	 * @throws IllegalArgumentException si alguna validación de negocio falla
+	 */
 	private void actualizarEspectaculo() {
 		try {
 			espectaculoEnEdicion.setNombre(txtNombre.getText().trim());
@@ -339,6 +412,16 @@ public class GestionEspectaculosController implements Initializable {
 		}
 	}
 
+	/**
+	 * Asigna el coordinador al espectáculo según el perfil activo.
+	 * <p>
+	 * El administrador selecciona el coordinador en el ComboBox; la coordinación
+	 * se asigna automáticamente a sí misma buscando por su nombre de usuario en
+	 * sesión.
+	 * </p>
+	 *
+	 * @param espectaculo el espectáculo al que se asignará el coordinador
+	 */
 	private void asignarCoordinador(Espectaculo espectaculo) {
 		if (SessionManager.getCurrentPerfil() == Perfil.admin) {
 			espectaculo.setCoordinacion(comboCoordinador.getValue());
@@ -351,6 +434,11 @@ public class GestionEspectaculosController implements Initializable {
 		}
 	}
 
+	/**
+	 * Valida los datos introducidos en el formulario de espectáculo.
+	 *
+	 * @return {@code true} si todos los campos son válidos
+	 */
 	private boolean validarFormulario() {
 		boolean valido = true;
 		String nombre = txtNombre.getText().trim();
@@ -419,6 +507,9 @@ public class GestionEspectaculosController implements Initializable {
 		btnIncidencias.setDisable(bloquear);
 	}
 
+	/**
+	 * Limpia todos los campos del formulario de espectáculo.
+	 */
 	private void limpiarFormulario() {
 		txtNombre.clear();
 		dateFechaInicio.setValue(null);
@@ -427,6 +518,9 @@ public class GestionEspectaculosController implements Initializable {
 		limpiarErrores();
 	}
 
+	/**
+	 * Limpia los mensajes de error del formulario.
+	 */
 	private void limpiarErrores() {
 		lblErrorNombre.setText("");
 		lblErrorFechaInicio.setText("");
@@ -434,6 +528,12 @@ public class GestionEspectaculosController implements Initializable {
 		lblErrorCoordinador.setText("");
 	}
 
+	/**
+	 * Muestra un mensaje de error en el campo del formulario más relacionado con
+	 * el contenido del mensaje.
+	 *
+	 * @param mensaje el mensaje de error a mostrar
+	 */
 	private void mostrarErrorGeneral(String mensaje) {
 		if (mensaje.toLowerCase().contains("nombre")) {
 			lblErrorNombre.setText(mensaje);
@@ -444,11 +544,28 @@ public class GestionEspectaculosController implements Initializable {
 		}
 	}
 
+	/**
+	 * Maneja el evento de click en el botón "Cancelar".
+	 * <p>
+	 * Oculta el formulario descartando los cambios en curso.
+	 * </p>
+	 *
+	 * @param event el evento de acción del botón
+	 */
 	@FXML
 	private void handleCancelar(ActionEvent event) {
 		ocultarFormulario();
 	}
 
+	/**
+	 * Maneja el evento de click en el botón "Ver espectáculos".
+	 * <p>
+	 * Navega a la vista de listado de espectáculos. Si hay una operación en curso,
+	 * muestra un aviso y no navega.
+	 * </p>
+	 *
+	 * @param event el evento de acción del botón
+	 */
 	@FXML
 	private void handleVerEspectaculos(ActionEvent event) {
 		if (modoActual != null) {
@@ -475,6 +592,16 @@ public class GestionEspectaculosController implements Initializable {
 		}
 	}
 
+	/**
+	 * Maneja el evento del botón inferior, cuyo comportamiento varía según el
+	 * perfil:
+	 * <ul>
+	 * <li>Coordinación → cierra sesión y vuelve al login.</li>
+	 * <li>Admin → navega a gestión de personas.</li>
+	 * </ul>
+	 *
+	 * @param event el evento de acción del botón
+	 */
 	@FXML
 	private void handleCerrarSesion(ActionEvent event) {
 		if (modoActual != null) {
@@ -504,8 +631,23 @@ public class GestionEspectaculosController implements Initializable {
 		}
 	}
 
+	/**
+	 * Maneja el evento de click en el botón "Incidencias".
+	 * <p>
+	 * Navega a la pantalla de consulta y gestión de incidencias.
+	 * </p>
+	 */
 	@FXML
 	private void handleIncidencias() {
 		stageManager.switchScene(FxmlView.INCIDENCIAS);
+	}
+
+	/**
+	 * Abre la ventana de ayuda contextual mostrando la sección de gestión de
+	 * espectáculos.
+	 */
+	@FXML
+	private void handleAyuda() {
+		helpStageManager.showHelp(FxmlView.GESTIONAR_ESPECTACULOS);
 	}
 }

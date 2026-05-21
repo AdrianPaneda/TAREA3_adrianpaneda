@@ -17,6 +17,19 @@ import jakarta.persistence.TypedQuery;
 /**
  * Repositorio para el acceso a datos de incidencias y resoluciones persistidas
  * en la base de datos ObjectDB.
+ * <p>
+ * A diferencia de los repositorios JPA para MySQL (que extienden
+ * {@code JpaRepository}), este repositorio gestiona manualmente el
+ * {@link EntityManager} de ObjectDB, ya que Spring Data JPA no está configurado
+ * para ObjectDB en esta aplicación. Los {@code EntityManager} se crean y
+ * cierran desde el servicio llamante.
+ * </p>
+ *
+ * @author Adrián Pañeda Hamadi
+ * @version 1.0
+ * @since 2025-01-01
+ * @see com.adrianpaneda.tarea3AD2024base.services.objectdb.IncidenciaService
+ * @see com.adrianpaneda.tarea3AD2024base.config.ObjectDBConnection
  */
 @Repository
 public class IncidenciaRepository {
@@ -25,34 +38,90 @@ public class IncidenciaRepository {
 	private ObjectDBConnection objectDBConnection;
 
 	/**
-	 * Crea un nuevo EntityManager para operaciones sobre ObjectDB.
+	 * Crea un nuevo EntityManager para realizar operaciones sobre ObjectDB.
+	 * <p>
+	 * El llamante es responsable de cerrar el EntityManager tras su uso mediante
+	 * {@code em.close()}.
+	 * </p>
+	 *
+	 * @return un nuevo EntityManager conectado a ObjectDB
 	 */
 	public EntityManager crearEntityManager() {
 		return objectDBConnection.crearEntityManager();
 	}
 
+	/**
+	 * Persiste una nueva incidencia en ObjectDB.
+	 *
+	 * @param em         el EntityManager con la transacción activa
+	 * @param incidencia la incidencia a persistir
+	 */
 	public void guardar(EntityManager em, Incidencia incidencia) {
 		em.persist(incidencia);
 	}
 
+	/**
+	 * Actualiza una incidencia existente en ObjectDB.
+	 *
+	 * @param em         el EntityManager con la transacción activa
+	 * @param incidencia la incidencia con los datos actualizados
+	 * @return la incidencia gestionada tras la operación de merge
+	 */
 	public Incidencia actualizar(EntityManager em, Incidencia incidencia) {
 		return em.merge(incidencia);
 	}
 
+	/**
+	 * Busca una incidencia por su identificador.
+	 *
+	 * @param em el EntityManager activo
+	 * @param id el identificador de la incidencia
+	 * @return la incidencia encontrada, o {@code null} si no existe
+	 */
 	public Incidencia buscarPorId(EntityManager em, Long id) {
 		return em.find(Incidencia.class, id);
 	}
 
+	/**
+	 * Persiste una nueva resolución de incidencia en ObjectDB.
+	 *
+	 * @param em         el EntityManager con la transacción activa
+	 * @param resolucion la resolución a persistir
+	 */
 	public void guardarResolucion(EntityManager em, ResolucionIncidencia resolucion) {
 		em.persist(resolucion);
 	}
 
+	/**
+	 * Obtiene todas las incidencias registradas, ordenadas por fecha descendente.
+	 *
+	 * @param em el EntityManager activo
+	 * @return lista de todas las incidencias ordenadas de más reciente a más
+	 *         antigua
+	 */
 	public List<Incidencia> obtenerTodas(EntityManager em) {
 		TypedQuery<Incidencia> query = em.createQuery("SELECT i FROM Incidencia i ORDER BY i.fechaHora DESC",
 				Incidencia.class);
 		return query.getResultList();
 	}
 
+	/**
+	 * Consulta incidencias aplicando los filtros indicados.
+	 * <p>
+	 * Construye dinámicamente una consulta JPQL añadiendo solo las cláusulas
+	 * {@code WHERE} correspondientes a los parámetros no nulos. El resultado se
+	 * ordena por fecha descendente.
+	 * </p>
+	 *
+	 * @param em            el EntityManager activo
+	 * @param tipo          tipo de incidencia, o {@code null} para no filtrar
+	 * @param resuelta      estado de resolución, o {@code null} para todas
+	 * @param idEspectaculo id del espectáculo, o {@code null} para no filtrar
+	 * @param idNumero      id del número, o {@code null} para no filtrar
+	 * @param fechaInicio   límite inferior de fecha, o {@code null} para sin límite
+	 * @param fechaFin      límite superior de fecha, o {@code null} para sin límite
+	 * @return lista de incidencias que cumplen los criterios
+	 */
 	public List<Incidencia> consultarConFiltros(EntityManager em, TipoIncidencia tipo, Boolean resuelta,
 			Long idEspectaculo, Long idNumero, Date fechaInicio, Date fechaFin) {
 
@@ -90,4 +159,21 @@ public class IncidenciaRepository {
 
 		return query.getResultList();
 	}
+
+	/**
+	 * Obtiene todas las resoluciones de incidencias almacenadas en la base de
+	 * datos.
+	 *
+	 * @param em EntityManager activo para realizar la consulta.
+	 * @return Lista con todas las ResolucionIncidencia; lista vacía si no hay
+	 *         registros.
+	 */
+	public List<ResolucionIncidencia> obtenerTodasResoluciones(EntityManager em) {
+
+		TypedQuery<ResolucionIncidencia> query = em.createQuery("SELECT r FROM ResolucionIncidencia r",
+				ResolucionIncidencia.class);
+
+		return query.getResultList();
+	}
+
 }

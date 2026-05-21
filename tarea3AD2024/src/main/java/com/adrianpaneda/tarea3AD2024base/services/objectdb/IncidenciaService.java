@@ -174,6 +174,24 @@ public class IncidenciaService {
 	}
 
 	/**
+	 * Obtiene todas las resoluciones de incidencias registradas en ObjectDB.
+	 * <p>
+	 * Recorre todas las incidencias y recopila sus objetos de resolución asociados.
+	 * </p>
+	 *
+	 * @return lista de todas las resoluciones de incidencias
+	 */
+	public List<ResolucionIncidencia> obtenerTodasResoluciones() {
+		EntityManager em = incidenciaRepository.crearEntityManager();
+
+		try {
+			return incidenciaRepository.obtenerTodasResoluciones(em);
+		} finally {
+			em.close();
+		}
+	}
+
+	/**
 	 * Busca una incidencia por su identificador.
 	 *
 	 * @param id el identificador de la incidencia

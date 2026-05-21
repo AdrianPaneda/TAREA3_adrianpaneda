@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
+import com.adrianpaneda.tarea3AD2024base.config.HelpStageManager;
 import com.adrianpaneda.tarea3AD2024base.config.SessionManager;
 import com.adrianpaneda.tarea3AD2024base.config.StageManager;
 import com.adrianpaneda.tarea3AD2024base.modelo.Artista;
@@ -195,6 +196,9 @@ public class GestionPersonasController implements Initializable {
 	@Autowired
 	private StageManager stageManager;
 
+	@Autowired
+	private HelpStageManager helpStageManager;
+
 	private ObservableList<Persona> listaPersonas = FXCollections.observableArrayList();
 
 	private enum Modo {
@@ -215,6 +219,12 @@ public class GestionPersonasController implements Initializable {
 		configurarNacionalidades();
 	}
 
+	/**
+	 * Verifica que el usuario autenticado tenga perfil de administrador.
+	 * <p>
+	 * Si no tiene el perfil requerido, redirige al login.
+	 * </p>
+	 */
 	private void validarAcceso() {
 		Credenciales user = SessionManager.getCurrentUser();
 		if (user == null || user.getPerfil() != Perfil.admin) {
@@ -222,6 +232,10 @@ public class GestionPersonasController implements Initializable {
 		}
 	}
 
+	/**
+	 * Configura las columnas de la tabla de personas y añade la columna de acciones
+	 * (Editar / Eliminar).
+	 */
 	private void configurarTabla() {
 		// colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 		colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
@@ -238,6 +252,9 @@ public class GestionPersonasController implements Initializable {
 		añadirColumnaAcciones();
 	}
 
+	/**
+	 * Añade dinámicamente la columna "Acciones" con botones Editar y Eliminar.
+	 */
 	private void añadirColumnaAcciones() {
 		TableColumn<Persona, Void> colAcciones = new TableColumn<>("Acciones");
 		colAcciones.setPrefWidth(220.0);
@@ -275,12 +292,24 @@ public class GestionPersonasController implements Initializable {
 		tablaPersonas.getColumns().add(colAcciones);
 	}
 
+	/**
+	 * Carga todas las personas del sistema y las muestra en la tabla.
+	 */
 	private void cargarPersonas() {
 		listaPersonas.clear();
 		listaPersonas.addAll(personaService.obtenerTodas());
 		tablaPersonas.setItems(listaPersonas);
 	}
 
+	/**
+	 * Maneja el evento de click en el botón "Registrar Artista".
+	 * <p>
+	 * Muestra el formulario en modo de registro de artista con los campos vacíos e
+	 * incluye el panel de credenciales para el nuevo usuario.
+	 * </p>
+	 *
+	 * @param event el evento de acción del botón
+	 */
 	@FXML
 	private void handleRegistrarArtista(ActionEvent event) {
 		modoActual = Modo.REGISTRO_ARTISTA;
@@ -292,6 +321,15 @@ public class GestionPersonasController implements Initializable {
 		mostrarCredenciales(true);
 	}
 
+	/**
+	 * Maneja el evento de click en el botón "Registrar Coordinación".
+	 * <p>
+	 * Muestra el formulario en modo de registro de coordinación con los campos
+	 * vacíos e incluye el panel de credenciales para el nuevo usuario.
+	 * </p>
+	 *
+	 * @param event el evento de acción del botón
+	 */
 	@FXML
 	private void handleRegistrarCoordinacion(ActionEvent event) {
 		modoActual = Modo.REGISTRO_COORDINACION;
@@ -303,6 +341,15 @@ public class GestionPersonasController implements Initializable {
 		mostrarCredenciales(true);
 	}
 
+	/**
+	 * Abre el formulario en modo edición con los datos de la persona indicada.
+	 * <p>
+	 * El panel de credenciales se oculta en modo edición porque las credenciales
+	 * no son modificables desde esta pantalla.
+	 * </p>
+	 *
+	 * @param persona la persona cuyos datos se cargarán en el formulario
+	 */
 	private void handleEditar(Persona persona) {
 		personaEnEdicion = persona;
 		limpiarFormulario();
@@ -361,6 +408,9 @@ public class GestionPersonasController implements Initializable {
 		btnIncidencias.setDisable(bloquear);
 	}
 
+	/**
+	 * Muestra el panel específico de artista y oculta el de coordinación.
+	 */
 	private void mostrarFormularioArtista() {
 		panelArtista.setVisible(true);
 		panelArtista.setManaged(true);
@@ -368,6 +418,9 @@ public class GestionPersonasController implements Initializable {
 		panelCoordinacion.setManaged(false);
 	}
 
+	/**
+	 * Muestra el panel específico de coordinación y oculta el de artista.
+	 */
 	private void mostrarFormularioCoordinacion() {
 		panelCoordinacion.setVisible(true);
 		panelCoordinacion.setManaged(true);
@@ -375,11 +428,22 @@ public class GestionPersonasController implements Initializable {
 		panelArtista.setManaged(false);
 	}
 
+	/**
+	 * Muestra u oculta el panel de credenciales.
+	 *
+	 * @param mostrar {@code true} para mostrar el panel de credenciales
+	 */
 	private void mostrarCredenciales(boolean mostrar) {
 		panelCredenciales.setVisible(mostrar);
 		panelCredenciales.setManaged(mostrar);
 	}
 
+	/**
+	 * Rellena los campos específicos de artista en el formulario con los datos de
+	 * la entidad.
+	 *
+	 * @param artista el artista cuyos datos se cargarán
+	 */
 	private void rellenarDatosArtista(Artista artista) {
 		txtApodo.setText(artista.getApodo() != null ? artista.getApodo() : "");
 		Set<Especialidad> esp = artista.getEspecialidades();
@@ -392,12 +456,27 @@ public class GestionPersonasController implements Initializable {
 		}
 	}
 
+	/**
+	 * Rellena los campos específicos de coordinación en el formulario con los datos
+	 * de la entidad.
+	 *
+	 * @param coordinacion la coordinación cuyos datos se cargarán
+	 */
 	private void rellenarDatosCoordinacion(Coordinacion coordinacion) {
 		chkSenior.setSelected(coordinacion.isSenior());
 		dateFechaSenior.setDisable(!coordinacion.isSenior());
 		dateFechaSenior.setValue(coordinacion.getFechaSenior());
 	}
 
+	/**
+	 * Maneja el cambio de estado del checkbox "Senior".
+	 * <p>
+	 * Habilita o deshabilita el DatePicker de fecha senior y limpia la fecha si se
+	 * desmarca.
+	 * </p>
+	 *
+	 * @param event el evento de acción del checkbox
+	 */
 	@FXML
 	private void handleToggleSenior(ActionEvent event) {
 		boolean esSenior = chkSenior.isSelected();
@@ -407,6 +486,15 @@ public class GestionPersonasController implements Initializable {
 		}
 	}
 
+	/**
+	 * Maneja el evento de click en el botón "Guardar".
+	 * <p>
+	 * Ejecuta la operación correspondiente al modo activo (registro o edición de
+	 * artista o coordinación).
+	 * </p>
+	 *
+	 * @param event el evento de acción del botón
+	 */
 	@FXML
 	private void handleGuardar(ActionEvent event) {
 		limpiarErrores();
@@ -421,6 +509,9 @@ public class GestionPersonasController implements Initializable {
 		}
 	}
 
+	/**
+	 * Valida el formulario, construye un nuevo {@link Artista} y lo persiste.
+	 */
 	private void registrarArtista() {
 		if (!validarDatosPersonales() || !validarEspecialidades() || !validarCredenciales()) {
 			return;
@@ -443,6 +534,10 @@ public class GestionPersonasController implements Initializable {
 		}
 	}
 
+	/**
+	 * Valida el formulario, construye una nueva {@link Coordinacion} y la
+	 * persiste.
+	 */
 	private void registrarCoordinacion() {
 		if (!validarDatosPersonales() || !validarFechaSenior() || !validarCredenciales()) {
 			return;
@@ -465,6 +560,9 @@ public class GestionPersonasController implements Initializable {
 		}
 	}
 
+	/**
+	 * Actualiza los datos del artista en edición y los persiste.
+	 */
 	private void actualizarArtista() {
 		if (!validarDatosPersonales() || !validarEspecialidades()) {
 			return;
@@ -484,6 +582,9 @@ public class GestionPersonasController implements Initializable {
 		}
 	}
 
+	/**
+	 * Actualiza los datos de la coordinación en edición y los persiste.
+	 */
 	private void actualizarCoordinacion() {
 		if (!validarDatosPersonales() || !validarFechaSenior()) {
 			return;
@@ -503,6 +604,11 @@ public class GestionPersonasController implements Initializable {
 		}
 	}
 
+	/**
+	 * Valida los campos comunes de nombre, email y nacionalidad.
+	 *
+	 * @return {@code true} si todos los datos personales son válidos
+	 */
 	private boolean validarDatosPersonales() {
 		boolean valido = true;
 		if (txtNombre.getText().trim().isEmpty()) {
@@ -530,6 +636,12 @@ public class GestionPersonasController implements Initializable {
 		return valido;
 	}
 
+	/**
+	 * Verifica que la nacionalidad introducida exista en el fichero XML de países.
+	 *
+	 * @param nacionalidad la cadena de nacionalidad a verificar
+	 * @return {@code true} si la nacionalidad existe en el listado de países
+	 */
 	private boolean verificarNacionalidad(String nacionalidad) {
 
 		File file = new File("src/main/resources/DATA/paises.xml");
@@ -541,6 +653,11 @@ public class GestionPersonasController implements Initializable {
 
 	}
 
+	/**
+	 * Valida que se haya seleccionado al menos una especialidad para el artista.
+	 *
+	 * @return {@code true} si hay al menos una especialidad seleccionada
+	 */
 	private boolean validarEspecialidades() {
 		if (obtenerEspecialidadesSeleccionadas().isEmpty()) {
 			lblErrorEspecialidades.setText("Debe seleccionar al menos una especialidad");
@@ -549,6 +666,12 @@ public class GestionPersonasController implements Initializable {
 		return true;
 	}
 
+	/**
+	 * Valida que si la coordinación es senior tenga informada la fecha senior y que
+	 * dicha fecha no sea posterior a hoy.
+	 *
+	 * @return {@code true} si la fecha senior es válida o no es senior
+	 */
 	private boolean validarFechaSenior() {
 		if (chkSenior.isSelected() && dateFechaSenior.getValue() == null) {
 			lblErrorFechaSenior.setText("Si es senior, debe indicar la fecha");
@@ -561,6 +684,11 @@ public class GestionPersonasController implements Initializable {
 		return true;
 	}
 
+	/**
+	 * Valida el usuario y contraseña introducidos según las reglas de negocio.
+	 *
+	 * @return {@code true} si las credenciales son válidas
+	 */
 	private boolean validarCredenciales() {
 		boolean valido = true;
 		String usuario = txtUsuario.getText();
@@ -590,12 +718,24 @@ public class GestionPersonasController implements Initializable {
 		return valido;
 	}
 
+	/**
+	 * Restablece el predicado del filtro de nacionalidades para mostrar todos los
+	 * valores.
+	 */
 	private void resetearFiltroNacionalidad() {
 		if (filtradasNacionalidades != null) {
 			filtradasNacionalidades.setPredicate(p -> true);
 		}
 	}
 
+	/**
+	 * Configura el ComboBox de nacionalidades con autocompletado a partir del
+	 * fichero XML de países.
+	 * <p>
+	 * El combo es editable y filtra las opciones en tiempo real según lo que el
+	 * usuario escribe.
+	 * </p>
+	 */
 	private void configurarNacionalidades() {
 		File file = new File("src/main/resources/DATA/paises.xml");
 		Map<String, String> nacionalidadesMap = PersonaService.listarPaises(file);
@@ -622,6 +762,12 @@ public class GestionPersonasController implements Initializable {
 		});
 	}
 
+	/**
+	 * Obtiene el conjunto de especialidades marcadas con los checkboxes del
+	 * formulario.
+	 *
+	 * @return conjunto de especialidades seleccionadas
+	 */
 	private Set<Especialidad> obtenerEspecialidadesSeleccionadas() {
 		Set<Especialidad> especialidades = new HashSet<>();
 		if (chkAcrobacia.isSelected())
@@ -637,6 +783,13 @@ public class GestionPersonasController implements Initializable {
 		return especialidades;
 	}
 
+	/**
+	 * Construye un objeto {@link Credenciales} con los datos del formulario y el
+	 * perfil indicado.
+	 *
+	 * @param perfil el perfil a asignar a las credenciales
+	 * @return las credenciales construidas con usuario en minúsculas
+	 */
 	private Credenciales crearCredenciales(Perfil perfil) {
 		Credenciales credenciales = new Credenciales();
 		credenciales.setNombreUsuario(txtUsuario.getText().trim().toLowerCase());
@@ -645,6 +798,9 @@ public class GestionPersonasController implements Initializable {
 		return credenciales;
 	}
 
+	/**
+	 * Limpia todos los campos del formulario de persona.
+	 */
 	private void limpiarFormulario() {
 		txtNombre.clear();
 		txtEmail.clear();
@@ -664,6 +820,9 @@ public class GestionPersonasController implements Initializable {
 		limpiarErrores();
 	}
 
+	/**
+	 * Limpia los mensajes de error del formulario de persona.
+	 */
 	private void limpiarErrores() {
 		lblErrorNombre.setText("");
 		lblErrorEmail.setText("");
@@ -674,6 +833,12 @@ public class GestionPersonasController implements Initializable {
 		lblErrorPassword.setText("");
 	}
 
+	/**
+	 * Muestra un mensaje de error en el campo más relacionado con el contenido del
+	 * mensaje.
+	 *
+	 * @param mensaje el mensaje de error a mostrar
+	 */
 	private void mostrarErrorGeneral(String mensaje) {
 		if (mensaje.toLowerCase().contains("email")) {
 			lblErrorEmail.setText(mensaje);
@@ -684,11 +849,28 @@ public class GestionPersonasController implements Initializable {
 		}
 	}
 
+	/**
+	 * Maneja el evento de click en el botón "Cancelar".
+	 * <p>
+	 * Oculta el formulario descartando los cambios en curso.
+	 * </p>
+	 *
+	 * @param event el evento de acción del botón
+	 */
 	@FXML
 	private void handleCancelar(ActionEvent event) {
 		ocultarFormulario();
 	}
 
+	/**
+	 * Muestra un diálogo de confirmación y elimina la persona indicada si el
+	 * usuario confirma.
+	 * <p>
+	 * La eliminación también borra sus credenciales asociadas por cascade.
+	 * </p>
+	 *
+	 * @param persona la persona a eliminar
+	 */
 	private void handleEliminar(Persona persona) {
 		Alert confirmacion = new Alert(AlertType.CONFIRMATION);
 		confirmacion.setTitle("Confirmar eliminación");
@@ -796,8 +978,23 @@ public class GestionPersonasController implements Initializable {
 		stageManager.switchScene(FxmlView.HISTORIAL);
 	}
 
+	/**
+	 * Maneja el evento de click en el botón "Incidencias".
+	 * <p>
+	 * Navega a la pantalla de consulta y gestión de incidencias.
+	 * </p>
+	 */
 	@FXML
 	private void handleIncidencias() {
 		stageManager.switchScene(FxmlView.INCIDENCIAS);
+	}
+
+	/**
+	 * Abre la ventana de ayuda contextual mostrando la sección de gestión de
+	 * personas.
+	 */
+	@FXML
+	private void handleAyuda() {
+		helpStageManager.showHelp(FxmlView.GESTION_PERSONAS);
 	}
 }

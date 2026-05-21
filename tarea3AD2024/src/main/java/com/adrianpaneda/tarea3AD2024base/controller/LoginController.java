@@ -165,6 +165,12 @@ public class LoginController implements Initializable {
 		return txtPassword.getText();
 	}
 
+	/**
+	 * Punto de entrada JavaFX. No requiere inicialización en esta versión.
+	 *
+	 * @param location  la URL del FXML cargado
+	 * @param resources el bundle de recursos (no utilizado)
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// Inicialización si es necesaria en el futuro

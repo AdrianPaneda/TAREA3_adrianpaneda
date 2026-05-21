@@ -172,6 +172,25 @@ public enum FxmlView {
 		public String getFxmlFile() {
 			return "/fxml/RegistrarIncidencia.fxml";
 		}
+	},
+
+	/**
+	 * Ventana secundaria del sistema de ayuda contextual.
+	 * <p>
+	 * Se abre en un {@link javafx.stage.Stage} no modal y muestra secciones de
+	 * ayuda adaptadas al perfil del usuario y a la pantalla desde la que se activó.
+	 * </p>
+	 */
+	AYUDA {
+		@Override
+		public String getTitle() {
+			return "Sistema de Ayuda — Circo";
+		}
+
+		@Override
+		public String getFxmlFile() {
+			return "/fxml/Ayuda.fxml";
+		}
 	};
 
 	/**

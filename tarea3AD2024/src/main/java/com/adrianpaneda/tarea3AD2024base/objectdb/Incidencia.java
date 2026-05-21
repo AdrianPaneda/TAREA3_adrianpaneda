@@ -83,66 +83,146 @@ public class Incidencia {
 	public Incidencia() {
 	}
 
+	/**
+	 * Obtiene el identificador único de la incidencia.
+	 *
+	 * @return el identificador de la incidencia
+	 */
 	public Long getId() {
 		return id;
 	}
 
+	/**
+	 * Establece el identificador único de la incidencia.
+	 *
+	 * @param id el identificador a asignar
+	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+	/**
+	 * Obtiene la fecha y hora en que se registró la incidencia.
+	 *
+	 * @return la fecha y hora de registro
+	 */
 	public Date getFechaHora() {
 		return fechaHora;
 	}
 
+	/**
+	 * Establece la fecha y hora de registro de la incidencia.
+	 *
+	 * @param fechaHora la fecha y hora a asignar
+	 */
 	public void setFechaHora(Date fechaHora) {
 		this.fechaHora = fechaHora;
 	}
 
+	/**
+	 * Obtiene el tipo de incidencia.
+	 *
+	 * @return el tipo (TECNICA, ARTISTICA u ORGANIZATIVA)
+	 */
 	public TipoIncidencia getTipo() {
 		return tipo;
 	}
 
+	/**
+	 * Establece el tipo de incidencia.
+	 *
+	 * @param tipo el tipo a asignar
+	 */
 	public void setTipo(TipoIncidencia tipo) {
 		this.tipo = tipo;
 	}
 
+	/**
+	 * Obtiene la descripción de la incidencia.
+	 *
+	 * @return la descripción (hasta 1000 caracteres)
+	 */
 	public String getDescripcion() {
 		return descripcion;
 	}
 
+	/**
+	 * Establece la descripción de la incidencia.
+	 *
+	 * @param descripcion la descripción a asignar (hasta 1000 caracteres)
+	 */
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
 
+	/**
+	 * Indica si la incidencia está resuelta.
+	 *
+	 * @return {@code true} si la incidencia ha sido resuelta
+	 */
 	public boolean isResuelta() {
 		return resuelta;
 	}
 
+	/**
+	 * Establece el estado de resolución de la incidencia.
+	 *
+	 * @param resuelta {@code true} para marcarla como resuelta
+	 */
 	public void setResuelta(boolean resuelta) {
 		this.resuelta = resuelta;
 	}
 
+	/**
+	 * Obtiene el identificador de la persona que reporta la incidencia.
+	 *
+	 * @return el identificador de la persona que reporta
+	 */
 	public Long getIdPersonaReporta() {
 		return idPersonaReporta;
 	}
 
+	/**
+	 * Establece el identificador de la persona que reporta la incidencia.
+	 *
+	 * @param idPersonaReporta el identificador a asignar
+	 */
 	public void setIdPersonaReporta(Long idPersonaReporta) {
 		this.idPersonaReporta = idPersonaReporta;
 	}
 
+	/**
+	 * Obtiene el identificador del espectáculo asociado a la incidencia.
+	 *
+	 * @return el identificador del espectáculo, o {@code null} si no aplica
+	 */
 	public Long getIdEspectaculo() {
 		return idEspectaculo;
 	}
 
+	/**
+	 * Establece el identificador del espectáculo asociado a la incidencia.
+	 *
+	 * @param idEspectaculo el identificador a asignar, puede ser {@code null}
+	 */
 	public void setIdEspectaculo(Long idEspectaculo) {
 		this.idEspectaculo = idEspectaculo;
 	}
 
+	/**
+	 * Obtiene el identificador del número artístico asociado a la incidencia.
+	 *
+	 * @return el identificador del número, o {@code null} si no aplica
+	 */
 	public Long getIdNumero() {
 		return idNumero;
 	}
 
+	/**
+	 * Establece el identificador del número artístico asociado a la incidencia.
+	 *
+	 * @param idNumero el identificador a asignar, puede ser {@code null}
+	 */
 	public void setIdNumero(Long idNumero) {
 		this.idNumero = idNumero;
 	}

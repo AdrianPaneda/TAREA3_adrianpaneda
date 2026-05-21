@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
+import com.adrianpaneda.tarea3AD2024base.config.HelpStageManager;
 import com.adrianpaneda.tarea3AD2024base.config.StageManager;
 import com.adrianpaneda.tarea3AD2024base.modelo.db4o.LogOperacion;
 import com.adrianpaneda.tarea3AD2024base.modelo.db4o.TipoOperacion;
@@ -57,6 +58,9 @@ public class HistorialController implements Initializable {
 	@Autowired
 	private LogOperacionService logOperacionService;
 
+	@Autowired
+	private HelpStageManager helpStageManager;
+
 	// ═══ FILTROS ═══
 	@FXML
 	private TextField txtUsuario;
@@ -66,6 +70,8 @@ public class HistorialController implements Initializable {
 	private CheckBox chkActualizacion;
 	@FXML
 	private CheckBox chkBorrado;
+	@FXML
+	private CheckBox chkTodos;
 	@FXML
 	private DatePicker dateDesde;
 	@FXML
@@ -110,7 +116,50 @@ public class HistorialController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		configurarColumnas();
 		lblError.setText("");
-		lblTotal.setText("");
+		configurarCheckboxesTipo();
+		cargarTodos();
+	}
+
+	/**
+	 * Configura la lógica de exclusividad del checkbox "TODOS" respecto a los
+	 * checkboxes individuales de tipo de operación.
+	 * <p>
+	 * Si se marca "TODOS" se desmarcan los individuales; si se marca cualquier
+	 * individual se desmarca "TODOS". De este modo "TODOS" actúa como un atajo para
+	 * no filtrar por tipo de operación.
+	 * </p>
+	 */
+	private void configurarCheckboxesTipo() {
+		chkTodos.selectedProperty().addListener((obs, oldVal, newVal) -> {
+			if (newVal) {
+				chkNuevo.setSelected(false);
+				chkActualizacion.setSelected(false);
+				chkBorrado.setSelected(false);
+			}
+		});
+
+		chkNuevo.selectedProperty().addListener((obs, oldVal, newVal) -> {
+			if (newVal)
+				chkTodos.setSelected(false);
+		});
+		chkActualizacion.selectedProperty().addListener((obs, oldVal, newVal) -> {
+			if (newVal)
+				chkTodos.setSelected(false);
+		});
+		chkBorrado.selectedProperty().addListener((obs, oldVal, newVal) -> {
+			if (newVal)
+				chkTodos.setSelected(false);
+		});
+	}
+
+	/**
+	 * Carga en la tabla todas las operaciones registradas, sin aplicar filtros. Se
+	 * usa al iniciar la pantalla y tras pulsar "LIMPIAR".
+	 */
+	private void cargarTodos() {
+		List<LogOperacion> resultados = logOperacionService.obtenerTodas();
+		tablaHistorial.setItems(FXCollections.observableArrayList(resultados));
+		lblTotal.setText("Total: " + resultados.size() + " resultado(s)");
 	}
 
 	/**
@@ -156,29 +205,35 @@ public class HistorialController implements Initializable {
 	private void handleBuscar(ActionEvent event) {
 		lblError.setText("");
 
-		// Validar usuario obligatorio
+		// Usuario es opcional: vacío = no filtrar por usuario
 		String usuario = txtUsuario.getText().trim();
 		if (usuario.isEmpty()) {
-			lblError.setText("El campo usuario es obligatorio para realizar la búsqueda.");
-			return;
+			usuario = null;
 		}
 
-		// Recoger tipos seleccionados
-		List<TipoOperacion> tipos = new ArrayList<>();
-		if (chkNuevo.isSelected()) {
-			tipos.add(TipoOperacion.NUEVO);
-		}
-		if (chkActualizacion.isSelected()) {
-			tipos.add(TipoOperacion.ACTUALIZACION);
-		}
-		if (chkBorrado.isSelected()) {
-			tipos.add(TipoOperacion.BORRADO);
+		// Tipos: si "TODOS" está marcado, no filtramos por tipo
+		List<TipoOperacion> tipos = null;
+		if (!chkTodos.isSelected()) {
+			tipos = new ArrayList<>();
+			if (chkNuevo.isSelected()) {
+				tipos.add(TipoOperacion.NUEVO);
+			}
+			if (chkActualizacion.isSelected()) {
+				tipos.add(TipoOperacion.ACTUALIZACION);
+			}
+			if (chkBorrado.isSelected()) {
+				tipos.add(TipoOperacion.BORRADO);
+			}
+			// Si no marca TODOS ni ningún individual, avisar
+			if (tipos.isEmpty()) {
+				lblError.setText("Selecciona al menos un tipo de operación o marca 'TODOS'.");
+				return;
+			}
 		}
 
-		// Convertir LocalDate a Date para las fechas
+		// Fechas
 		Date fechaInicio = null;
 		Date fechaFin = null;
-
 		if (dateDesde.getValue() != null) {
 			fechaInicio = convertirLocalDateADate(dateDesde.getValue(), true);
 		}
@@ -188,8 +243,6 @@ public class HistorialController implements Initializable {
 
 		// Consultar
 		List<LogOperacion> resultados = logOperacionService.consultarConFiltros(usuario, tipos, fechaInicio, fechaFin);
-
-		// Mostrar en tabla
 		tablaHistorial.setItems(FXCollections.observableArrayList(resultados));
 		lblTotal.setText("Total: " + resultados.size() + " resultado(s)");
 	}
@@ -230,11 +283,19 @@ public class HistorialController implements Initializable {
 		chkNuevo.setSelected(false);
 		chkActualizacion.setSelected(false);
 		chkBorrado.setSelected(false);
+		chkTodos.setSelected(true);
 		dateDesde.setValue(null);
 		dateHasta.setValue(null);
 		lblError.setText("");
-		lblTotal.setText("");
-		tablaHistorial.getItems().clear();
+		cargarTodos();
+	}
+
+	/**
+	 * Abre la ventana de ayuda contextual mostrando la sección del historial.
+	 */
+	@FXML
+	private void handleAyuda() {
+		helpStageManager.showHelp(FxmlView.HISTORIAL);
 	}
 
 	/**

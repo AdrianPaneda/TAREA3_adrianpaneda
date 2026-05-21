@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
+import com.adrianpaneda.tarea3AD2024base.config.HelpStageManager;
 import com.adrianpaneda.tarea3AD2024base.config.SessionManager;
 import com.adrianpaneda.tarea3AD2024base.config.StageManager;
 import com.adrianpaneda.tarea3AD2024base.modelo.Artista;
@@ -151,6 +152,9 @@ public class GestionNumerosController implements Initializable {
 	@Autowired
 	private StageManager stageManager;
 
+	@Autowired
+	private HelpStageManager helpStageManager;
+
 	private Espectaculo espectaculoActual;
 	private ObservableList<Numero> listaNumeros = FXCollections.observableArrayList();
 	private ObservableList<Artista> listaArtistas = FXCollections.observableArrayList();
@@ -182,6 +186,10 @@ public class GestionNumerosController implements Initializable {
 		ocultarFormulario();
 	}
 
+	/**
+	 * Configura las columnas de la tabla de números y añade la columna de acciones
+	 * (Editar).
+	 */
 	private void configurarTablaNumeros() {
 		colId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -190,6 +198,10 @@ public class GestionNumerosController implements Initializable {
 		añadirColumnaAccionesNumeros();
 	}
 
+	/**
+	 * Añade dinámicamente la columna "Acciones" con el botón Editar a la tabla de
+	 * números.
+	 */
 	private void añadirColumnaAccionesNumeros() {
 		TableColumn<Numero, Void> colAcciones = new TableColumn<>("Acciones");
 		colAcciones.setPrefWidth(120.0);
@@ -217,12 +229,20 @@ public class GestionNumerosController implements Initializable {
 		tablaNumeros.getColumns().add(colAcciones);
 	}
 
+	/**
+	 * Carga los números del espectáculo actual desde la base de datos y los muestra
+	 * en la tabla, ordenados por su campo {@code orden}.
+	 */
 	private void cargarNumeros() {
 		listaNumeros.clear();
 		listaNumeros.addAll(numeroService.obtenerPorEspectaculo(espectaculoActual.getId()));
 		tablaNumeros.setItems(listaNumeros);
 	}
 
+	/**
+	 * Configura las columnas de la tabla de artistas con checkbox de selección,
+	 * nombre y especialidades.
+	 */
 	private void configurarTablaArtistas() {
 		colSeleccionar.setCellFactory(param -> new TableCell<>() {
 			private final CheckBox checkBox = new CheckBox();
@@ -258,6 +278,12 @@ public class GestionNumerosController implements Initializable {
 		});
 	}
 
+	/**
+	 * Carga todos los artistas en la tabla y marca los que ya participan en el
+	 * número.
+	 *
+	 * @param artistasSeleccionados conjunto de artistas ya asignados al número
+	 */
 	private void cargarArtistasDisponibles(Set<Artista> artistasSeleccionados) {
 		listaArtistas.clear();
 		seleccionArtistas.clear();
@@ -273,6 +299,9 @@ public class GestionNumerosController implements Initializable {
 		tablaArtistas.setItems(listaArtistas);
 	}
 
+	/**
+	 * Configura el spinner de duración con rango 0.5-60 minutos en pasos de 0.5.
+	 */
 	private void configurarSpinnerDuracion() {
 		SpinnerValueFactory<Double> valueFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0.5, 60.0, 5.0,
 				0.5);
@@ -280,6 +309,15 @@ public class GestionNumerosController implements Initializable {
 		spinnerDuracion.setEditable(false);
 	}
 
+	/**
+	 * Maneja el evento de click en el botón "Añadir número".
+	 * <p>
+	 * Muestra el formulario en modo creación con los campos vacíos y el orden
+	 * sugerido como el siguiente disponible.
+	 * </p>
+	 *
+	 * @param event el evento de acción del botón
+	 */
 	@FXML
 	private void handleAnadir(ActionEvent event) {
 		modoActual = Modo.CREAR;
@@ -294,6 +332,12 @@ public class GestionNumerosController implements Initializable {
 		cargarArtistasDisponibles(new HashSet<>());
 	}
 
+	/**
+	 * Abre el formulario en modo edición con los datos del número indicado,
+	 * incluyendo los artistas actualmente asignados.
+	 *
+	 * @param numero el número cuyos datos se cargarán en el formulario
+	 */
 	private void handleEditarNumero(Numero numero) {
 		Numero numeroCompleto = numeroService.obtenerConArtistas(numero.getId());
 
@@ -312,6 +356,15 @@ public class GestionNumerosController implements Initializable {
 		cargarArtistasDisponibles(artistasActuales);
 	}
 
+	/**
+	 * Maneja el evento de click en el botón "Guardar".
+	 * <p>
+	 * Valida el formulario y ejecuta la operación de creación o actualización del
+	 * número según el modo activo.
+	 * </p>
+	 *
+	 * @param event el evento de acción del botón
+	 */
 	@FXML
 	private void handleGuardar(ActionEvent event) {
 		limpiarErrores();
@@ -325,6 +378,10 @@ public class GestionNumerosController implements Initializable {
 		}
 	}
 
+	/**
+	 * Crea un nuevo número con los datos del formulario y lo persiste en el
+	 * espectáculo actual.
+	 */
 	private void crearNumero() {
 		try {
 			Numero numero = new Numero();
@@ -341,6 +398,9 @@ public class GestionNumerosController implements Initializable {
 		}
 	}
 
+	/**
+	 * Actualiza el número en edición con los datos del formulario y lo persiste.
+	 */
 	private void actualizarNumero() {
 		try {
 			numeroEnEdicion.setNombre(txtNombre.getText().trim());
@@ -355,6 +415,11 @@ public class GestionNumerosController implements Initializable {
 		}
 	}
 
+	/**
+	 * Valida los datos del formulario de número artístico.
+	 *
+	 * @return {@code true} si todos los campos son válidos
+	 */
 	private boolean validarFormulario() {
 		boolean valido = true;
 		if (txtNombre.getText().trim().isEmpty()) {
@@ -392,6 +457,11 @@ public class GestionNumerosController implements Initializable {
 		return valido;
 	}
 
+	/**
+	 * Obtiene el conjunto de artistas marcados con el checkbox en la tabla.
+	 *
+	 * @return conjunto de artistas seleccionados para el número
+	 */
 	private Set<Artista> obtenerArtistasSeleccionados() {
 		Set<Artista> seleccionados = new HashSet<>();
 		for (Artista artista : listaArtistas) {
@@ -433,6 +503,9 @@ public class GestionNumerosController implements Initializable {
 		tablaNumeros.setDisable(bloquear);
 	}
 
+	/**
+	 * Limpia todos los campos del formulario de número artístico.
+	 */
 	private void limpiarFormulario() {
 		txtNombre.clear();
 		spinnerDuracion.getValueFactory().setValue(5.0);
@@ -441,6 +514,9 @@ public class GestionNumerosController implements Initializable {
 		limpiarErrores();
 	}
 
+	/**
+	 * Limpia los mensajes de error del formulario de número.
+	 */
 	private void limpiarErrores() {
 		lblErrorNombre.setText("");
 		lblErrorDuracion.setText("");
@@ -448,6 +524,14 @@ public class GestionNumerosController implements Initializable {
 		lblErrorArtistas.setText("");
 	}
 
+	/**
+	 * Maneja el evento de click en el botón "Cancelar".
+	 * <p>
+	 * Oculta el formulario descartando los cambios en curso.
+	 * </p>
+	 *
+	 * @param event el evento de acción del botón
+	 */
 	@FXML
 	private void handleCancelar(ActionEvent event) {
 		ocultarFormulario();
@@ -469,5 +553,14 @@ public class GestionNumerosController implements Initializable {
 			}
 		}
 		stageManager.switchScene(FxmlView.GESTIONAR_ESPECTACULOS);
+	}
+
+	/**
+	 * Abre la ventana de ayuda contextual mostrando la sección de gestión de
+	 * números.
+	 */
+	@FXML
+	private void handleAyuda() {
+		helpStageManager.showHelp(FxmlView.GESTIONAR_NUMEROS);
 	}
 }

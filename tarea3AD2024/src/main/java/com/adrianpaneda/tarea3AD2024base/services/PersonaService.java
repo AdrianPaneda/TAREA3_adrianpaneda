@@ -202,9 +202,11 @@ public class PersonaService {
 	}
 
 	/**
-	 * @param nodos
-	 * @return Map<Integer,String> Metodo para recorrer nodos del xml paises
-	 * 
+	 * Recorre los nodos XML de la lista de países y los devuelve como un mapa
+	 * de código a nombre.
+	 *
+	 * @param nodos la lista de nodos XML del documento de países
+	 * @return mapa ordenado con la clave {@code id} del país y su {@code nombre}
 	 */
 	private static Map<String, String> leerNodos(NodeList nodos) {
 
@@ -261,7 +263,10 @@ public class PersonaService {
 	}
 
 	/**
-	 * Determina el tipo concreto de persona...
+	 * Determina el tipo concreto de persona para construir el mensaje de log.
+	 *
+	 * @param persona la persona cuyo tipo se quiere determinar
+	 * @return la cadena "Artista", "Coordinación" o "Persona" según el tipo real
 	 */
 	private String obtenerTipoEntidad(Persona persona) {
 		if (persona instanceof Artista) {

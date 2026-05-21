@@ -148,6 +148,7 @@ public class LogOperacionService {
 
 			@Override
 			public boolean match(LogOperacion log) {
+				// Usuario opcional: si viene null o vacío, no filtramos por usuario
 				if (usuario != null && !usuario.isEmpty() && !usuario.equals(log.getUsuario())) {
 					return false;
 				}

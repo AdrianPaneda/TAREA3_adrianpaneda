@@ -17,6 +17,8 @@
 	<url/>
 <properties>
     <db4o.jar>${project.basedir}/libs/db4o-8.0.224.15975-core-java5.jar</db4o.jar>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 </properties>
 
 	<dependencies>
@@ -52,6 +54,11 @@
 <dependency>
     <groupId>org.openjfx</groupId>
     <artifactId>javafx-fxml</artifactId>
+    <version>17.0.13</version>
+</dependency>
+<dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-web</artifactId>
     <version>17.0.13</version>
 </dependency>
 

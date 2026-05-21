@@ -1,5 +1,6 @@
 package com.adrianpaneda.tarea3AD2024base.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,5 +82,14 @@ public class CredencialesService {
 	 */
 	public Credenciales buscarPorId(Long id) {
 		return credencialesRepository.findById(id).orElse(null);
+	}
+
+	/**
+	 * Retorna todas las credenciales registradas en el sistema.
+	 * 
+	 * @return todas las credenciales
+	 */
+	public List<Credenciales> obtenerTodas() {
+		return credencialesRepository.findAll();
 	}
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.web.WebView?>
+
+<!--
+    Ayuda.fxml — Ventana del sistema de ayuda contextual.
+    El WebView ocupa toda la ventana; el contenido HTML (navegación lateral +
+    secciones) es generado por HelpContentGenerator según el perfil del usuario
+    y la vista desde la que se abrió la ayuda.
+    Controlador: HelpController
+-->
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.adrianpaneda.tarea3AD2024base.controller.HelpController">
+
+    <WebView fx:id="webView" VBox.vgrow="ALWAYS" />
+
+</VBox>

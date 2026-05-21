@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
+import com.adrianpaneda.tarea3AD2024base.config.HelpStageManager;
 import com.adrianpaneda.tarea3AD2024base.config.SessionManager;
 import com.adrianpaneda.tarea3AD2024base.config.StageManager;
 import com.adrianpaneda.tarea3AD2024base.modelo.Espectaculo;
@@ -75,6 +76,9 @@ public class EspectaculosController implements Initializable {
 	@Lazy
 	@Autowired
 	private StageManager stageManager;
+
+	@Autowired
+	private HelpStageManager helpStageManager;
 
 	private ObservableList<Espectaculo> listaEspectaculos = FXCollections.observableArrayList();
 
@@ -192,6 +196,14 @@ public class EspectaculosController implements Initializable {
 	private void handleVerDetalle(Espectaculo espectaculo) {
 		SessionManager.setSelectedEspectaculo(espectaculo.getId());
 		stageManager.switchScene(FxmlView.DETALLE_ESPECTACULO);
+	}
+
+	/**
+	 * Abre la ventana de ayuda contextual mostrando la sección de ver espectáculos.
+	 */
+	@FXML
+	private void handleAyuda() {
+		helpStageManager.showHelp(FxmlView.ESPECTACULOS);
 	}
 
 	/**

@@ -65,42 +65,94 @@ public class ResolucionIncidencia {
 	public ResolucionIncidencia() {
 	}
 
+	/**
+	 * Obtiene el identificador único de la resolución.
+	 *
+	 * @return el identificador de la resolución
+	 */
 	public Long getId() {
 		return id;
 	}
 
+	/**
+	 * Establece el identificador único de la resolución.
+	 *
+	 * @param id el identificador a asignar
+	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+	/**
+	 * Obtiene la fecha y hora en que se resolvió la incidencia.
+	 *
+	 * @return la fecha y hora de resolución
+	 */
 	public Date getFechahoraResolucion() {
 		return fechahoraResolucion;
 	}
 
+	/**
+	 * Establece la fecha y hora de resolución.
+	 *
+	 * @param fechahoraResolucion la fecha y hora a asignar
+	 */
 	public void setFechahoraResolucion(Date fechahoraResolucion) {
 		this.fechahoraResolucion = fechahoraResolucion;
 	}
 
+	/**
+	 * Obtiene la descripción de las acciones realizadas para resolver la
+	 * incidencia.
+	 *
+	 * @return las acciones realizadas
+	 */
 	public String getAccionesRealizadas() {
 		return accionesRealizadas;
 	}
 
+	/**
+	 * Establece la descripción de las acciones realizadas para resolver la
+	 * incidencia.
+	 *
+	 * @param accionesRealizadas las acciones a registrar
+	 */
 	public void setAccionesRealizadas(String accionesRealizadas) {
 		this.accionesRealizadas = accionesRealizadas;
 	}
 
+	/**
+	 * Obtiene el identificador de la persona que resolvió la incidencia.
+	 *
+	 * @return el identificador de la persona que resuelve
+	 */
 	public Long getIdPersonaResuelve() {
 		return idPersonaResuelve;
 	}
 
+	/**
+	 * Establece el identificador de la persona que resolvió la incidencia.
+	 *
+	 * @param idPersonaResuelve el identificador a asignar
+	 */
 	public void setIdPersonaResuelve(Long idPersonaResuelve) {
 		this.idPersonaResuelve = idPersonaResuelve;
 	}
 
+	/**
+	 * Obtiene la incidencia asociada a esta resolución.
+	 *
+	 * @return la incidencia resuelta
+	 */
 	public Incidencia getIncidencia() {
 		return incidencia;
 	}
 
+	/**
+	 * Establece la incidencia asociada a esta resolución.
+	 *
+	 * @param incidencia la incidencia a asociar
+	 */
 	public void setIncidencia(Incidencia incidencia) {
 		this.incidencia = incidencia;
 	}
