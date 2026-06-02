@@ -126,8 +126,8 @@ public class LogOperacionService {
 	 * Consulta las operaciones del historial aplicando los filtros indicados
 	 * mediante una Native Query de DB4O.
 	 * <p>
-	 * Permite filtrar simultáneamente por usuario (obligatorio según la
-	 * especificación), por uno o varios tipos de operación y por un rango de
+	 * Permite filtrar simultáneamente por usuario (opcional),
+	 *  por uno o varios tipos de operación y por un rango de
 	 * fechas. Los parámetros nulos no se aplican como filtro.
 	 * </p>
 	 *
