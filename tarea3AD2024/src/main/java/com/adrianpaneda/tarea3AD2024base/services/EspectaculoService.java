@@ -1,14 +1,31 @@
 package com.adrianpaneda.tarea3AD2024base.services;
 
+import java.io.File;
+import java.io.StringWriter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import com.adrianpaneda.tarea3AD2024base.config.SessionManager;
+import com.adrianpaneda.tarea3AD2024base.modelo.Artista;
+import com.adrianpaneda.tarea3AD2024base.modelo.Especialidad;
 import com.adrianpaneda.tarea3AD2024base.modelo.Espectaculo;
+import com.adrianpaneda.tarea3AD2024base.modelo.Numero;
 import com.adrianpaneda.tarea3AD2024base.modelo.db4o.TipoOperacion;
 import com.adrianpaneda.tarea3AD2024base.repositorios.EspectaculoRepository;
 import com.adrianpaneda.tarea3AD2024base.services.db4o.LogOperacionService;
@@ -228,4 +245,130 @@ public class EspectaculoService {
 
 		return guardado;
 	}
+
+	public String generarXMLEspectaculo(Espectaculo esp) {
+
+		try {
+			// Crear XML con nodo raiz "informe"
+			Document documento = DocumentBuilderFactory.newInstance().newDocumentBuilder().getDOMImplementation()
+					.createDocument(null, "informe", null);
+			documento.setXmlVersion("1.0");
+
+			// Añadir nodo fecha
+			Element fecha = documento.createElement("fechahora");
+			String fechaActual = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+			fecha.setTextContent(fechaActual);
+			documento.getDocumentElement().appendChild(fecha);
+
+			// ---- ESPECTACULO ----
+			Element espectaculo = documento.createElement("espectaculo");
+			documento.getDocumentElement().appendChild(espectaculo);
+			Element id = documento.createElement("id");
+			id.setTextContent(esp.getId().toString());
+			espectaculo.appendChild(id);
+			Element nombre = documento.createElement("nombre");
+			nombre.setTextContent(esp.getNombre());
+			espectaculo.appendChild(nombre);
+			Element fechaini = documento.createElement("fechaini");
+			fechaini.setTextContent(esp.getFechaInicio().toString());
+			espectaculo.appendChild(fechaini);
+			Element fechafin = documento.createElement("fechafin");
+			fechafin.setTextContent(esp.getFechaFin().toString());
+			espectaculo.appendChild(fechafin);
+
+			// ---- COORDINACION ----
+			Element coordinacion = documento.createElement("coordinacion");
+			espectaculo.appendChild(coordinacion);
+			Element nombreCoord = documento.createElement("nombre");
+			nombreCoord.setTextContent(esp.getCoordinacion().getNombre());
+			coordinacion.appendChild(nombreCoord);
+			Element emailCoord = documento.createElement("email");
+			emailCoord.setTextContent(esp.getCoordinacion().getEmail());
+			coordinacion.appendChild(emailCoord);
+			Element senior = documento.createElement("senior");
+			String esSenior = esp.getCoordinacion().isSenior() ? "si" : "no";
+			senior.setTextContent(esSenior);
+			coordinacion.appendChild(senior);
+
+			// ---- NUMEROS ----
+			Element numeros = documento.createElement("numeros");
+			espectaculo.appendChild(numeros);
+
+			for (Numero num : esp.getNumeros()) {
+				Element numero = documento.createElement("numero");
+				numeros.appendChild(numero);
+
+				Element orden = documento.createElement("orden");
+				orden.setTextContent(String.valueOf(num.getOrden()));
+				Element nombreNum = documento.createElement("nombre");
+				nombreNum.setTextContent(num.getNombre());
+				Element duracion = documento.createElement("duracion");
+				duracion.setTextContent(String.valueOf(num.getDuracion()));
+				Element artistas = documento.createElement("artistas");
+
+				numero.appendChild(orden);
+				numero.appendChild(nombreNum);
+				numero.appendChild(duracion);
+				numero.appendChild(artistas);
+
+				for (Artista art : num.getArtistas()) {
+					Element artista = documento.createElement("artista");
+					artistas.appendChild(artista);
+
+					Element nombreArt = documento.createElement("nombre");
+					nombreArt.setTextContent(art.getNombre());
+					Element nacionalidad = documento.createElement("nacionalidad");
+					nacionalidad.setTextContent(art.getNacionalidad());
+					Element email = documento.createElement("email");
+					email.setTextContent(art.getEmail());
+					Element especialidades = documento.createElement("especialidades");
+					String especialidadesCadena = "";
+					for (Especialidad espec : art.getEspecialidades()) {
+						especialidadesCadena = especialidadesCadena + espec + ", ";
+					}
+					if (!especialidadesCadena.isEmpty()) {
+						especialidadesCadena = especialidadesCadena.substring(0, especialidadesCadena.length() - 2);
+					}
+					especialidades.setTextContent(especialidadesCadena);
+
+					artista.appendChild(nombreArt);
+					artista.appendChild(nacionalidad);
+					artista.appendChild(email);
+					artista.appendChild(especialidades);
+
+					if (art.getApodo() != null) {
+						Element apodo = documento.createElement("apodo");
+						apodo.setTextContent(art.getApodo());
+						artista.appendChild(apodo);
+					}
+				}
+			}
+
+			// ---- GUARDAR EN /ficheros Y CONVERTIR A STRING ----
+			TransformerFactory tf = TransformerFactory.newInstance();
+			Transformer transformer = tf.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+
+			// Guardar en /ficheros
+			File carpeta = new File("ficheros");
+			if (!carpeta.exists())
+				carpeta.mkdirs();
+			transformer.transform(new DOMSource(documento),
+					new StreamResult(new File("ficheros/informe_espectaculo" + esp.getId() + ".xml")));
+
+			// Convertir a String para devolver
+			StringWriter writer = new StringWriter();
+			transformer.transform(new DOMSource(documento), new StreamResult(writer));
+			return writer.toString();
+
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (javax.xml.transform.TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

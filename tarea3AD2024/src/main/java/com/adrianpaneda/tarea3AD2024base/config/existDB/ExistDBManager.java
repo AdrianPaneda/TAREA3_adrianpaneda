@@ -1,6 +1,7 @@
 package com.adrianpaneda.tarea3AD2024base.config.existDB;
 
 import java.io.File;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.xmldb.api.DatabaseManager;
@@ -49,12 +50,14 @@ public class ExistDBManager {
 		try {
 			col = DatabaseManager.getCollection(uri, user, password);
 			if (col == null) {
-
-				col = DatabaseManager.getCollection("xmldb:exist://localhost:8080/exist/xmlrpc/db", user, password);
-				CollectionManagementService mgtService = (CollectionManagementService) col
+				Collection root = DatabaseManager.getCollection("xmldb:exist://localhost:8080/exist/xmlrpc/db", user,
+						password);
+				CollectionManagementService mgtService = (CollectionManagementService) root
 						.getService("CollectionManagementService", "1.0");
 				mgtService.createCollection("Informes");
-
+				root.close();
+				// Ahora conectamos a la colección recién creada
+				col = DatabaseManager.getCollection(uri, user, password);
 			}
 
 		} catch (XMLDBException e) {

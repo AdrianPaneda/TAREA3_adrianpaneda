@@ -1,7 +1,6 @@
 package com.adrianpaneda.tarea3AD2024base.controller;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Controller;
 
 import com.adrianpaneda.tarea3AD2024base.config.SessionManager;
 import com.adrianpaneda.tarea3AD2024base.config.StageManager;
+import com.adrianpaneda.tarea3AD2024base.config.existDB.ExistDBManager;
 import com.adrianpaneda.tarea3AD2024base.modelo.Artista;
 import com.adrianpaneda.tarea3AD2024base.modelo.Coordinacion;
 import com.adrianpaneda.tarea3AD2024base.modelo.Especialidad;
@@ -26,6 +26,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -73,13 +74,12 @@ public class DetalleEspectaculoController implements Initializable {
 
 	@FXML
 	private Label lblCoordSenior;
-	
+
 	@FXML
 	private Label lblFechaSenior;
-	
+
 	@FXML
 	private Label lblFechaSeniorTitle;
-	
 
 	// Tabla números
 	@FXML
@@ -114,6 +114,9 @@ public class DetalleEspectaculoController implements Initializable {
 	@FXML
 	private Button btnVolver;
 
+	@FXML
+	private Button btnExportarXML;
+
 	@Autowired
 	private EspectaculoService espectaculoService;
 
@@ -121,15 +124,20 @@ public class DetalleEspectaculoController implements Initializable {
 	@Autowired
 	private StageManager stageManager;
 
+	@Autowired
+	private ExistDBManager edbm;
+
 	private ObservableList<Numero> listaNumeros = FXCollections.observableArrayList();
 	private ObservableList<Artista> listaArtistas = FXCollections.observableArrayList();
+
+	private Espectaculo espectaculo;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
 		Long id = SessionManager.getSelectedEspectaculo();
 
-		Espectaculo espectaculo = espectaculoService.obtenerConDetalle(id);
+		espectaculo = espectaculoService.obtenerConDetalle(id);
 
 		// Aqui por seguridad volvemos a la pantalla Espectaculos por si no encuentra el
 		// espectaculo.
@@ -145,6 +153,9 @@ public class DetalleEspectaculoController implements Initializable {
 		configurarTablaArtistas();
 		cargarNumeros(espectaculo);
 		configurarListenerNumeros();
+
+		// Inicializar driver de existDB
+		edbm.inicializarDriver();
 	}
 
 	/**
@@ -176,15 +187,15 @@ public class DetalleEspectaculoController implements Initializable {
 		lblCoordNombre.setText(coordinacion.getNombre());
 		lblCoordEmail.setText(coordinacion.getEmail());
 		lblCoordSenior.setText(coordinacion.isSenior() ? "Sí" : "No");
-		
-		if(coordinacion.isSenior()) {
+
+		if (coordinacion.isSenior()) {
 			String fechaSenior = coordinacion.getFechaSenior().toString();
 			lblFechaSenior.setText(fechaSenior);
-			
-		}else {
+
+		} else {
 			lblFechaSenior.setText("");
 			lblFechaSeniorTitle.setVisible(false);
-			
+
 		}
 	}
 
@@ -283,5 +294,17 @@ public class DetalleEspectaculoController implements Initializable {
 	@FXML
 	private void handleVolver(ActionEvent event) {
 		stageManager.switchScene(FxmlView.ESPECTACULOS);
+	}
+
+	@FXML
+	private void handleExportarXML() {
+
+		String espectaculoXML = espectaculoService.generarXMLEspectaculo(espectaculo);
+		edbm.storeDocument("informe_espectaculo" + espectaculo.getId() + ".xml", espectaculoXML);
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("Exportación correcta");
+		alert.setContentText("Informe exportado correctamente a eXistDB y /ficheros");
+		alert.showAndWait();
+
 	}
 }
