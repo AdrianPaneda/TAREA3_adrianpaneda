@@ -20,12 +20,15 @@
 
    <children>
       <!-- Fondo con imagen -->
-      <StackPane prefHeight="1080.0" prefWidth="1920.0"
-                 style="-fx-background-image: url('/images/circo_background.jpg'); -fx-background-size: cover; -fx-background-position: center;">
+      <!-- Fondo con imagen -->
+		<StackPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+           AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+           style="-fx-background-image: url('/images/circo_background.jpg'); -fx-background-size: cover; -fx-background-position: center;">
 
-         <!-- Overlay oscuro -->
-         <AnchorPane style="-fx-background-color: rgba(0, 0, 0, 0.45);">
-
+			<!-- Overlay oscuro -->
+			<AnchorPane style="-fx-background-color: rgba(0, 0, 0, 0.45);"
+            AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+            AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
             <!-- Contenedor principal -->
             <VBox alignment="TOP_CENTER" layoutX="260.0" layoutY="80.0" prefHeight="920.0" prefWidth="1400.0"
                   spacing="25.0"

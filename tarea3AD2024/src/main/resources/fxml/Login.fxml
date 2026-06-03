@@ -17,11 +17,15 @@
             fx:controller="com.adrianpaneda.tarea3AD2024base.controller.LoginController">
    
    <children>
-      <StackPane prefHeight="1080.0" prefWidth="1920.0" 
-                 style="-fx-background-image: url('/images/circo_background.jpg'); -fx-background-size: cover; -fx-background-position: center;">
-         
-         <AnchorPane style="-fx-background-color: rgba(0, 0, 0, 0.45);">
-            
+     <!-- Fondo con imagen -->
+		<StackPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+           AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+           style="-fx-background-image: url('/images/circo_background.jpg'); -fx-background-size: cover; -fx-background-position: center;">
+
+			<!-- Overlay oscuro -->
+			<AnchorPane style="-fx-background-color: rgba(0, 0, 0, 0.45);"
+            AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+            AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
             <!-- Panel central de login - centrado vertical y horizontal -->
             <VBox alignment="CENTER" layoutX="685.0" layoutY="230.0" prefHeight="500.0" prefWidth="550.0" 
                   spacing="25.0" 

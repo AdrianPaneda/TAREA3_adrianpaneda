@@ -6,8 +6,9 @@ import com.adrianpaneda.tarea3AD2024base.modelo.Perfil;
 /**
  * Gestor de sesión de usuario.
  * <p>
- * Mantiene en memoria el usuario actualmente autenticado en el sistema y el
- * espectáculo seleccionado para ver su detalle. Implementa el patrón Singleton
+ * Mantiene en memoria el usuario actualmente autenticado en el sistema, el
+ * espectáculo seleccionado para ver su detalle, la persona seleccionada para
+ * editar y el tipo de registro de persona. Implementa el patrón Singleton
  * mediante variables y métodos estáticos.
  * </p>
  * <p>
@@ -17,7 +18,7 @@ import com.adrianpaneda.tarea3AD2024base.modelo.Perfil;
  * </p>
  * <p>
  * Esta clase permite que diferentes controladores puedan acceder a la
- * información del usuario logueado y al espectáculo seleccionado sin necesidad
+ * información del usuario logueado y a los datos de navegación sin necesidad
  * de pasar parámetros entre pantallas.
  * </p>
  *
@@ -38,6 +39,18 @@ public class SessionManager {
 	 * espectáculo seleccionado.
 	 */
 	private static Long selectedEspectaculoId = null;
+
+	/**
+	 * ID de la persona seleccionada para editar. Null si se está registrando una
+	 * nueva persona.
+	 */
+	private static Long selectedPersonaId = null;
+
+	/**
+	 * Tipo de persona a registrar ("Artista" o "Coordinación"). Se usa para
+	 * preseleccionar el tipo en el formulario de registro.
+	 */
+	private static String tipoRegistroPersona = null;
 
 	/**
 	 * Constructor privado para prevenir instanciación. Esta clase solo debe usarse
@@ -78,6 +91,8 @@ public class SessionManager {
 	public static void logout() {
 		currentUser = null;
 		selectedEspectaculoId = null;
+		selectedPersonaId = null;
+		tipoRegistroPersona = null;
 	}
 
 	/**
@@ -127,5 +142,50 @@ public class SessionManager {
 	 */
 	public static Long getSelectedEspectaculo() {
 		return selectedEspectaculoId;
+	}
+
+	/**
+	 * Establece el ID de la persona seleccionada para editar.
+	 * <p>
+	 * Se debe llamar antes de navegar a la pantalla de registro de persona en modo
+	 * edición. Si se pasa null, indica que se está registrando una nueva persona.
+	 * </p>
+	 *
+	 * @param id el identificador de la persona a editar, o null para modo registro
+	 */
+	public static void setSelectedPersona(Long id) {
+		selectedPersonaId = id;
+	}
+
+	/**
+	 * Obtiene el ID de la persona seleccionada para editar.
+	 *
+	 * @return el identificador de la persona, o null si es modo registro
+	 */
+	public static Long getSelectedPersona() {
+		return selectedPersonaId;
+	}
+
+	/**
+	 * Establece el tipo de persona a registrar.
+	 * <p>
+	 * Se debe llamar antes de navegar a la pantalla de registro para preseleccionar
+	 * el tipo ("Artista" o "Coordinación") en el formulario.
+	 * </p>
+	 *
+	 * @param tipo el tipo de persona ("Artista" o "Coordinación")
+	 */
+	public static void setTipoRegistroPersona(String tipo) {
+		tipoRegistroPersona = tipo;
+	}
+
+	/**
+	 * Obtiene el tipo de persona a registrar.
+	 *
+	 * @return el tipo de persona ("Artista" o "Coordinación"), o null si no se ha
+	 *         establecido
+	 */
+	public static String getTipoRegistroPersona() {
+		return tipoRegistroPersona;
 	}
 }

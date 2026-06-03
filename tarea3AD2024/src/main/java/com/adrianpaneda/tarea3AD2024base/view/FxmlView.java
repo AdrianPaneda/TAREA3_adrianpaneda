@@ -93,12 +93,12 @@ public enum FxmlView {
 			return "/fxml/GestionNumeros.fxml";
 		}
 	},
+
 	/**
 	 * Pantalla de gestión de personas (artistas y coordinaciones). Solo accesible
 	 * para el administrador.
 	 */
 	GESTION_PERSONAS {
-
 		@Override
 		public String getTitle() {
 			return getStringFromResourceBundle("fichaGestionPersonas.title");
@@ -107,6 +107,22 @@ public enum FxmlView {
 		@Override
 		public String getFxmlFile() {
 			return "/fxml/GestionPersonas.fxml";
+		}
+	},
+
+	/**
+	 * Formulario de registro y edición de personas (artistas y coordinadores)
+	 * (CU3A, CU3B, CU3C). Accesible únicamente para el administrador.
+	 */
+	REGISTRAR_PERSONA {
+		@Override
+		public String getTitle() {
+			return getStringFromResourceBundle("registrarPersona.title");
+		}
+
+		@Override
+		public String getFxmlFile() {
+			return "/fxml/RegistrarPersona.fxml";
 		}
 	},
 
