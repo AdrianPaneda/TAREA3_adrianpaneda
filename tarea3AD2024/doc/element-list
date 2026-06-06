@@ -1,0 +1,13 @@
+com.adrianpaneda.tarea3AD2024base
+com.adrianpaneda.tarea3AD2024base.config
+com.adrianpaneda.tarea3AD2024base.config.db4o
+com.adrianpaneda.tarea3AD2024base.controller
+com.adrianpaneda.tarea3AD2024base.modelo
+com.adrianpaneda.tarea3AD2024base.modelo.db4o
+com.adrianpaneda.tarea3AD2024base.objectdb
+com.adrianpaneda.tarea3AD2024base.repositorios
+com.adrianpaneda.tarea3AD2024base.repositorios.objectdb
+com.adrianpaneda.tarea3AD2024base.services
+com.adrianpaneda.tarea3AD2024base.services.db4o
+com.adrianpaneda.tarea3AD2024base.services.objectdb
+com.adrianpaneda.tarea3AD2024base.view

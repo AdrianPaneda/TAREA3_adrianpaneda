@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<informe>
+   <fechahora>03-06-2026 12:45:37</fechahora>
+   <espectaculo>
+      <id>3</id>
+      <nombre>Estrellas del Mañana</nombre>
+      <fechaini>2025-09-01</fechaini>
+      <fechafin>2026-03-31</fechafin>
+      <coordinacion>
+         <nombre>María García López</nombre>
+         <email>mgarcia@circo.com</email>
+         <senior>si</senior>
+      </coordinacion>
+      <numeros>
+         <numero>
+            <orden>2</orden>
+            <nombre>Equilibrio Extremo</nombre>
+            <duracion>13.0</duracion>
+            <artistas>
+               <artista>
+                  <nombre>Juan Martínez Ruiz</nombre>
+                  <nacionalidad>España</nacionalidad>
+                  <email>jmartinez@circo.com</email>
+                  <especialidades>MALABARISMO, ACROBACIA, HUMOR, EQUILIBRISMO</especialidades>
+                  <apodo>El Volador</apodo>
+               </artista>
+               <artista>
+                  <nombre>Pedro Fernández García</nombre>
+                  <nacionalidad>Australia</nacionalidad>
+                  <email>pfernandez@circo.com</email>
+                  <especialidades>MALABARISMO, ACROBACIA, HUMOR, EQUILIBRISMO</especialidades>
+               </artista>
+            </artistas>
+         </numero>
+         <numero>
+            <orden>1</orden>
+            <nombre>Payasos en Acción</nombre>
+            <duracion>7.5</duracion>
+            <artistas>
+               <artista>
+                  <nombre>Carmen Díaz Sánchez</nombre>
+                  <nacionalidad>España</nacionalidad>
+                  <email>cdiaz@circo.com</email>
+                  <especialidades>HUMOR, MAGIA</especialidades>
+                  <apodo>La Risueña</apodo>
+               </artista>
+            </artistas>
+         </numero>
+         <numero>
+            <orden>3</orden>
+            <nombre>El Gran Final</nombre>
+            <duracion>16.5</duracion>
+            <artistas>
+               <artista>
+                  <nombre>Juan Martínez Ruiz</nombre>
+                  <nacionalidad>España</nacionalidad>
+                  <email>jmartinez@circo.com</email>
+                  <especialidades>MALABARISMO, ACROBACIA, HUMOR, EQUILIBRISMO</especialidades>
+                  <apodo>El Volador</apodo>
+               </artista>
+               <artista>
+                  <nombre>Ana López Fernández</nombre>
+                  <nacionalidad>México</nacionalidad>
+                  <email>alopez@circo.com</email>
+                  <especialidades>ACROBACIA, HUMOR, MAGIA</especialidades>
+                  <apodo>La Maga</apodo>
+               </artista>
+               <artista>
+                  <nombre>Roberto Sánchez Martín</nombre>
+                  <nacionalidad>Italia</nacionalidad>
+                  <email>rsanchez@circo.com</email>
+                  <especialidades>MALABARISMO, ACROBACIA</especialidades>
+               </artista>
+            </artistas>
+         </numero>
+      </numeros>
+   </espectaculo>
+</informe>

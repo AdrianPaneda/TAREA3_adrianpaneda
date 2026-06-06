@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<informe>
+   <fechahora>03-06-2026 12:46:15</fechahora>
+   <espectaculo>
+      <id>1</id>
+      <nombre>mARAVILLAS DEL CIRCO 2.0</nombre>
+      <fechaini>2024-06-01</fechaini>
+      <fechafin>2024-12-31</fechafin>
+      <coordinacion>
+         <nombre>Prueba2</nombre>
+         <email>PRUEBA@PRUEBA.COM</email>
+         <senior>no</senior>
+      </coordinacion>
+      <numeros>
+         <numero>
+            <orden>1</orden>
+            <nombre>Acrobacias Aéreas</nombre>
+            <duracion>5.0</duracion>
+            <artistas>
+               <artista>
+                  <nombre>Juan Martínez Ruiz</nombre>
+                  <nacionalidad>España</nacionalidad>
+                  <email>jmartinez@circo.com</email>
+                  <especialidades>MALABARISMO, ACROBACIA, HUMOR, EQUILIBRISMO</especialidades>
+                  <apodo>El Volador</apodo>
+               </artista>
+               <artista>
+                  <nombre>Ana López Fernández</nombre>
+                  <nacionalidad>México</nacionalidad>
+                  <email>alopez@circo.com</email>
+                  <especialidades>ACROBACIA, HUMOR, MAGIA</especialidades>
+                  <apodo>La Maga</apodo>
+               </artista>
+               <artista>
+                  <nombre>Pedro Fernández García</nombre>
+                  <nacionalidad>Australia</nacionalidad>
+                  <email>pfernandez@circo.com</email>
+                  <especialidades>MALABARISMO, ACROBACIA, HUMOR, EQUILIBRISMO</especialidades>
+               </artista>
+            </artistas>
+         </numero>
+         <numero>
+            <orden>4</orden>
+            <nombre>La Gran Comedia</nombre>
+            <duracion>8.0</duracion>
+            <artistas>
+               <artista>
+                  <nombre>Carmen Díaz Sánchez</nombre>
+                  <nacionalidad>España</nacionalidad>
+                  <email>cdiaz@circo.com</email>
+                  <especialidades>HUMOR, MAGIA</especialidades>
+                  <apodo>La Risueña</apodo>
+               </artista>
+            </artistas>
+         </numero>
+         <numero>
+            <orden>7</orden>
+            <nombre>Loco</nombre>
+            <duracion>5.0</duracion>
+            <artistas>
+               <artista>
+                  <nombre>Juan Martínez Ruiz</nombre>
+                  <nacionalidad>España</nacionalidad>
+                  <email>jmartinez@circo.com</email>
+                  <especialidades>MALABARISMO, ACROBACIA, HUMOR, EQUILIBRISMO</especialidades>
+                  <apodo>El Volador</apodo>
+               </artista>
+            </artistas>
+         </numero>
+         <numero>
+            <orden>3</orden>
+            <nombre>Equilibrios Imposibles</nombre>
+            <duracion>10.5</duracion>
+            <artistas>
+               <artista>
+                  <nombre>Pedro Fernández García</nombre>
+                  <nacionalidad>Australia</nacionalidad>
+                  <email>pfernandez@circo.com</email>
+                  <especialidades>MALABARISMO, ACROBACIA, HUMOR, EQUILIBRISMO</especialidades>
+               </artista>
+            </artistas>
+         </numero>
+         <numero>
+            <orden>3</orden>
+            <nombre>Prueba</nombre>
+            <duracion>5.0</duracion>
+            <artistas>
+               <artista>
+                  <nombre>Juan Martínez Ruiz</nombre>
+                  <nacionalidad>España</nacionalidad>
+                  <email>jmartinez@circo.com</email>
+                  <especialidades>MALABARISMO, ACROBACIA, HUMOR, EQUILIBRISMO</especialidades>
+                  <apodo>El Volador</apodo>
+               </artista>
+               <artista>
+                  <nombre>Roberto Sánchez Martín</nombre>
+                  <nacionalidad>Italia</nacionalidad>
+                  <email>rsanchez@circo.com</email>
+                  <especialidades>MALABARISMO, ACROBACIA</especialidades>
+               </artista>
+               <artista>
+                  <nombre>Ana López Fernández</nombre>
+                  <nacionalidad>México</nacionalidad>
+                  <email>alopez@circo.com</email>
+                  <especialidades>ACROBACIA, HUMOR, MAGIA</especialidades>
+                  <apodo>La Maga</apodo>
+               </artista>
+            </artistas>
+         </numero>
+         <numero>
+            <orden>2</orden>
+            <nombre>Ilusiones Fantásticas</nombre>
+            <duracion>15.0</duracion>
+            <artistas>
+               <artista>
+                  <nombre>Ana López Fernández</nombre>
+                  <nacionalidad>México</nacionalidad>
+                  <email>alopez@circo.com</email>
+                  <especialidades>ACROBACIA, HUMOR, MAGIA</especialidades>
+                  <apodo>La Maga</apodo>
+               </artista>
+            </artistas>
+         </numero>
+         <numero>
+            <orden>6</orden>
+            <nombre>Prueba</nombre>
+            <duracion>5.0</duracion>
+            <artistas>
+               <artista>
+                  <nombre>Juan Martínez Ruiz</nombre>
+                  <nacionalidad>España</nacionalidad>
+                  <email>jmartinez@circo.com</email>
+                  <especialidades>MALABARISMO, ACROBACIA, HUMOR, EQUILIBRISMO</especialidades>
+                  <apodo>El Volador</apodo>
+               </artista>
+               <artista>
+                  <nombre>Ana López Fernández</nombre>
+                  <nacionalidad>México</nacionalidad>
+                  <email>alopez@circo.com</email>
+                  <especialidades>ACROBACIA, HUMOR, MAGIA</especialidades>
+                  <apodo>La Maga</apodo>
+               </artista>
+            </artistas>
+         </numero>
+      </numeros>
+   </espectaculo>
+</informe>

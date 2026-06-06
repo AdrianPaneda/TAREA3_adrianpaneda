@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<informe>
+   <fechahora>03-06-2026 12:41:07</fechahora>
+   <espectaculo>
+      <id>5</id>
+      <nombre>aaaaa</nombre>
+      <fechaini>2026-05-07</fechaini>
+      <fechafin>2026-05-29</fechafin>
+      <coordinacion>
+         <nombre>María García López</nombre>
+         <email>mgarcia@circo.com</email>
+         <senior>si</senior>
+      </coordinacion>
+      <numeros/>
+   </espectaculo>
+</informe>
