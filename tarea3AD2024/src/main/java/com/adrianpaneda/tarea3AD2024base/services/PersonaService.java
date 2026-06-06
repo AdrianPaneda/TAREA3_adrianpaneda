@@ -169,6 +169,12 @@ public class PersonaService {
 		String tipoEntidad = obtenerTipoEntidad(actualizada);
 		logOperacionService.registrar(SessionManager.getCurrentUsername(), TipoOperacion.ACTUALIZACION,
 				"Se ha actualizado la información del id " + actualizada.getId() + " de " + tipoEntidad);
+		if (persona instanceof Artista) {
+
+			Artista artista = (Artista) persona;
+			dossierServ.actualizarDossier(artista);
+
+		}
 
 		return actualizada;
 	}
