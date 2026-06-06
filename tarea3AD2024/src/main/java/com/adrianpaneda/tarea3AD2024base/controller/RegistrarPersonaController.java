@@ -24,6 +24,7 @@ import com.adrianpaneda.tarea3AD2024base.modelo.Especialidad;
 import com.adrianpaneda.tarea3AD2024base.modelo.Perfil;
 import com.adrianpaneda.tarea3AD2024base.modelo.Persona;
 import com.adrianpaneda.tarea3AD2024base.services.PersonaService;
+import com.adrianpaneda.tarea3AD2024base.services.dossier.DossierService;
 import com.adrianpaneda.tarea3AD2024base.view.FxmlView;
 
 import javafx.collections.FXCollections;
@@ -174,6 +175,9 @@ public class RegistrarPersonaController implements Initializable {
 	@Autowired
 	private HelpStageManager helpStageManager;
 
+	@Autowired
+	private DossierService dossierServ;
+
 	/** Persona que se está editando, o {@code null} si es un registro nuevo. */
 	private Persona personaEnEdicion;
 
@@ -189,8 +193,8 @@ public class RegistrarPersonaController implements Initializable {
 	 * <p>
 	 * Si hay un ID de persona almacenado en sesión, carga la persona con
 	 * {@link PersonaService#buscarPorId(Long)} y precarga el formulario con sus
-	 * datos en modo edición, deshabilitando los campos de credenciales. Si el ID
-	 * es {@code null}, opera en modo registro y preselecciona el tipo indicado por
+	 * datos en modo edición, deshabilitando los campos de credenciales. Si el ID es
+	 * {@code null}, opera en modo registro y preselecciona el tipo indicado por
 	 * {@link SessionManager#getTipoRegistroPersona()}.
 	 * </p>
 	 *
@@ -264,9 +268,9 @@ public class RegistrarPersonaController implements Initializable {
 	/**
 	 * Precarga el formulario con los datos de la persona que se va a editar.
 	 * <p>
-	 * Rellena los campos comunes y delega en
-	 * {@link #rellenarDatosArtista(Artista)} o
-	 * {@link #rellenarDatosCoordinacion(Coordinacion)} según el tipo de la persona.
+	 * Rellena los campos comunes y delega en {@link #rellenarDatosArtista(Artista)}
+	 * o {@link #rellenarDatosCoordinacion(Coordinacion)} según el tipo de la
+	 * persona.
 	 * </p>
 	 *
 	 * @param persona la persona cuyos datos se cargan en el formulario
@@ -419,8 +423,7 @@ public class RegistrarPersonaController implements Initializable {
 	}
 
 	/**
-	 * Valida el formulario, construye una nueva {@link Coordinacion} y la
-	 * persiste.
+	 * Valida el formulario, construye una nueva {@link Coordinacion} y la persiste.
 	 */
 	private void registrarCoordinacion() {
 		if (!validarDatosPersonales() || !validarFechaSenior() || !validarCredenciales()) {
@@ -606,11 +609,16 @@ public class RegistrarPersonaController implements Initializable {
 	 */
 	private Set<Especialidad> obtenerEspecialidadesSeleccionadas() {
 		Set<Especialidad> especialidades = new HashSet<>();
-		if (chkAcrobacia.isSelected()) especialidades.add(Especialidad.ACROBACIA);
-		if (chkHumor.isSelected()) especialidades.add(Especialidad.HUMOR);
-		if (chkMagia.isSelected()) especialidades.add(Especialidad.MAGIA);
-		if (chkEquilibrismo.isSelected()) especialidades.add(Especialidad.EQUILIBRISMO);
-		if (chkMalabarismo.isSelected()) especialidades.add(Especialidad.MALABARISMO);
+		if (chkAcrobacia.isSelected())
+			especialidades.add(Especialidad.ACROBACIA);
+		if (chkHumor.isSelected())
+			especialidades.add(Especialidad.HUMOR);
+		if (chkMagia.isSelected())
+			especialidades.add(Especialidad.MAGIA);
+		if (chkEquilibrismo.isSelected())
+			especialidades.add(Especialidad.EQUILIBRISMO);
+		if (chkMalabarismo.isSelected())
+			especialidades.add(Especialidad.MALABARISMO);
 		return especialidades;
 	}
 

@@ -26,6 +26,7 @@ import com.adrianpaneda.tarea3AD2024base.modelo.Persona;
 import com.adrianpaneda.tarea3AD2024base.modelo.db4o.TipoOperacion;
 import com.adrianpaneda.tarea3AD2024base.repositorios.PersonaRepository;
 import com.adrianpaneda.tarea3AD2024base.services.db4o.LogOperacionService;
+import com.adrianpaneda.tarea3AD2024base.services.dossier.DossierService;
 
 /**
  * Servicio para la gestión de personas del circo.
@@ -52,6 +53,9 @@ public class PersonaService {
 
 	@Autowired
 	private LogOperacionService logOperacionService;
+
+	@Autowired
+	private DossierService dossierServ;
 
 	/**
 	 * Valida que el email no esté duplicado en el sistema.
@@ -127,8 +131,16 @@ public class PersonaService {
 	 * @return la persona guardada con su ID generado
 	 */
 	@Transactional
+
+	// -- ---------------- Revisar si @Transactional merece la pena en este metodo
+	// --------------------
 	public Persona guardar(Persona persona) {
 		Persona guardada = personaRepository.save(persona);
+
+		if (persona instanceof Artista) {
+			Artista artista = (Artista) persona;
+			dossierServ.registrarDossier(artista);
+		}
 
 		String tipoEntidad = obtenerTipoEntidad(guardada);
 		logOperacionService.registrar(SessionManager.getCurrentUsername(), TipoOperacion.NUEVO,
@@ -202,8 +214,8 @@ public class PersonaService {
 	}
 
 	/**
-	 * Recorre los nodos XML de la lista de países y los devuelve como un mapa
-	 * de código a nombre.
+	 * Recorre los nodos XML de la lista de países y los devuelve como un mapa de
+	 * código a nombre.
 	 *
 	 * @param nodos la lista de nodos XML del documento de países
 	 * @return mapa ordenado con la clave {@code id} del país y su {@code nombre}
