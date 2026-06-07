@@ -1,7 +1,5 @@
 package com.adrianpaneda.tarea3AD2024base.config.existDB;
 
-import java.io.File;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.xmldb.api.DatabaseManager;
@@ -9,7 +7,6 @@ import org.xmldb.api.base.Collection;
 import org.xmldb.api.base.Database;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.CollectionManagementService;
-import org.xmldb.api.modules.XMLResource;
 
 @Component
 public class ExistDBManager {
@@ -27,8 +24,9 @@ public class ExistDBManager {
 
 		try {
 			// Creamos la clase para cargar el driver.
-			Class cl = Class.forName("org.exist.xmldb.DatabaseImpl");
+			Class<?> cl = Class.forName("org.exist.xmldb.DatabaseImpl");
 			// CRemaos instancia de database
+			@SuppressWarnings("deprecation")
 			Database database = (Database) cl.newInstance();
 			// Ponemos la propiedad de createdatabase a true para en casoo de que no exista
 			// se cree.
@@ -56,7 +54,7 @@ public class ExistDBManager {
 						.getService("CollectionManagementService", "1.0");
 				mgtService.createCollection("Informes");
 				root.close();
-				// Ahora conectamos a la colección recién creada
+				// conectamos a la colección recién creada
 				col = DatabaseManager.getCollection(uri, user, password);
 			}
 
@@ -69,30 +67,4 @@ public class ExistDBManager {
 
 	}
 
-	public void storeDocument(String nombreFichero, String XML) {
-
-		Collection col = getOrCreateCollection();
-		File file = new File(nombreFichero);
-		XMLResource res = null;
-		try {
-			res = (XMLResource) col.createResource(file.getName(), "XMLResource");
-			res.setContent(XML);
-			col.storeResource(res);
-
-		} catch (XMLDBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			/// limpiar resultados
-			if (col != null) {
-				try {
-					col.close();
-				} catch (XMLDBException xe) {
-					xe.printStackTrace();
-				}
-			}
-
-		}
-
-	}
 }

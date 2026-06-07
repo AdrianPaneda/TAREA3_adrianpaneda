@@ -28,6 +28,7 @@ import com.adrianpaneda.tarea3AD2024base.modelo.Espectaculo;
 import com.adrianpaneda.tarea3AD2024base.modelo.Numero;
 import com.adrianpaneda.tarea3AD2024base.modelo.db4o.TipoOperacion;
 import com.adrianpaneda.tarea3AD2024base.repositorios.EspectaculoRepository;
+import com.adrianpaneda.tarea3AD2024base.repositorios.existDB.ExistDBRepository;
 import com.adrianpaneda.tarea3AD2024base.services.db4o.LogOperacionService;
 
 import jakarta.transaction.Transactional;
@@ -55,6 +56,9 @@ public class EspectaculoService {
 
 	@Autowired
 	private LogOperacionService logOperacionService;
+
+	@Autowired
+	private ExistDBRepository existDBR;
 
 	/**
 	 * Valida que el nombre del espectáculo sea único en el sistema.
@@ -344,7 +348,7 @@ public class EspectaculoService {
 				}
 			}
 
-			// ---- GUARDAR EN /ficheros Y CONVERTIR A STRING ----
+			// GUARDAR EN ficheros Y CONVERTIR A STRING
 			TransformerFactory tf = TransformerFactory.newInstance();
 			Transformer transformer = tf.newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -369,6 +373,13 @@ public class EspectaculoService {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public void guardarXMLEspectaculo(Espectaculo esp) {
+
+		String espectaculo = generarXMLEspectaculo(esp);
+		existDBR.storeDocument("informe_espectaculo" + esp.getId() + ".xml", espectaculo);
+
 	}
 
 }

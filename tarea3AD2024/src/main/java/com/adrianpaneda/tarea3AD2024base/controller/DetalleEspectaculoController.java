@@ -299,8 +299,7 @@ public class DetalleEspectaculoController implements Initializable {
 	@FXML
 	private void handleExportarXML() {
 
-		String espectaculoXML = espectaculoService.generarXMLEspectaculo(espectaculo);
-		edbm.storeDocument("informe_espectaculo" + espectaculo.getId() + ".xml", espectaculoXML);
+		espectaculoService.guardarXMLEspectaculo(espectaculo);
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("Exportación correcta");
 		alert.setContentText("Informe exportado correctamente a eXistDB y /ficheros");
