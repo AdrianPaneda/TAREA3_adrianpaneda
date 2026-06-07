@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -14,123 +15,117 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity"
     minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0"
     prefWidth="1920.0" xmlns="http://javafx.com/javafx/21"
     xmlns:fx="http://javafx.com/fxml/1"
     fx:controller="com.adrianpaneda.tarea3AD2024base.controller.GestionPersonasController">
 
-    <children>
-        <!-- Fondo con imagen -->
-		<StackPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
-           AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
-           style="-fx-background-image: url('/images/circo_background.jpg'); -fx-background-size: cover; -fx-background-position: center;">
+    <!-- ══════════════ CONTENIDO PRINCIPAL ══════════════ -->
+    <AnchorPane style="-fx-background-image: url('/images/circo_background.jpg'); -fx-background-size: cover; -fx-background-position: center;">
 
-			<!-- Overlay oscuro -->
-			<AnchorPane style="-fx-background-color: rgba(0, 0, 0, 0.45);"
+        <AnchorPane style="-fx-background-color: rgba(0, 0, 0, 0.45);"
             AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
             AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
 
-                <VBox alignment="TOP_CENTER" layoutX="60.0" layoutY="60.0"
-                    prefHeight="960.0" prefWidth="1800.0" spacing="15.0"
-                    style="-fx-background-color: rgba(255, 255, 255, 0.98); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 40, 0, 0, 8);">
+            <VBox alignment="TOP_CENTER" layoutX="60.0" layoutY="60.0"
+                prefHeight="960.0" prefWidth="1800.0" spacing="15.0"
+                style="-fx-background-color: rgba(255, 255, 255, 0.98); -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 40, 0, 0, 8);">
 
-                    <!-- Cabecera -->
-                    <HBox alignment="CENTER_LEFT" spacing="15.0">
-                        <Label text="GESTIÓN DE PERSONAS" textFill="#2563eb">
-                            <font><Font name="System Bold" size="30.0" /></font>
-                        </Label>
-                        <Region HBox.hgrow="ALWAYS" />
-                        <Button fx:id="btnGestionEspectaculos" mnemonicParsing="false"
-                            onAction="#handleGestionEspectaculos"
-                            text="GESTIONAR ESPECTÁCULOS" textFill="white"
-                            style="-fx-background-color: #7c3aed; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;" />
-                        <Button fx:id="btnVerEspectaculos" mnemonicParsing="false"
-                            onAction="#handleVerEspectaculos"
-                            text="VER ESPECTÁCULOS" textFill="white"
-                            style="-fx-background-color: #0891b2; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;" />
-                        <Button fx:id="btnHistorial" mnemonicParsing="false"
-                            onAction="#handleHistorial"
-                            text="HISTORIAL" textFill="white"
-                            style="-fx-background-color: #ea580c; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;" />
-                        <Button fx:id="btnIncidencias" mnemonicParsing="false"
-                            onAction="#handleIncidencias"
-                            text="⚠ INCIDENCIAS" textFill="white"
-                            style="-fx-background-color: #dc2626; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;" />
-                        <Button fx:id="btnAyuda" mnemonicParsing="false"
-                            onAction="#handleAyuda"
-                            text="❓ AYUDA" textFill="white"
-                            style="-fx-background-color: #0f766e; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;" />
-                    </HBox>
-                    <Label prefHeight="2.0" prefWidth="1740.0" style="-fx-background-color: #2563eb;" />
+                <!-- Cabecera -->
+                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                    <Label text="GESTIÓN DE PERSONAS" textFill="#2563eb">
+                        <font><Font name="System Bold" size="30.0" /></font>
+                    </Label>
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button fx:id="btnGestionEspectaculos" mnemonicParsing="false"
+                        onAction="#handleGestionEspectaculos"
+                        text="GESTIONAR ESPECTÁCULOS" textFill="white"
+                        style="-fx-background-color: #7c3aed; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;" />
+                    <Button fx:id="btnVerEspectaculos" mnemonicParsing="false"
+                        onAction="#handleVerEspectaculos"
+                        text="VER ESPECTÁCULOS" textFill="white"
+                        style="-fx-background-color: #0891b2; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;" />
+                    <Button fx:id="btnHistorial" mnemonicParsing="false"
+                        onAction="#handleHistorial"
+                        text="HISTORIAL" textFill="white"
+                        style="-fx-background-color: #ea580c; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;" />
+                    <Button fx:id="btnIncidencias" mnemonicParsing="false"
+                        onAction="#handleIncidencias"
+                        text="⚠ INCIDENCIAS" textFill="white"
+                        style="-fx-background-color: #dc2626; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;" />
+                    <Button fx:id="btnAyuda" mnemonicParsing="false"
+                        onAction="#handleAyuda"
+                        text="❓ AYUDA" textFill="white"
+                        style="-fx-background-color: #0f766e; -fx-background-radius: 8; -fx-padding: 8 16 8 16; -fx-font-weight: bold; -fx-font-size: 12; -fx-cursor: hand;" />
+                </HBox>
+                <Label prefHeight="2.0" prefWidth="1740.0" style="-fx-background-color: #2563eb;" />
 
-                    <!-- Barra de acciones y filtros -->
-                    <HBox alignment="CENTER_LEFT" spacing="15.0">
+                <!-- Barra de acciones y filtros -->
+                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                    <Button fx:id="btnRegistrarArtista" mnemonicParsing="false"
+                        onAction="#handleRegistrarArtista"
+                        text="+ REGISTRAR ARTISTA" textFill="white"
+                        style="-fx-background-color: #2563eb; -fx-background-radius: 8; -fx-padding: 10 20 10 20; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;" />
+                    <Button fx:id="btnRegistrarCoordinacion" mnemonicParsing="false"
+                        onAction="#handleRegistrarCoordinacion"
+                        text="+ REGISTRAR COORDINACIÓN" textFill="white"
+                        style="-fx-background-color: #2563eb; -fx-background-radius: 8; -fx-padding: 10 20 10 20; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;" />
 
-                        <!-- Botones registrar -->
-                        <Button fx:id="btnRegistrarArtista" mnemonicParsing="false"
-                            onAction="#handleRegistrarArtista"
-                            text="+ REGISTRAR ARTISTA" textFill="white"
-                            style="-fx-background-color: #2563eb; -fx-background-radius: 8; -fx-padding: 10 20 10 20; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;" />
-                        <Button fx:id="btnRegistrarCoordinacion" mnemonicParsing="false"
-                            onAction="#handleRegistrarCoordinacion"
-                            text="+ REGISTRAR COORDINACIÓN" textFill="white"
-                            style="-fx-background-color: #2563eb; -fx-background-radius: 8; -fx-padding: 10 20 10 20; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;" />
+                    <Separator orientation="VERTICAL" />
 
-                        <Separator orientation="VERTICAL" />
+                    <Label text="Perfil:" textFill="#475569"
+                        style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+                    <ComboBox fx:id="cmbFiltroPerfil" prefWidth="180.0" prefHeight="36.0"
+                        promptText="Todos"
+                        style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 1.5; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-size: 13px;" />
 
-                        <!-- Filtro por perfil -->
-                        <Label text="Perfil:" textFill="#475569"
-                            style="-fx-font-size: 13px; -fx-font-weight: bold;" />
-                        <ComboBox fx:id="cmbFiltroPerfil" prefWidth="180.0" prefHeight="36.0"
-                            promptText="Todos"
-                            style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 1.5; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-size: 13px;" />
+                    <Label text="Usuario:" textFill="#475569"
+                        style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+                    <TextField fx:id="txtFiltroUsuario" prefWidth="220.0" prefHeight="36.0"
+                        promptText="Buscar por usuario..."
+                        style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 1.5; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-size: 13px;" />
 
-                        <!-- Filtro por usuario -->
-                        <Label text="Usuario:" textFill="#475569"
-                            style="-fx-font-size: 13px; -fx-font-weight: bold;" />
-                        <TextField fx:id="txtFiltroUsuario" prefWidth="220.0" prefHeight="36.0"
-                            promptText="Buscar por usuario..."
-                            style="-fx-background-color: white; -fx-border-color: #cbd5e1; -fx-border-width: 1.5; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-size: 13px;" />
+                    <Button fx:id="btnFiltrar" mnemonicParsing="false"
+                        onAction="#handleFiltrar"
+                        text="FILTRAR" textFill="white"
+                        style="-fx-background-color: #2563eb; -fx-background-radius: 8; -fx-padding: 10 20 10 20; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;" />
+                    <Button fx:id="btnLimpiarFiltros" mnemonicParsing="false"
+                        onAction="#handleLimpiarFiltros"
+                        text="LIMPIAR" textFill="#475569"
+                        style="-fx-background-color: #e2e8f0; -fx-background-radius: 8; -fx-padding: 10 20 10 20; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;" />
 
-                        <Button fx:id="btnFiltrar" mnemonicParsing="false"
-                            onAction="#handleFiltrar"
-                            text="FILTRAR" textFill="white"
-                            style="-fx-background-color: #2563eb; -fx-background-radius: 8; -fx-padding: 10 20 10 20; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;" />
-                        <Button fx:id="btnLimpiarFiltros" mnemonicParsing="false"
-                            onAction="#handleLimpiarFiltros"
-                            text="LIMPIAR" textFill="#475569"
-                            style="-fx-background-color: #e2e8f0; -fx-background-radius: 8; -fx-padding: 10 20 10 20; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;" />
+                    <Region HBox.hgrow="ALWAYS" />
 
-                        <Region HBox.hgrow="ALWAYS" />
+                    <Label text="Resultados:" textFill="#64748b"
+                        style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+                    <Label fx:id="lblContadorResultados" text="0 personas"
+                        textFill="#2563eb"
+                        style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+                </HBox>
 
-                        <!-- Contador -->
-                        <Label text="Resultados:" textFill="#64748b"
-                            style="-fx-font-size: 13px; -fx-font-weight: bold;" />
-                        <Label fx:id="lblContadorResultados" text="0 personas"
-                            textFill="#2563eb"
-                            style="-fx-font-size: 13px; -fx-font-weight: bold;" />
-                    </HBox>
+                <!-- ScrollPane con cards -->
+                <ScrollPane fitToWidth="true" prefHeight="740.0"
+                    hbarPolicy="NEVER"
+                    style="-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: #cbd5e1; -fx-border-width: 1.5; -fx-border-radius: 12;">
+                    <VBox fx:id="contenedorCards" spacing="10.0"
+                        style="-fx-padding: 12;" />
+                </ScrollPane>
 
-                    <!-- ScrollPane con cards -->
-                    <ScrollPane fitToWidth="true" prefHeight="740.0"
-                        hbarPolicy="NEVER"
-                        style="-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: #cbd5e1; -fx-border-width: 1.5; -fx-border-radius: 12;">
-                        <VBox fx:id="contenedorCards" spacing="10.0"
-                            style="-fx-padding: 12;" />
-                    </ScrollPane>
+                <!-- Botón cerrar sesión -->
+                <HBox alignment="CENTER">
+                    <VBox.margin><Insets top="5.0" /></VBox.margin>
+                    <Button fx:id="btnCerrarSesion" mnemonicParsing="false"
+                        onAction="#handleCerrarSesion" text="CERRAR SESIÓN"
+                        textFill="#475569"
+                        style="-fx-background-color: transparent; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 22 10 22; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;" />
+                </HBox>
 
-                    <!-- Botón cerrar sesión -->
-                    <HBox alignment="CENTER">
-                        <VBox.margin><Insets top="5.0" /></VBox.margin>
-                        <Button fx:id="btnCerrarSesion" mnemonicParsing="false"
-                            onAction="#handleCerrarSesion" text="CERRAR SESIÓN"
-                            textFill="#475569"
-                            style="-fx-background-color: transparent; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 22 10 22; -fx-font-weight: bold; -fx-font-size: 13; -fx-cursor: hand;" />
-                    </HBox>
+            </VBox>
+        </AnchorPane>
+    </AnchorPane>
 
-                </VBox>
-            </AnchorPane>
-        </StackPane>
-    </children>
-</AnchorPane>
+
+
+    </StackPane>
+

@@ -9,7 +9,9 @@ import com.adrianpaneda.tarea3AD2024base.modelo.Artista;
 import com.adrianpaneda.tarea3AD2024base.modelo.Espectaculo;
 import com.adrianpaneda.tarea3AD2024base.modelo.Numero;
 import com.adrianpaneda.tarea3AD2024base.modelo.dossier.Dossier;
+import com.adrianpaneda.tarea3AD2024base.modelo.dossier.Evaluacion;
 import com.adrianpaneda.tarea3AD2024base.modelo.dossier.NumeroTrayectoria;
+import com.adrianpaneda.tarea3AD2024base.modelo.dossier.Observacion;
 import com.adrianpaneda.tarea3AD2024base.modelo.dossier.Trayectoria;
 import com.adrianpaneda.tarea3AD2024base.repositorios.dossier.DossierRepository;
 
@@ -88,6 +90,22 @@ public class DossierService {
 			dossierRepo.save(dossier);
 		}
 
+	}
+
+	public void agregarEvaluacion(Long idArtista, Evaluacion evaluacion) {
+		Dossier dossier = dossierRepo.findByIdArtista(idArtista);
+		if (dossier != null) {
+			dossier.getEvaluaciones().add(evaluacion);
+			dossierRepo.save(dossier);
+		}
+	}
+
+	public void agregarObservacion(Long idArtista, Observacion observacion) {
+		Dossier dossier = dossierRepo.findByIdArtista(idArtista);
+		if (dossier != null) {
+			dossier.getObservaciones().add(observacion);
+			dossierRepo.save(dossier);
+		}
 	}
 
 }

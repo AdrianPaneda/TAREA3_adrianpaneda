@@ -207,7 +207,21 @@ public enum FxmlView {
 		public String getFxmlFile() {
 			return "/fxml/Ayuda.fxml";
 		}
-	};
+	},
+
+	DOSSIER_ARTISTAS {
+		@Override
+		public String getTitle() {
+			return getStringFromResourceBundle("dossierArtistas.title");
+		}
+
+		@Override
+		public String getFxmlFile() {
+			return "/fxml/DossierArtistas.fxml";
+		}
+	},
+
+	;
 
 	/**
 	 * Obtiene el título de la ventana para esta vista.

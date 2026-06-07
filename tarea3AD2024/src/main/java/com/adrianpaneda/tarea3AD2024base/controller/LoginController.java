@@ -95,6 +95,7 @@ public class LoginController implements Initializable {
 			Credenciales adminCredenciales = new Credenciales();
 			adminCredenciales.setNombreUsuario("admin");
 			adminCredenciales.setPerfil(Perfil.admin);
+			adminCredenciales.setId(0L);
 
 			SessionManager.setCurrentUser(adminCredenciales);
 			stageManager.switchScene(FxmlView.GESTION_PERSONAS);

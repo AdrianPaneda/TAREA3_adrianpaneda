@@ -238,6 +238,11 @@ public class GestionEspectaculosController implements Initializable {
 		tablaEspectaculos.setItems(listaEspectaculos);
 	}
 
+	@FXML
+	private void handleDossiers() {
+		stageManager.switchScene(FxmlView.DOSSIER_ARTISTAS);
+	}
+
 	/**
 	 * Configura el ComboBox de coordinadores con todos los coordinadores del
 	 * sistema, mostrando su nombre como etiqueta.
@@ -415,8 +420,8 @@ public class GestionEspectaculosController implements Initializable {
 	/**
 	 * Asigna el coordinador al espectáculo según el perfil activo.
 	 * <p>
-	 * El administrador selecciona el coordinador en el ComboBox; la coordinación
-	 * se asigna automáticamente a sí misma buscando por su nombre de usuario en
+	 * El administrador selecciona el coordinador en el ComboBox; la coordinación se
+	 * asigna automáticamente a sí misma buscando por su nombre de usuario en
 	 * sesión.
 	 * </p>
 	 *
@@ -529,8 +534,8 @@ public class GestionEspectaculosController implements Initializable {
 	}
 
 	/**
-	 * Muestra un mensaje de error en el campo del formulario más relacionado con
-	 * el contenido del mensaje.
+	 * Muestra un mensaje de error en el campo del formulario más relacionado con el
+	 * contenido del mensaje.
 	 *
 	 * @param mensaje el mensaje de error a mostrar
 	 */

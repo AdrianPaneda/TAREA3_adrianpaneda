@@ -18,6 +18,7 @@ import com.adrianpaneda.tarea3AD2024base.modelo.Coordinacion;
 import com.adrianpaneda.tarea3AD2024base.modelo.Credenciales;
 import com.adrianpaneda.tarea3AD2024base.modelo.Perfil;
 import com.adrianpaneda.tarea3AD2024base.modelo.Persona;
+import com.adrianpaneda.tarea3AD2024base.modelo.dossier.NivelEvaluacion;
 import com.adrianpaneda.tarea3AD2024base.services.PersonaService;
 import com.adrianpaneda.tarea3AD2024base.view.FxmlView;
 
@@ -33,10 +34,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -95,6 +98,25 @@ public class GestionPersonasController implements Initializable {
 
 	@FXML
 	private Button btnCerrarSesion;
+	// ── Paneles inline valoración/observación ──────────────────────────────────
+
+	@FXML
+	private StackPane overlayValoracion;
+	@FXML
+	private StackPane overlayObservacion;
+	@FXML
+	private Label lblTituloValoracion;
+	@FXML
+	private TextArea txtComentarioValoracion;
+	@FXML
+	private ComboBox<NivelEvaluacion> cmbNivelValoracion;
+
+	@FXML
+	private Label lblTituloObservacion;
+	@FXML
+	private TextArea txtTextoObservacion;
+	@FXML
+	private TextField txtAutorObservacion;
 
 	// ── Dependencias ──────────────────────────────────────────────────────────
 
@@ -125,6 +147,7 @@ public class GestionPersonasController implements Initializable {
 		validarAcceso();
 		configurarFiltros();
 		cargarPersonas();
+
 	}
 
 	/**
@@ -188,33 +211,25 @@ public class GestionPersonasController implements Initializable {
 		HBox card = new HBox(20);
 		card.setAlignment(Pos.CENTER_LEFT);
 		card.setPadding(new Insets(16, 20, 16, 20));
-		card.setStyle(
-				"-fx-background-color: white;" +
-				"-fx-border-color: #e2e8f0;" +
-				"-fx-border-width: 1.5;" +
-				"-fx-border-radius: 12;" +
-				"-fx-background-radius: 12;" +
-				"-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0, 0, 2);");
+		card.setStyle("-fx-background-color: white;" + "-fx-border-color: #e2e8f0;" + "-fx-border-width: 1.5;"
+				+ "-fx-border-radius: 12;" + "-fx-background-radius: 12;"
+				+ "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0, 0, 2);");
 
-		// Etiqueta de perfil
 		boolean esArtista = persona instanceof Artista;
+
+		// Etiqueta perfil (sin cambios)
 		Label lblPerfil = new Label(esArtista ? "ARTISTA" : "COORDINACIÓN");
 		lblPerfil.setFont(Font.font("System Bold", 11));
-		lblPerfil.setStyle(
-				"-fx-text-fill: white;" +
-				"-fx-background-color: " + (esArtista ? "#2563eb" : "#16a34a") + ";" +
-				"-fx-background-radius: 6;" +
-				"-fx-padding: 4 10 4 10;");
+		lblPerfil.setStyle("-fx-text-fill: white;" + "-fx-background-color: " + (esArtista ? "#2563eb" : "#16a34a")
+				+ ";" + "-fx-background-radius: 6;" + "-fx-padding: 4 10 4 10;");
 		lblPerfil.setMinWidth(110);
 
-		// Datos
+		// Datos (sin cambios)
 		VBox datos = new VBox(4);
 		HBox.setHgrow(datos, Priority.ALWAYS);
 
-		String usuario = persona.getCredenciales() != null
-				? persona.getCredenciales().getNombreUsuario() : "-";
-		String password = persona.getCredenciales() != null
-				? persona.getCredenciales().getPassword() : "-";
+		String usuario = persona.getCredenciales() != null ? persona.getCredenciales().getNombreUsuario() : "-";
+		String password = persona.getCredenciales() != null ? persona.getCredenciales().getPassword() : "-";
 
 		Label lblUsuario = new Label("👤 " + usuario);
 		lblUsuario.setFont(Font.font("System Bold", 14));
@@ -234,23 +249,20 @@ public class GestionPersonasController implements Initializable {
 		Region spacer = new Region();
 		HBox.setHgrow(spacer, Priority.ALWAYS);
 
-		// Botones
+		// Botones comunes
 		Button btnEditar = new Button("Editar");
-		btnEditar.setStyle(
-				"-fx-background-color: #2563eb; -fx-text-fill: white;" +
-				"-fx-background-radius: 6; -fx-padding: 7 16 7 16;" +
-				"-fx-font-weight: bold; -fx-cursor: hand;");
+		btnEditar.setStyle("-fx-background-color: #2563eb; -fx-text-fill: white;"
+				+ "-fx-background-radius: 6; -fx-padding: 7 16 7 16;" + "-fx-font-weight: bold; -fx-cursor: hand;");
 		btnEditar.setOnAction(e -> handleEditar(persona));
 
 		Button btnEliminar = new Button("Eliminar");
-		btnEliminar.setStyle(
-				"-fx-background-color: #dc2626; -fx-text-fill: white;" +
-				"-fx-background-radius: 6; -fx-padding: 7 16 7 16;" +
-				"-fx-font-weight: bold; -fx-cursor: hand;");
+		btnEliminar.setStyle("-fx-background-color: #dc2626; -fx-text-fill: white;"
+				+ "-fx-background-radius: 6; -fx-padding: 7 16 7 16;" + "-fx-font-weight: bold; -fx-cursor: hand;");
 		btnEliminar.setOnAction(e -> handleEliminar(persona));
 
-		HBox botones = new HBox(10, btnEditar, btnEliminar);
+		HBox botones = new HBox(10);
 		botones.setAlignment(Pos.CENTER_RIGHT);
+		botones.getChildren().addAll(btnEditar, btnEliminar);
 
 		card.getChildren().addAll(lblPerfil, datos, spacer, botones);
 		return card;
@@ -267,19 +279,18 @@ public class GestionPersonasController implements Initializable {
 		String perfilFiltro = cmbFiltroPerfil.getValue();
 		String usuarioFiltro = txtFiltroUsuario.getText().trim().toLowerCase();
 
-		List<Persona> filtradas = todasLasPersonas.stream()
-				.filter(p -> {
-					if ("Artista".equals(perfilFiltro) && !(p instanceof Artista)) return false;
-					if ("Coordinación".equals(perfilFiltro) && !(p instanceof Coordinacion)) return false;
-					return true;
-				})
-				.filter(p -> {
-					if (usuarioFiltro.isEmpty()) return true;
-					String usuario = p.getCredenciales() != null
-							? p.getCredenciales().getNombreUsuario().toLowerCase() : "";
-					return usuario.contains(usuarioFiltro);
-				})
-				.collect(Collectors.toList());
+		List<Persona> filtradas = todasLasPersonas.stream().filter(p -> {
+			if ("Artista".equals(perfilFiltro) && !(p instanceof Artista))
+				return false;
+			if ("Coordinación".equals(perfilFiltro) && !(p instanceof Coordinacion))
+				return false;
+			return true;
+		}).filter(p -> {
+			if (usuarioFiltro.isEmpty())
+				return true;
+			String usuario = p.getCredenciales() != null ? p.getCredenciales().getNombreUsuario().toLowerCase() : "";
+			return usuario.contains(usuarioFiltro);
+		}).collect(Collectors.toList());
 
 		renderizarCards(filtradas);
 	}
@@ -348,8 +359,8 @@ public class GestionPersonasController implements Initializable {
 	/**
 	 * Navega a la pantalla de registro de nueva persona en modo artista.
 	 * <p>
-	 * Limpia cualquier persona seleccionada previamente en {@link SessionManager}
-	 * y almacena el tipo "Artista" para que el formulario de destino lo
+	 * Limpia cualquier persona seleccionada previamente en {@link SessionManager} y
+	 * almacena el tipo "Artista" para que el formulario de destino lo
 	 * preseleccione.
 	 * </p>
 	 *
@@ -365,8 +376,8 @@ public class GestionPersonasController implements Initializable {
 	/**
 	 * Navega a la pantalla de registro de nueva persona en modo coordinación.
 	 * <p>
-	 * Limpia cualquier persona seleccionada previamente en {@link SessionManager}
-	 * y almacena el tipo "Coordinación" para que el formulario de destino lo
+	 * Limpia cualquier persona seleccionada previamente en {@link SessionManager} y
+	 * almacena el tipo "Coordinación" para que el formulario de destino lo
 	 * preseleccione.
 	 * </p>
 	 *
