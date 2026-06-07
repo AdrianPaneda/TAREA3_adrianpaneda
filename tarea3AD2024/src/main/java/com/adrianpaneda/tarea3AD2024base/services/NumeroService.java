@@ -1,15 +1,19 @@
 package com.adrianpaneda.tarea3AD2024base.services;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.adrianpaneda.tarea3AD2024base.config.SessionManager;
+import com.adrianpaneda.tarea3AD2024base.modelo.Artista;
 import com.adrianpaneda.tarea3AD2024base.modelo.Numero;
 import com.adrianpaneda.tarea3AD2024base.modelo.db4o.TipoOperacion;
 import com.adrianpaneda.tarea3AD2024base.repositorios.NumeroRepository;
 import com.adrianpaneda.tarea3AD2024base.services.db4o.LogOperacionService;
+import com.adrianpaneda.tarea3AD2024base.services.dossier.DossierService;
 
 import jakarta.transaction.Transactional;
 
@@ -35,6 +39,12 @@ public class NumeroService {
 
 	@Autowired
 	private LogOperacionService logOperacionService;
+
+	@Autowired
+	private DossierService dossierServ;
+
+	@Autowired
+	private EspectaculoService espServ;
 
 	/**
 	 * Valida que la duración del número cumpla el formato requerido.
@@ -81,6 +91,42 @@ public class NumeroService {
 		validarFormatoDuracion(numero.getDuracion());
 
 		boolean esNuevo = (numero.getId() == null);
+		if (!esNuevo) {
+
+			Set<Artista> artistasDespues = numero.getArtistas();
+
+			Numero numeroAntiguo = buscarPorId(numero.getId());
+			Set<Artista> artistasAntes = numeroAntiguo.getArtistas();
+			Set<Artista> artistasNuevos = new HashSet<Artista>(artistasDespues);
+			artistasNuevos.removeAll(artistasAntes);
+
+			if (!artistasNuevos.isEmpty()) {
+				System.out.println("-----------------------");
+				System.out.println("-----------------------");
+				System.out.println("-----------------------");
+				System.out.println("-----------------------");
+				System.out.println("-----------------------");
+				System.out.println("-----------------------");
+				System.out.println("-----------------------");
+				System.out.println("-----------------------");
+				System.out.println("-----------------------");
+				System.out.println("-----------------------");
+				System.out.println("-----------------------");
+				System.out.println("-----------------------");
+				System.out.println("-----------------------");
+				System.out.println("-----------------------");
+				System.out.println("-----------------------");
+				System.out.println("-----------------------");
+
+				for (Artista artista : artistasNuevos) {
+					System.out.println(artista.getNombre());
+
+					dossierServ.actualizarTrayectorias(artista, numero);
+
+				}
+
+			}
+		}
 
 		Numero guardado = numeroRepository.save(numero);
 
@@ -88,8 +134,10 @@ public class NumeroService {
 			logOperacionService.registrar(SessionManager.getCurrentUsername(), TipoOperacion.NUEVO,
 					"Se ha insertado un nuevo Número de id " + guardado.getId());
 		} else {
+
 			logOperacionService.registrar(SessionManager.getCurrentUsername(), TipoOperacion.ACTUALIZACION,
 					"Se ha actualizado la información del id " + guardado.getId() + " de Número");
+
 		}
 
 		return guardado;
@@ -146,4 +194,5 @@ public class NumeroService {
 	public Numero obtenerConArtistas(Long id) {
 		return numeroRepository.findByIdConArtistas(id).orElse(null);
 	}
+
 }

@@ -403,6 +403,7 @@ public class GestionNumerosController implements Initializable {
 	 */
 	private void actualizarNumero() {
 		try {
+
 			numeroEnEdicion.setNombre(txtNombre.getText().trim());
 			numeroEnEdicion.setDuracion(spinnerDuracion.getValue());
 			numeroEnEdicion.setOrden(Integer.parseInt(txtOrden.getText().trim()));

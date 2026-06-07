@@ -1,5 +1,6 @@
 package com.adrianpaneda.tarea3AD2024base.modelo.dossier;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Trayectoria {
@@ -8,13 +9,13 @@ public class Trayectoria {
 
 	private String nombreEspectaculo;
 
-	private List<NumeroTrayectoria> numeros;
+	private List<NumeroTrayectoria> numeros = new ArrayList<>();
 
-	public Trayectoria(Long idEspectaculo, String nombreEspectaculo, List<NumeroTrayectoria> numeros) {
+	public Trayectoria(Long idEspectaculo, String nombreEspectaculo) {
 		super();
 		this.idEspectaculo = idEspectaculo;
 		this.nombreEspectaculo = nombreEspectaculo;
-		this.numeros = numeros;
+
 	}
 
 	public Trayectoria() {
